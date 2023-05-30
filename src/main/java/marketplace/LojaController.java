@@ -21,39 +21,26 @@ public class LojaController {
 	}
 
 	public void novaLoja(String nome, String email, String senha, String cnpj, String endereco)
-			throws cnpjJaCadastrado {
+			throws lojaJaCadastradaException {
 		Loja novaLoja = new Loja(nome, email, senha, cnpj, endereco);
 		if (this.lojas.contains(novaLoja)) {
-			throw new cnpjJaCadastrado();
+			throw new lojaJaCadastradaException();
 		}
 		lojas.add(novaLoja);
 		this.write();
 	}
 
 	private void write() {
-		try {
-			BufferedWriter out = new BufferedWriter(new FileWriter("lojas.json"));
-			JSONArray jsarray = new JSONArray(this.lojas);
-			out.write(jsarray.toString());
-			out.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		JsonUtil.writeJSONArray(new JSONArray(this.lojas), "lojas.json");
 	}
 
 	private void read() {
-		try {
-			String content = new String(Files.readAllBytes(Paths.get("lojas.json")));
-			JSONArray jsarray = new JSONArray(content);
-			for (int i = 0; i < jsarray.length(); i++) {
-				this.lojas.add(new Loja(jsarray.getJSONObject(i)));
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		JSONArray jsarray = JsonUtil.readJSONArray("lojas.json");
+		for (int i = 0; i < jsarray.length(); i++) {
+			this.lojas.add(new Loja(jsarray.getJSONObject(i)));
 		}
 	}
 
-	public class cnpjJaCadastrado extends Exception {
-
+	public static class lojaJaCadastradaException extends Exception {
 	}
 }
