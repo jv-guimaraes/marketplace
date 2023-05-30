@@ -4,10 +4,6 @@ import java.util.ArrayList;
 
 import org.json.JSONArray;
 
-import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-
 public class LojaController {
 	private ArrayList<Loja> lojas;
 
@@ -41,6 +37,7 @@ public class LojaController {
 		}
 	}
 
+	@SuppressWarnings("serial")
 	public static class lojaJaCadastradaException extends Exception {
 	}
 }
