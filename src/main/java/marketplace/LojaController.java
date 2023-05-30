@@ -10,7 +10,7 @@ import java.nio.file.Paths;
 
 public class LojaController {
 	private ArrayList<Loja> lojas;
-	
+
 	public LojaController() {
 		this.lojas = new ArrayList<Loja>();
 		this.read();
@@ -20,11 +20,16 @@ public class LojaController {
 		return lojas;
 	}
 
-	public void novaLoja(String nome, String email, String senha, String cnpj, String endereco) {
-		lojas.add(new Loja(nome, email, senha, cnpj, endereco));
+	public void novaLoja(String nome, String email, String senha, String cnpj, String endereco)
+			throws cnpjJaCadastrado {
+		Loja novaLoja = new Loja(nome, email, senha, cnpj, endereco);
+		if (this.lojas.contains(novaLoja)) {
+			throw new cnpjJaCadastrado();
+		}
+		lojas.add(novaLoja);
 		this.write();
 	}
-	
+
 	private void write() {
 		try {
 			BufferedWriter out = new BufferedWriter(new FileWriter("lojas.json"));
@@ -33,9 +38,9 @@ public class LojaController {
 			out.close();
 		} catch (IOException e) {
 			e.printStackTrace();
-		} 
+		}
 	}
-	
+
 	private void read() {
 		try {
 			String content = new String(Files.readAllBytes(Paths.get("lojas.json")));
@@ -46,5 +51,9 @@ public class LojaController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public class cnpjJaCadastrado extends Exception {
+
 	}
 }
