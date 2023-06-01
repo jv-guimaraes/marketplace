@@ -24,13 +24,7 @@ public class JsonFileCRUDLojaUtil {
         }
 
         // CNPJ doesn't exist, proceed with creating the Loja
-        JSONObject lojaJson = new JSONObject();
-        lojaJson.put("nome", loja.getNome());
-        lojaJson.put("email", loja.getEmail());
-        lojaJson.put("senha", loja.getSenha());
-        lojaJson.put("cnpj", loja.getCnpj());
-        lojaJson.put("endereco", loja.getEndereco());
-
+        JSONObject lojaJson = new JSONObject(loja);
         jsonArray.put(lojaJson);
 
         JsonFileUtil.saveJsonArray(jsonArray, JSON_FILE_PATH);

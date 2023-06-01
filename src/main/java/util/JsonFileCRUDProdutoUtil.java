@@ -38,15 +38,7 @@ public class JsonFileCRUDProdutoUtil {
         // Set the new id in the produto object
         produto.setId(newId);
 
-        JSONObject produtoJson = new JSONObject();
-        produtoJson.put("id", produto.getId());
-        produtoJson.put("nome", produto.getNome());
-        produtoJson.put("valor", produto.getValor());
-        produtoJson.put("tipo", produto.getTipo());
-        produtoJson.put("quantidade", produto.getQuantidade());
-        produtoJson.put("marca", produto.getMarca());
-        produtoJson.put("descricao", produto.getDescricao());
-
+        JSONObject produtoJson = new JSONObject(produto);
         jsonArray.put(produtoJson);
 
         JsonFileUtil.saveJsonArray(jsonArray, JSON_FILE_PATH);

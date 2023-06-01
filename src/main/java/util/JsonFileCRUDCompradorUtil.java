@@ -33,13 +33,7 @@ public class JsonFileCRUDCompradorUtil {
         }
 
         // CPF and email don't exist, proceed with creating the Comprador
-        JSONObject compradorJson = new JSONObject();
-        compradorJson.put("nome", comprador.getNome());
-        compradorJson.put("email", comprador.getEmail());
-        compradorJson.put("senha", comprador.getSenha());
-        compradorJson.put("cpf", comprador.getCpf());
-        compradorJson.put("endereco", comprador.getEndereco());
-
+        JSONObject compradorJson = new JSONObject(comprador);
         jsonArray.put(compradorJson);
 
         JsonFileUtil.saveJsonArray(jsonArray, JSON_FILE_PATH);
