@@ -62,12 +62,16 @@ public class MarketplaceApplication {
                 break;
             case 2:
                 exibirLoja();
+                break;
             case 3:
                 atualizarLoja();
+                break;
             case 4:
                 removerLoja();
+                break;
             case 5:
                 System.out.println(lojaController.getAllLojas());
+                break;
         }
     }
 
