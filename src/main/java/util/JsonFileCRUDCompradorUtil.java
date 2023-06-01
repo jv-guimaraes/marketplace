@@ -51,12 +51,7 @@ public class JsonFileCRUDCompradorUtil {
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject compradorJson = jsonArray.getJSONObject(i);
             if (compradorJson.getString("cpf").equals(cpf)) {
-                String nome = compradorJson.getString("nome");
-                String email = compradorJson.getString("email");
-                String senha = compradorJson.getString("senha");
-                String endereco = compradorJson.getString("endereco");
-
-                return new Comprador(nome, email, senha, cpf, endereco);
+                return new Comprador(compradorJson);
             }
         }
 
@@ -130,13 +125,7 @@ public class JsonFileCRUDCompradorUtil {
 
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject compradorJson = jsonArray.getJSONObject(i);
-            String nome = compradorJson.getString("nome");
-            String email = compradorJson.getString("email");
-            String senha = compradorJson.getString("senha");
-            String cpf = compradorJson.getString("cpf");
-            String endereco = compradorJson.getString("endereco");
-
-            Comprador comprador = new Comprador(nome, email, senha, cpf, endereco);
+            Comprador comprador = new Comprador(compradorJson);
             compradores.add(comprador);
         }
 

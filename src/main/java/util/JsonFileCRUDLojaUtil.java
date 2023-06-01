@@ -42,12 +42,7 @@ public class JsonFileCRUDLojaUtil {
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject lojaJson = jsonArray.getJSONObject(i);
             if (lojaJson.getString("cnpj").equals(cnpj)) {
-                String nome = lojaJson.getString("nome");
-                String email = lojaJson.getString("email");
-                String senha = lojaJson.getString("senha");
-                String endereco = lojaJson.getString("endereco");
-
-                return new Loja(nome, email, senha, cnpj, endereco);
+                return new Loja(lojaJson);
             }
         }
 
@@ -65,13 +60,7 @@ public class JsonFileCRUDLojaUtil {
 
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject lojaJson = jsonArray.getJSONObject(i);
-            String nome = lojaJson.getString("nome");
-            String email = lojaJson.getString("email");
-            String senha = lojaJson.getString("senha");
-            String cnpj = lojaJson.getString("cnpj");
-            String endereco = lojaJson.getString("endereco");
-
-            Loja loja = new Loja(nome, email, senha, cnpj, endereco);
+            Loja loja = new Loja(lojaJson);
             lojas.add(loja);
         }
 

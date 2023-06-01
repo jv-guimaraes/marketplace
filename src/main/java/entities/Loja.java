@@ -1,6 +1,7 @@
 package entities;
 
 import com.sun.tools.javac.Main;
+import org.json.JSONObject;
 
 import java.util.Objects;
 
@@ -20,6 +21,14 @@ public class Loja {
         this.senha = senha;
         this.cnpj = cnpj;
         this.endereco = endereco;
+    }
+
+    public Loja(JSONObject jsonObject) {
+        this.nome = jsonObject.getString("nome");
+        this.email = jsonObject.getString("email");
+        this.senha = jsonObject.getString("senha");
+        this.cnpj = jsonObject.getString("cnpj");
+        this.endereco = jsonObject.getString("endereco");
     }
 
     public String getNome() {

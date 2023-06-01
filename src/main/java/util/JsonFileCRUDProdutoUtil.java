@@ -68,15 +68,7 @@ public class JsonFileCRUDProdutoUtil {
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject produtoJson = jsonArray.getJSONObject(i);
             if (produtoJson.getLong("id") == id) {
-                String nome = produtoJson.getString("nome");
-                double valor = produtoJson.getDouble("valor");
-                String tipo = produtoJson.getString("tipo");
-                int quantidade = produtoJson.getInt("quantidade");
-                String marca = produtoJson.getString("marca");
-                String descricao = produtoJson.getString("descricao");
-                String lojaCnpj = produtoJson.getString("lojaCnpj");
-
-                Produto produto = new Produto(nome, valor, tipo, quantidade, marca, descricao, lojaCnpj);
+                Produto produto = new Produto(produtoJson);
                 produto.setId(id);
 
                 return produto;
@@ -98,15 +90,7 @@ public class JsonFileCRUDProdutoUtil {
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject produtoJson = jsonArray.getJSONObject(i);
             if (produtoJson.getString("lojaCnpj").equals(cnpj)) {
-                String nome = produtoJson.getString("nome");
-                double valor = produtoJson.getDouble("valor");
-                String tipo = produtoJson.getString("tipo");
-                int quantidade = produtoJson.getInt("quantidade");
-                String marca = produtoJson.getString("marca");
-                String descricao = produtoJson.getString("descricao");
-                String lojaCnpj = produtoJson.getString("lojaCnpj");
-
-                Produto produto = new Produto(nome, valor, tipo, quantidade, marca, descricao, lojaCnpj);
+                Produto produto = new Produto(produtoJson);
                 produtos.add(produto);
             }
         }
@@ -173,15 +157,7 @@ public class JsonFileCRUDProdutoUtil {
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject produtoJson = jsonArray.getJSONObject(i);
             long id = produtoJson.getLong("id");
-            String nome = produtoJson.getString("nome");
-            double valor = produtoJson.getDouble("valor");
-            String tipo = produtoJson.getString("tipo");
-            int quantidade = produtoJson.getInt("quantidade");
-            String marca = produtoJson.getString("marca");
-            String descricao = produtoJson.getString("descricao");
-            String lojaCnpj = produtoJson.getString("lojaCnpj");
-
-            Produto produto = new Produto(nome, valor, tipo, quantidade, marca, descricao, lojaCnpj);
+            Produto produto = new Produto(produtoJson);
             produto.setId(id);
 
             produtos.add(produto);

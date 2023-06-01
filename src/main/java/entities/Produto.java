@@ -1,5 +1,7 @@
 package entities;
 
+import org.json.JSONObject;
+
 import java.util.Objects;
 
 public class Produto {
@@ -23,6 +25,16 @@ public class Produto {
         this.marca = marca;
         this.descricao = descricao;
         this.lojaCnpj = lojaCnpj;
+    }
+
+    public Produto(JSONObject jsonObject) {
+        this.nome = jsonObject.getString("nome");
+        this.valor = jsonObject.getDouble("valor");
+        this.tipo = jsonObject.getString("tipo");
+        this.quantidade = jsonObject.getInt("quantidade");
+        this.marca = jsonObject.getString("marca");
+        this.descricao = jsonObject.getString("descricao");
+        this.lojaCnpj = jsonObject.getString("lojaCnpj");
     }
 
     public java.lang.Long getId() {
