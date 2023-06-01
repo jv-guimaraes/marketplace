@@ -9,7 +9,7 @@ import org.json.*;
 
 public class JsonFileCRUDCompradorUtil {
 
-    private static final String JSON_FILE_PATH = "compradores.json";
+    private static final String JSON_FILE_PATH = "database/compradores.json";
 
     public static void createComprador(Comprador comprador) {
         JSONArray jsonArray = JsonFileUtil.loadJsonArray(JSON_FILE_PATH);

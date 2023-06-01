@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JsonFileCRUDProdutoUtil {
-    private static final String JSON_FILE_PATH = "produtos.json";
+    private static final String JSON_FILE_PATH = "database/produtos.json";
 
     public static void createProduto(Produto produto) {
         JSONArray jsonArray;
