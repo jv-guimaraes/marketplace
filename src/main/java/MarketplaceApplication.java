@@ -57,6 +57,7 @@ public class MarketplaceApplication {
         System.out.println("3 - Atualizar loja");
         System.out.println("4 - Deletar loja");
         System.out.println("5 - Exibir todas as lojas");
+        System.out.println("5 - Exibir produtos de uma loja");
         switch (getEscolha()) {
             case 1:
                 cadastrarLoja();
@@ -72,6 +73,9 @@ public class MarketplaceApplication {
                 break;
             case 5:
                 System.out.println(lojaController.getAllLojas());
+                break;
+            case 6:
+                exibirProdutosByLoja();
                 break;
         }
     }
