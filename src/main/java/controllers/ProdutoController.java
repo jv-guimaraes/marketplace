@@ -1,7 +1,6 @@
 package controllers;
 
 import entities.Produto;
-import services.LojaService;
 import services.ProdutoService;
 
 import java.util.List;
@@ -32,5 +31,9 @@ public class ProdutoController {
 
     public void deleteProduto(Long id) {
         produtoService.deleteProduto(id);
+    }
+
+    public List<Produto> getProdutosByLoja(String cnpj) {
+        return produtoService.getProdutosByLoja(cnpj);
     }
 }

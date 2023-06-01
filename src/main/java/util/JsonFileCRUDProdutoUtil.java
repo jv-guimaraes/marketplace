@@ -2,10 +2,9 @@ package util;
 
 import entities.Produto;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.*;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,6 +71,34 @@ public class JsonFileCRUDProdutoUtil {
         }
 
         return null;
+    }
+
+    public static List<Produto> getProdutosByLoja(String cnpj) {
+        File file = new File(JSON_FILE_PATH);
+        if (!file.exists()) {
+            return null;
+        }
+
+        JSONArray jsonArray = JsonFileUtil.loadJsonArray(JSON_FILE_PATH);
+        List<Produto> produtos = new ArrayList<>();
+
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject produtoJson = jsonArray.getJSONObject(i);
+            if (produtoJson.getString("lojaCnpj").equals(cnpj)) {
+                String nome = produtoJson.getString("nome");
+                double valor = produtoJson.getDouble("valor");
+                String tipo = produtoJson.getString("tipo");
+                int quantidade = produtoJson.getInt("quantidade");
+                String marca = produtoJson.getString("marca");
+                String descricao = produtoJson.getString("descricao");
+                String lojaCnpj = produtoJson.getString("lojaCnpj");
+
+                Produto produto = new Produto(nome, valor, tipo, quantidade, marca, descricao, lojaCnpj);
+                produtos.add(produto);
+            }
+        }
+
+        return produtos;
     }
 
     public static void updateProduto(long id, Produto produto) {

@@ -31,4 +31,8 @@ public class ProdutoService {
     public void deleteProduto(long id) {
         produtoRepository.deleteProduto(id);
     }
+
+    public List<Produto> getProdutosByLoja(String cnpj) {
+        return produtoRepository.getProdutosByLoja(cnpj);
+    }
 }

@@ -1,1 +1,22 @@
-[{"marca":"BolasShow","tipo":"Bola de Futebol","lojaCnpj":"123456789","valor":12,"nome":"Bola","id":1,"quantidade":123,"descricao":"Bola de futebol média"}]
+[
+  {
+    "marca": "BolasShow",
+    "tipo": "Bola de Futebol",
+    "lojaCnpj": "123456789",
+    "valor": 12,
+    "nome": "Bola",
+    "id": 1,
+    "quantidade": 123,
+    "descricao": "Bola de futebol média"
+  },
+  {
+    "marca": "Barbie",
+    "tipo": "Brinquedo",
+    "lojaCnpj": "123456789",
+    "valor": 32,
+    "nome": "Boneca Barbie",
+    "id": 2,
+    "quantidade": 234,
+    "descricao": "Boneca da barbie"
+  }
+]

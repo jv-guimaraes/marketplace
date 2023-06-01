@@ -25,4 +25,8 @@ public class ProdutoRepository {
     public void deleteProduto(long id) {
         JsonFileCRUDProdutoUtil.deleteProduto(id);
     }
+
+    public List<Produto> getProdutosByLoja(String cnpj) {
+        return JsonFileCRUDProdutoUtil.getProdutosByLoja(cnpj);
+    }
 }

@@ -5,6 +5,7 @@ import entities.Comprador;
 import entities.Loja;
 import entities.Produto;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class MarketplaceApplication {
@@ -106,6 +107,7 @@ public class MarketplaceApplication {
         System.out.println("3 - Atualizar produto");
         System.out.println("4 - Deletar produto");
         System.out.println("5 - Exibir todos os produtos");
+        System.out.println("6 - Exibir todos os produtos de uma Loja");
         switch (getEscolha()) {
             case 1:
                 cadastrarProduto();
@@ -121,6 +123,9 @@ public class MarketplaceApplication {
                 break;
             case 5:
                 System.out.println(produtoController.getAllProdutos());
+                break;
+            case 6:
+                exibirProdutosByLoja();
                 break;
         }
     }
@@ -388,6 +393,18 @@ public class MarketplaceApplication {
             System.out.println("Produto removido com sucesso!");
         } else {
             System.out.println("Produto não encontrado.");
+        }
+    }
+
+    private static void exibirProdutosByLoja() {
+        System.out.print("CNPJ da Loja: ");
+        String cnpj = scanner.nextLine();
+
+        List<Produto> produtos = produtoController.getProdutosByLoja(cnpj);
+        if (produtos.isEmpty()) {
+            System.out.println("Nenhum produto encontrado!");
+        } else {
+            System.out.println(produtos);
         }
     }
 }
