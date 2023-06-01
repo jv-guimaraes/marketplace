@@ -303,7 +303,10 @@ public class MarketplaceApplication {
         System.out.print("Descrição: ");
         String descricao = scanner.nextLine();
 
-        Produto produto = new Produto(nome, valor, tipo, quantidade, marca, descricao);
+        System.out.print("Cnpj da Loja: ");
+        String lojaCnpj = scanner.nextLine();
+
+        Produto produto = new Produto(nome, valor, tipo, quantidade, marca, descricao, lojaCnpj);
         produtoController.createProduto(produto);
 
         System.out.println("Produto cadastrado com sucesso!");

@@ -11,17 +11,18 @@ public class Produto {
     Integer quantidade;
     String marca;
     String descricao;
-
+    String lojaCnpj;
     public Produto() {
     }
 
-    public Produto(String nome, Double valor, String tipo, Integer quantidade, String marca, String descricao) {
+    public Produto(String nome, Double valor, String tipo, Integer quantidade, String marca, String descricao, String lojaCnpj) {
         this.nome = nome;
         this.valor = valor;
         this.tipo = tipo;
         this.quantidade = quantidade;
         this.marca = marca;
         this.descricao = descricao;
+        this.lojaCnpj = lojaCnpj;
     }
 
     public java.lang.Long getId() {
@@ -79,6 +80,10 @@ public class Produto {
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
+
+    public String getLojaCnpj() { return lojaCnpj; }
+
+    public void setLojaCnpj() { this.lojaCnpj = lojaCnpj; }
 
     @Override
     public boolean equals(Object o) {

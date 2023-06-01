@@ -62,8 +62,9 @@ public class JsonFileCRUDProdutoUtil {
                 int quantidade = produtoJson.getInt("quantidade");
                 String marca = produtoJson.getString("marca");
                 String descricao = produtoJson.getString("descricao");
+                String lojaCnpj = produtoJson.getString("lojaCnpj");
 
-                Produto produto = new Produto(nome, valor, tipo, quantidade, marca, descricao);
+                Produto produto = new Produto(nome, valor, tipo, quantidade, marca, descricao, lojaCnpj);
                 produto.setId(id);
 
                 return produto;
@@ -138,8 +139,9 @@ public class JsonFileCRUDProdutoUtil {
             int quantidade = produtoJson.getInt("quantidade");
             String marca = produtoJson.getString("marca");
             String descricao = produtoJson.getString("descricao");
+            String lojaCnpj = produtoJson.getString("lojaCnpj");
 
-            Produto produto = new Produto(nome, valor, tipo, quantidade, marca, descricao);
+            Produto produto = new Produto(nome, valor, tipo, quantidade, marca, descricao, lojaCnpj);
             produto.setId(id);
 
             produtos.add(produto);
