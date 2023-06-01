@@ -4,6 +4,7 @@ import controllers.ProdutoController;
 import entities.Comprador;
 import entities.Loja;
 import entities.Produto;
+
 import java.util.Scanner;
 
 public class MarketplaceApplication {
@@ -14,68 +15,113 @@ public class MarketplaceApplication {
 
     private static final ProdutoController produtoController = new ProdutoController();
 
+    private static final Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
+        Boolean sair = false;
+        while (!sair) {
+            System.out.println("1 - Gerenciar Lojas");
+            System.out.println("2 - Gerenciar Compradores");
+            System.out.println("3 - Gerenciar Produtos");
+            System.out.println("4 - Sair");
+            switch (getEscolha()) {
+                case 1:
+                    gerenciarLojas();
+                    break;
+                case 2:
+                    gerenciarCompradores();
+                    break;
+                case 3:
+                    gerenciarProdutos();
+                    break;
+                case 4:
+                    sair = true;
+                    break;
+            }
+        }
 
-        Scanner scanner = new Scanner(System.in);
-
-        //caso seja a opção de cadastrar
-        //cadastrarLoja(scanner);
-
-        //caso a opção seja ver a loja
-        //exibirLoja(scanner);
-
-        //opção atualizar loja
-        //updateLoja(scanner);
-
-        //opção de deletar a loja
-        //removerLoja(scanner);
-
-        //opção de buscar loja
-        //função
-
-        //System.out.println(lojaController.getAllLojas());
-
-        //----------------------------------------------------------------------------------------------------------------
-
-        //opção de cadastrar comprador
-        //cadastrarComprador(scanner);
-
-        //opção de exibir dados do comprador - buscra por cpf:
-        //exibirComprador(scanner);
-
-        //atualizar comprador
-        //updateComprador(scanner);
-
-        //remover comprador
-        //removerComprador(scanner);
-
-
-        //System.out.println(compradorController.getAllCompradores());
-
-        //-------------------------------------------------------------------------------------------------------------------
-
-        //cadatsrar - criar produto
-        //cadastrarProduto(scanner);
-
-        //Buscar produto por id
-        //exibirProduto(scanner);
-
-        //atualizar produto
-        //atualizarProduto(scanner);
-
-        //deletar produto
-        //removerProduto(scanner);
-
-        //produtoController.deleteProduto(1L);
 
         //System.out.println(produtoController.getAllProdutos());
     }
 
-    //funções do crud para loja
+    public static int getEscolha() {
+        var escolha = scanner.nextInt();
+        scanner.nextLine();
+        return escolha;
+    }
 
+    public static void gerenciarLojas() {
+        System.out.println("1 - Cadastrar loja");
+        System.out.println("2 - Exibir loja");
+        System.out.println("3 - Atualizar loja");
+        System.out.println("4 - Deletar loja");
+        System.out.println("5 - Exibir todas as lojas");
+        switch (getEscolha()) {
+            case 1:
+                cadastrarLoja();
+                break;
+            case 2:
+                exibirLoja();
+            case 3:
+                atualizarLoja();
+            case 4:
+                removerLoja();
+            case 5:
+                System.out.println(lojaController.getAllLojas());
+        }
+    }
 
-    private static void cadastrarLoja(Scanner scanner) {
+    public static void gerenciarCompradores() {
+        System.out.println("1 - Cadastrar comprador");
+        System.out.println("2 - Exibir comprador");
+        System.out.println("3 - Atualizar comprador");
+        System.out.println("4 - Deletar comprador");
+        System.out.println("5 - Exibir todos os compradores");
+        switch (getEscolha()) {
+            case 1:
+                cadastrarComprador();
+                break;
+            case 2:
+                exibirComprador();
+                break;
+            case 3:
+                atualizarComprador();
+                break;
+            case 4:
+                removerComprador();
+                break;
+            case 5:
+                System.out.println(compradorController.getAllCompradores());
+                break;
+        }
+    }
+
+    public static void gerenciarProdutos() {
+        System.out.println("1 - Cadastrar produto");
+        System.out.println("2 - Exibir produto");
+        System.out.println("3 - Atualizar produto");
+        System.out.println("4 - Deletar produto");
+        System.out.println("5 - Exibir todos os produtos");
+        switch (getEscolha()) {
+            case 1:
+                cadastrarProduto();
+                break;
+            case 2:
+                exibirProduto();
+                break;
+            case 3:
+                atualizarProduto();
+                break;
+            case 4:
+                removerProduto();
+                break;
+            case 5:
+                System.out.println(produtoController.getAllProdutos());
+                break;
+        }
+    }
+
+    private static void cadastrarLoja() {
         System.out.print("Nome: ");
         String nome = scanner.nextLine();
 
@@ -97,7 +143,7 @@ public class MarketplaceApplication {
     }
 
 
-    private static void exibirLoja(Scanner scanner) {
+    private static void exibirLoja() {
         System.out.print("CNPJ da Loja: ");
         String cnpj = scanner.nextLine();
 
@@ -107,7 +153,7 @@ public class MarketplaceApplication {
 
     }
 
-    private static void updateLoja(Scanner scanner) {
+    private static void atualizarLoja() {
         System.out.print("Informe o CNPJ da Loja: ");
         String cnpj = scanner.nextLine();
 
@@ -142,7 +188,7 @@ public class MarketplaceApplication {
         }
     }
 
-    private static void removerLoja(Scanner scanner) {
+    private static void removerLoja() {
         System.out.print("CNPJ da Loja: ");
         String cnpj = scanner.nextLine();
 
@@ -153,7 +199,7 @@ public class MarketplaceApplication {
 
 
     //funções do crud para comprador
-    private static void cadastrarComprador(Scanner scanner) {
+    private static void cadastrarComprador() {
         System.out.print("Nome: ");
         String nome = scanner.nextLine();
 
@@ -174,7 +220,7 @@ public class MarketplaceApplication {
         compradorController.createComprador(comprador);
     }
 
-    private static void exibirComprador(Scanner scanner) {
+    private static void exibirComprador() {
         System.out.print("CPF do Comprador: ");
         String cpf = scanner.nextLine();
 
@@ -192,7 +238,7 @@ public class MarketplaceApplication {
         }
     }
 
-    private static void updateComprador(Scanner scanner) {
+    private static void atualizarComprador() {
         System.out.print("CPF do Comprador: ");
         String cpf = scanner.nextLine();
 
@@ -217,14 +263,14 @@ public class MarketplaceApplication {
             String senha = scanner.nextLine();
             retrievedComprador.setSenha(senha);
 
-            compradorController.updateComprador(cpf , retrievedComprador);
+            compradorController.updateComprador(cpf, retrievedComprador);
             System.out.println("Comprador atualizado com sucesso!");
         } else {
             System.out.println("Comprador não encontrado.");
         }
     }
 
-    private static void removerComprador(Scanner scanner) {
+    private static void removerComprador() {
         System.out.print("CPF do Comprador: ");
         String cpf = scanner.nextLine();
 
@@ -238,9 +284,7 @@ public class MarketplaceApplication {
         }
     }
 
-    //funções do crud para produto
-
-    private static void cadastrarProduto(Scanner scanner) {
+    private static void cadastrarProduto() {
         System.out.print("Nome: ");
         String nome = scanner.nextLine();
 
@@ -266,7 +310,7 @@ public class MarketplaceApplication {
     }
 
 
-    private static void exibirProduto(Scanner scanner) {
+    private static void exibirProduto() {
         System.out.print("ID do Produto: ");
         long id = Long.parseLong(scanner.nextLine());
 
@@ -285,7 +329,7 @@ public class MarketplaceApplication {
     }
 
 
-    private static void atualizarProduto(Scanner scanner) {
+    private static void atualizarProduto() {
         System.out.print("ID do Produto: ");
         long id = Long.parseLong(scanner.nextLine());
 
@@ -326,7 +370,7 @@ public class MarketplaceApplication {
         }
     }
 
-    private static void removerProduto(Scanner scanner) {
+    private static void removerProduto() {
         System.out.print("ID do Produto: ");
         long id = Long.parseLong(scanner.nextLine());
 
