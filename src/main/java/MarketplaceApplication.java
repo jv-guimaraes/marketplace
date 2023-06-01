@@ -317,8 +317,6 @@ public class MarketplaceApplication {
 
         Produto produto = new Produto(nome, valor, tipo, quantidade, marca, descricao, lojaCnpj);
         produtoController.createProduto(produto);
-
-        System.out.println("Produto cadastrado com sucesso!");
     }
 
 

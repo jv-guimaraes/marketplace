@@ -37,6 +37,19 @@ public class JsonFileCRUDProdutoUtil {
         // Set the new id in the produto object
         produto.setId(newId);
 
+        // Check if lojaCnpj is valid
+        Boolean cnpjValido = false;
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject produtoJson = jsonArray.getJSONObject(i);
+            if (produtoJson.getString("lojaCnpj").equals(produto.getLojaCnpj())) {
+                cnpjValido = true;
+            }
+        }
+        if (!cnpjValido) {
+            System.out.println("Falha ao criar Produto. CNPJ da loja não foi encontrado.");
+            return;
+        }
+
         JSONObject produtoJson = new JSONObject(produto);
         jsonArray.put(produtoJson);
 
