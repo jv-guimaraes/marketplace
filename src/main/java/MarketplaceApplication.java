@@ -223,7 +223,7 @@ public class MarketplaceApplication {
     private static void cadastrarComprador() {
         System.out.print("Nome: ");
         String nome = scanner.nextLine();
-        if (!Validation.nomePropioValido(nome)) {
+        if (!Validation.nomeProprioValido(nome)) {
             System.out.println("Nome inválido! O nome não pode conter digitos e deve ter até no máximo 50 caracteres");
             return;
         }
@@ -328,24 +328,52 @@ public class MarketplaceApplication {
     private static void cadastrarProduto() {
         System.out.print("Nome: ");
         String nome = scanner.nextLine();
+        if (!Validation.nomeProdutoValido(nome)) {
+            System.out.println("Nome inválido! O nome deve ter até no máximo 30 caracteres");
+            return;
+        }
 
         System.out.print("Valor: ");
         double valor = Double.parseDouble(scanner.nextLine());
+        if(!Validation.valorProdutoValido(valor)){
+            System.out.println("Valor inválido!");
+            return;
+        }
 
         System.out.print("Tipo: ");
         String tipo = scanner.nextLine();
+        if(!Validation.tipoProdutoValido(tipo)){
+            System.out.println("Tipo de produto inválido!");
+            return;
+        }
 
         System.out.print("Quantidade: ");
         int quantidade = Integer.parseInt(scanner.nextLine());
+        if(!Validation.quantProdutoValido(quantidade)){
+            System.out.println("Quantidade de produto inválida!");
+            return;
+        }
 
         System.out.print("Marca: ");
         String marca = scanner.nextLine();
+        if(!Validation.marcaProdutoValido(marca)){
+            System.out.println("Marca de produto inválida!");
+            return;
+        }
 
         System.out.print("Descrição: ");
         String descricao = scanner.nextLine();
+        if(!Validation.descricaoProdutoValido(descricao)){
+            System.out.println("Descrição inválida!");
+            return;
+        }
 
         System.out.print("Cnpj da Loja: ");
         String lojaCnpj = scanner.nextLine();
+        /*if(!Validation.lojaCnpjValido(lojaCnpj)){
+            System.out.println("Cnpj inválido!");
+            return;
+        }*/
 
         Produto produto = new Produto(nome, valor, tipo, quantidade, marca, descricao, lojaCnpj);
         produtoController.createProduto(produto);
