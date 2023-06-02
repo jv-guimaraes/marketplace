@@ -1,6 +1,9 @@
 import controllers.CompradorController;
 import controllers.LojaController;
 import controllers.ProdutoController;
+import repositories.CompradorRepository;
+import repositories.LojaRepository;
+import repositories.ProdutoRepository;
 import services.CompradorService;
 import services.LojaService;
 import services.ProdutoService;
@@ -12,9 +15,12 @@ import java.util.List;
 import java.util.Scanner;
 
 public class MarketplaceApplication {
-    private static final LojaService lojaService = new LojaService();
-    private static final CompradorService compradorService = new CompradorService();
-    private static final ProdutoService produtoService = new ProdutoService();
+    private static final CompradorRepository compradorRepository = new CompradorRepository();
+    private static final LojaRepository lojaRepository = new LojaRepository();
+    private static final ProdutoRepository produtoRepository = new ProdutoRepository();
+    private static final LojaService lojaService = new LojaService(lojaRepository);
+    private static final CompradorService compradorService = new CompradorService(compradorRepository);
+    private static final ProdutoService produtoService = new ProdutoService(produtoRepository);
     private static final LojaController lojaController = new LojaController(lojaService);
 
     private static final CompradorController compradorController = new CompradorController(compradorService);

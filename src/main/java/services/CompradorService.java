@@ -1,15 +1,16 @@
 package services;
 
 import entities.Comprador;
+import port.services.ICompradorService;
 import repositories.CompradorRepository;
 
 import java.util.List;
 
-public class CompradorService {
+public class CompradorService implements ICompradorService {
     private final CompradorRepository compradorRepository;
 
-    public CompradorService() {
-        this.compradorRepository = new CompradorRepository();
+    public CompradorService(CompradorRepository repository) {
+        this.compradorRepository = repository;
     }
 
     public List<Comprador> getAllCompradores() {

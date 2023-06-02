@@ -1,11 +1,11 @@
 package repositories;
-
+import port.repositories.ILojaRepository;
 import util.JsonFileCRUDLojaUtil;
 import entities.Loja;
 
 import java.util.List;
 
-public class LojaRepository {
+public class LojaRepository implements ILojaRepository {
 
     public LojaRepository() {
     }

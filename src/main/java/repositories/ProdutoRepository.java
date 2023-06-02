@@ -1,11 +1,12 @@
 package repositories;
 
 import entities.Produto;
+import port.repositories.IProdutoRepository;
 import util.JsonFileCRUDProdutoUtil;
 
 import java.util.List;
 
-public class ProdutoRepository {
+public class ProdutoRepository implements IProdutoRepository {
     public List<Produto> getAllProdutos() {
         return JsonFileCRUDProdutoUtil.getAllProdutos();
     }

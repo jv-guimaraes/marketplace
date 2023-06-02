@@ -1,15 +1,16 @@
 package services;
 
 import entities.Loja;
+import port.services.ILojaService;
 import repositories.LojaRepository;
 
 import java.util.List;
 
-public class LojaService {
+public class LojaService implements ILojaService {
     private final LojaRepository lojaRepository;
 
-    public LojaService() {
-        this.lojaRepository = new LojaRepository();
+    public LojaService(LojaRepository repository) {
+        this.lojaRepository = repository;
     }
 
     public List<Loja> getAllLojas() {

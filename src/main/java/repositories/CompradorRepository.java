@@ -2,11 +2,12 @@ package repositories;
 
 
 import entities.Comprador;
+import port.repositories.ICompradorRepository;
 import util.JsonFileCRUDCompradorUtil;
 
 import java.util.List;
 
-public class CompradorRepository {
+public class CompradorRepository implements ICompradorRepository {
 
     public CompradorRepository() {
     }
