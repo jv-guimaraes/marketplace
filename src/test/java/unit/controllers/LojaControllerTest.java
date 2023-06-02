@@ -16,7 +16,7 @@ public class LojaControllerTest {
 
     List<Loja> lojaArray = Arrays.asList(loja, new Loja());
     @Test
-    public void getLojgetCnpj() throws Exception {
+    public void getLojagetCnpj() throws Exception {
         String cnpj = loja.getCnpj();
         LojaService mock = mock();
         when(mock.getLojaByCnpj(cnpj)).thenReturn(loja);
@@ -25,7 +25,7 @@ public class LojaControllerTest {
         verify(mock, times(1)).getLojaByCnpj(cnpj);
     }
     @Test
-    public void getAllLojaes() throws Exception {
+    public void getAllLojas() throws Exception {
         LojaService mock = mock();
         when(mock.getAllLojas()).thenReturn(lojaArray);
         LojaController controller = new LojaController(mock);

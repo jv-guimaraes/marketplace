@@ -14,7 +14,7 @@ public class ProdutoControllerTest {
     Produto produto = new Produto("IPHONE XR", 2290.35, "CELULAR",1,"APPLE", "O iPhone XR tem tela Liquid Retina de 6,1 polegadas** e seis lindas cores. Face ID avançado para desbloquear o aparelho e acessar apps só com o olhar. Chip A12 Bionic, que usa aprendizado de máquina em tempo real para transformar sua maneira de interagir com fotos, jogos, realidade aumentada e muito mais", "93.763.071/0001-27");
     List<Produto> produtoArray = Arrays.asList(produto, new Produto());
     @BeforeEach
-    void createNewStack() {
+    void setProdutoId() {
         produto.setId(1L);
     }
     @Test
@@ -48,6 +48,14 @@ public class ProdutoControllerTest {
         ProdutoController controller = new ProdutoController(mock);
         controller.updateProduto(produtoId, produto);
         verify(mock).updateProduto(produtoId, produto);
+    }
+    @Test
+    public void getProdutosByLoja() throws Exception {
+        String lojaCnpj = produto.getLojaCnpj();
+        ProdutoService mock = mock();
+        ProdutoController controller = new ProdutoController(mock);
+        controller.getProdutosByLoja(lojaCnpj);
+        verify(mock).getProdutosByLoja(lojaCnpj);
     }
     @Test
     public void deleteProduto() throws Exception {

@@ -95,7 +95,7 @@ public class Produto {
 
     public String getLojaCnpj() { return lojaCnpj; }
 
-    public void setLojaCnpj() { this.lojaCnpj = lojaCnpj; }
+    public void setLojaCnpj(String lojaCnpj) { this.lojaCnpj = lojaCnpj; }
 
     @Override
     public boolean equals(Object o) {

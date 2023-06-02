@@ -10,12 +10,13 @@ import services.ProdutoService;
 import entities.Comprador;
 import entities.Loja;
 import entities.Produto;
+import util.JsonFileCRUDCompradorUtil;
 
 import java.util.List;
 import java.util.Scanner;
 
 public class MarketplaceApplication {
-    private static final CompradorRepository compradorRepository = new CompradorRepository();
+    private static final CompradorRepository compradorRepository = new CompradorRepository(new JsonFileCRUDCompradorUtil());
     private static final LojaRepository lojaRepository = new LojaRepository();
     private static final ProdutoRepository produtoRepository = new ProdutoRepository();
     private static final LojaService lojaService = new LojaService(lojaRepository);

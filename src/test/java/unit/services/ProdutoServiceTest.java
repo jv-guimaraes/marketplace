@@ -50,6 +50,14 @@ public class ProdutoServiceTest {
         verify(mock).updateProduto(produtoId, produto);
     }
     @Test
+    public void getProdutosByLoja() throws Exception {
+        String lojaCnpj = produto.getLojaCnpj();
+        ProdutoRepository mock = mock();
+        ProdutoService service = new ProdutoService(mock);
+        service.getProdutosByLoja(lojaCnpj);
+        verify(mock).getProdutosByLoja(lojaCnpj);
+    }
+    @Test
     public void deleteProduto() throws Exception {
         Long produtoId = produto.getId();
         ProdutoRepository mock = mock();
