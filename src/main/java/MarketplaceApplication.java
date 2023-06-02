@@ -1,18 +1,24 @@
 import controllers.CompradorController;
 import controllers.LojaController;
 import controllers.ProdutoController;
+import services.CompradorService;
+import services.LojaService;
+import services.ProdutoService;
 import entities.Comprador;
 import entities.Loja;
 import entities.Produto;
+
 import java.util.Scanner;
 
 public class MarketplaceApplication {
+    private static final LojaService lojaService = new LojaService();
+    private static final CompradorService compradorService = new CompradorService();
+    private static final ProdutoService produtoService = new ProdutoService();
+    private static final LojaController lojaController = new LojaController(lojaService);
 
-    private static final LojaController lojaController = new LojaController();
+    private static final CompradorController compradorController = new CompradorController(compradorService);
 
-    private static final CompradorController compradorController = new CompradorController();
-
-    private static final ProdutoController produtoController = new ProdutoController();
+    private static final ProdutoController produtoController = new ProdutoController(produtoService);
 
 
     public static void main(String[] args) {

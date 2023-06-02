@@ -6,29 +6,30 @@ import services.CompradorService;
 import java.util.List;
 
 public class CompradorController {
-    private final CompradorService compradorService;
+    private final CompradorService service;
 
-    public CompradorController() {
-        this.compradorService = new CompradorService();
+    public CompradorController(CompradorService service) {
+        this.service = service;
     }
 
     public List<Comprador> getAllCompradores() {
-        return compradorService.getAllCompradores();
+        //List<String> spyList = Mockito.spy(new ArrayList<String>());
+        return service.getAllCompradores();
     }
 
     public Comprador getCompradorByCpf(String cpf) {
-        return compradorService.getCompradorByCpf(cpf);
+        return service.getCompradorByCpf(cpf);
     }
 
     public void createComprador(Comprador comprador) {
-        compradorService.createComprador(comprador);
+        service.createComprador(comprador);
     }
 
-    public void updateComprador(String cnpj, Comprador comprador) {
-        compradorService.updateComprador(cnpj, comprador);
+    public void updateComprador(String cpf, Comprador comprador) {
+        service.updateComprador(cpf, comprador);
     }
 
-    public void deleteComprador(String cnpj) {
-        compradorService.deleteComprador(cnpj);
+    public void deleteComprador(String cpf) {
+        service.deleteComprador(cpf);
     }
 }
