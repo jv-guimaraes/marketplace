@@ -37,7 +37,7 @@ public class LojaControllerTest {
         LojaService mock = mock();
         LojaController controller = new LojaController(mock);
         controller.createLoja(loja);
-        verify(mock).createLoja(loja);
+        verify(mock, times(1)).createLoja(loja);
     }
     @Test
     public void updateLoja() throws Exception {
@@ -45,7 +45,7 @@ public class LojaControllerTest {
         LojaService mock = mock();
         LojaController controller = new LojaController(mock);
         controller.updateLoja(cnpj, loja);
-        verify(mock).updateLoja(cnpj, loja);
+        verify(mock, times(1)).updateLoja(cnpj, loja);
     }
     @Test
     public void deleteLoja() throws Exception {
@@ -53,6 +53,6 @@ public class LojaControllerTest {
         LojaService mock = mock();
         LojaController controller = new LojaController(mock);
         controller.deleteLoja(cnpj);
-        verify(mock).deleteLoja(cnpj);
+        verify(mock, times(1)).deleteLoja(cnpj);
     }
 }

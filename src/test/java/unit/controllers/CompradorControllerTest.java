@@ -37,7 +37,7 @@ public class CompradorControllerTest {
         CompradorService mock = mock();
         CompradorController controller = new CompradorController(mock);
         controller.createComprador(comprador);
-        verify(mock).createComprador(comprador);
+        verify(mock, times(1)).createComprador(comprador);
     }
     @Test
     public void updateComprador() throws Exception {
@@ -45,7 +45,7 @@ public class CompradorControllerTest {
         CompradorService mock = mock();
         CompradorController controller = new CompradorController(mock);
         controller.updateComprador(cpf, comprador);
-        verify(mock).updateComprador(cpf, comprador);
+        verify(mock, times(1)).updateComprador(cpf, comprador);
     }
     @Test
     public void deleteComprador() throws Exception {
@@ -53,6 +53,6 @@ public class CompradorControllerTest {
         CompradorService mock = mock();
         CompradorController controller = new CompradorController(mock);
         controller.deleteComprador(cpf);
-        verify(mock).deleteComprador(cpf);
+        verify(mock, times(1)).deleteComprador(cpf);
     }
 }

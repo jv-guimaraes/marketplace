@@ -47,7 +47,7 @@ public class ProdutoControllerTest {
         ProdutoService mock = mock();
         ProdutoController controller = new ProdutoController(mock);
         controller.updateProduto(produtoId, produto);
-        verify(mock).updateProduto(produtoId, produto);
+        verify(mock, times(1)).updateProduto(produtoId, produto);
     }
     @Test
     public void getProdutosByLoja() throws Exception {
@@ -55,7 +55,7 @@ public class ProdutoControllerTest {
         ProdutoService mock = mock();
         ProdutoController controller = new ProdutoController(mock);
         controller.getProdutosByLoja(lojaCnpj);
-        verify(mock).getProdutosByLoja(lojaCnpj);
+        verify(mock, times(1)).getProdutosByLoja(lojaCnpj);
     }
     @Test
     public void deleteProduto() throws Exception {
@@ -63,6 +63,6 @@ public class ProdutoControllerTest {
         ProdutoService mock = mock();
         ProdutoController controller = new ProdutoController(mock);
         controller.deleteProduto(produtoId);
-        verify(mock).deleteProduto(produtoId);
+        verify(mock, times(1)).deleteProduto(produtoId);
     }
 }

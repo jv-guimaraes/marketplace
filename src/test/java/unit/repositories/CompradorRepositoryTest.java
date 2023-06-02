@@ -39,7 +39,7 @@ public class CompradorRepositoryTest {
         JsonFileCRUDCompradorUtil mock = mock();
         CompradorRepository service = new CompradorRepository(mock);
         service.createComprador(comprador);
-        verify(mock).createComprador(comprador);
+        verify(mock, times(1)).createComprador(comprador);
     }
     @Test
     public void updateComprador() throws Exception {
@@ -47,7 +47,7 @@ public class CompradorRepositoryTest {
         JsonFileCRUDCompradorUtil mock = mock();
         CompradorRepository service = new CompradorRepository(mock);
         service.updateComprador(cpf, comprador);
-        verify(mock).updateComprador(cpf, comprador);
+        verify(mock, times(1)).updateComprador(cpf, comprador);
     }
     @Test
     public void deleteComprador() throws Exception {
@@ -55,6 +55,6 @@ public class CompradorRepositoryTest {
         JsonFileCRUDCompradorUtil mock = mock();
         CompradorRepository service = new CompradorRepository(mock);
         service.deleteComprador(cpf);
-        verify(mock).deleteComprador(cpf);
+        verify(mock, times(1)).deleteComprador(cpf);
     }
 }

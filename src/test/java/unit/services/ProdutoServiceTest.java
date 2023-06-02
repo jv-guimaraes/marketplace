@@ -39,7 +39,7 @@ public class ProdutoServiceTest {
         ProdutoRepository mock = mock();
         ProdutoService service = new ProdutoService(mock);
         service.createProduto(produto);
-        verify(mock).createProduto(produto);
+        verify(mock, times(1)).createProduto(produto);
     }
     @Test
     public void updateProduto() throws Exception {
@@ -47,7 +47,7 @@ public class ProdutoServiceTest {
         ProdutoRepository mock = mock();
         ProdutoService service = new ProdutoService(mock);
         service.updateProduto(produtoId, produto);
-        verify(mock).updateProduto(produtoId, produto);
+        verify(mock, times(1)).updateProduto(produtoId, produto);
     }
     @Test
     public void getProdutosByLoja() throws Exception {
@@ -55,7 +55,7 @@ public class ProdutoServiceTest {
         ProdutoRepository mock = mock();
         ProdutoService service = new ProdutoService(mock);
         service.getProdutosByLoja(lojaCnpj);
-        verify(mock).getProdutosByLoja(lojaCnpj);
+        verify(mock, times(1)).getProdutosByLoja(lojaCnpj);
     }
     @Test
     public void deleteProduto() throws Exception {
@@ -63,6 +63,6 @@ public class ProdutoServiceTest {
         ProdutoRepository mock = mock();
         ProdutoService service = new ProdutoService(mock);
         service.deleteProduto(produtoId);
-        verify(mock).deleteProduto(produtoId);
+        verify(mock, times(1)).deleteProduto(produtoId);
     }
 }

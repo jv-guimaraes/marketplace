@@ -37,7 +37,7 @@ public class LojaServiceTest {
         LojaRepository mock = mock();
         LojaService service = new LojaService(mock);
         service.createLoja(comprador);
-        verify(mock).createLoja(comprador);
+        verify(mock, times(1)).createLoja(comprador);
     }
     @Test
     public void updateLoja() throws Exception {
@@ -45,7 +45,7 @@ public class LojaServiceTest {
         LojaRepository mock = mock();
         LojaService service = new LojaService(mock);
         service.updateLoja(cnpj, comprador);
-        verify(mock).updateLoja(cnpj, comprador);
+        verify(mock, times(1)).updateLoja(cnpj, comprador);
     }
     @Test
     public void deleteLoja() throws Exception {
@@ -53,6 +53,6 @@ public class LojaServiceTest {
         LojaRepository mock = mock();
         LojaService service = new LojaService(mock);
         service.deleteLoja(cnpj);
-        verify(mock).deleteLoja(cnpj);
+        verify(mock, times(1)).deleteLoja(cnpj);
     }
 }
