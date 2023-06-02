@@ -8,8 +8,8 @@ import java.util.List;
 public class LojaController {
     private final LojaService lojaService;
 
-    public LojaController() {
-        this.lojaService = new LojaService();
+    public LojaController(LojaService service) {
+        this.lojaService = service;
     }
 
     public List<Loja> getAllLojas() {
