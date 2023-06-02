@@ -1,16 +1,17 @@
 import controllers.CompradorController;
 import controllers.LojaController;
 import controllers.ProdutoController;
+import entities.Comprador;
+import entities.Loja;
+import entities.Produto;
 import repositories.CompradorRepository;
 import repositories.LojaRepository;
 import repositories.ProdutoRepository;
 import services.CompradorService;
 import services.LojaService;
 import services.ProdutoService;
-import entities.Comprador;
-import entities.Loja;
-import entities.Produto;
 import util.JsonFileCRUDCompradorUtil;
+import validation.Validation;
 
 import java.util.List;
 import java.util.Scanner;
@@ -20,14 +21,11 @@ public class MarketplaceApplication {
     private static final LojaRepository lojaRepository = new LojaRepository();
     private static final ProdutoRepository produtoRepository = new ProdutoRepository();
     private static final LojaService lojaService = new LojaService(lojaRepository);
-    private static final CompradorService compradorService = new CompradorService(compradorRepository);
-    private static final ProdutoService produtoService = new ProdutoService(produtoRepository);
     private static final LojaController lojaController = new LojaController(lojaService);
-
+    private static final CompradorService compradorService = new CompradorService(compradorRepository);
     private static final CompradorController compradorController = new CompradorController(compradorService);
-
+    private static final ProdutoService produtoService = new ProdutoService(produtoRepository);
     private static final ProdutoController produtoController = new ProdutoController(produtoService);
-
     private static final Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
@@ -222,23 +220,41 @@ public class MarketplaceApplication {
         lojaController.deleteLoja(cnpj);
     }
 
-
-    //funções do crud para comprador
     private static void cadastrarComprador() {
         System.out.print("Nome: ");
         String nome = scanner.nextLine();
+        if (!Validation.nomePropioValido(nome)) {
+            System.out.println("Nome inválido! O nome não pode conter digitos e deve ter até no máximo 50 caracteres");
+            return;
+        }
 
         System.out.print("E-mail: ");
         String email = scanner.nextLine();
+        if (!Validation.emailValido(email)) {
+            System.out.println("Email inválido!");
+            return;
+        }
 
         System.out.print("Senha: ");
         String senha = scanner.nextLine();
+        if (!Validation.senhaValida(senha)) {
+            System.out.println("Senha inválida! A senha deve conter de 6 a 20 caracteres.");
+            return;
+        }
 
         System.out.print("cpf: ");
         String cpf = scanner.nextLine();
+        if (!Validation.cpfCnpjValido(cpf)) {
+            System.out.println("CPF Inválido!");
+            return;
+        }
 
         System.out.print("Endereço: ");
         String endereco = scanner.nextLine();
+        if (!Validation.enderecoValido(endereco)) {
+            System.out.println("Endereço Inválido!");
+            return;
+        }
 
         Comprador comprador = new Comprador(nome, email, senha, cpf, endereco);
 
