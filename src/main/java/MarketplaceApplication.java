@@ -35,20 +35,24 @@ public class MarketplaceApplication {
             System.out.println("2 - Gerenciar Compradores");
             System.out.println("3 - Gerenciar Produtos");
             System.out.println("4 - Sair");
-            switch (getEscolha()) {
-                case 1:
-                    gerenciarLojas();
-                    break;
-                case 2:
-                    gerenciarCompradores();
-                    break;
-                case 3:
-                    gerenciarProdutos();
-                    break;
-                case 4:
-                    sair = true;
-                    break;
-            }
+            var escolha = getEscolha();
+                switch (escolha) {
+                    case 1:
+                        gerenciarLojas();
+                        break;
+                    case 2:
+                        gerenciarCompradores();
+                        break;
+                    case 3:
+                        gerenciarProdutos();
+                        break;
+                    case 4:
+                        sair = true;
+                        break;
+                    default:
+                        System.out.println("Escolha inválida!");
+                        break;
+                }
         }
 
 
@@ -57,8 +61,8 @@ public class MarketplaceApplication {
 
     public static int getEscolha() {
         var escolha = scanner.nextInt();
-        scanner.nextLine();
-        return escolha;
+            scanner.nextLine();
+            return escolha;
     }
 
     public static void gerenciarLojas() {
@@ -68,6 +72,7 @@ public class MarketplaceApplication {
         System.out.println("4 - Deletar loja");
         System.out.println("5 - Exibir todas as lojas");
         System.out.println("6 - Exibir produtos de uma loja");
+
         switch (getEscolha()) {
             case 1:
                 cadastrarLoja();
@@ -86,6 +91,9 @@ public class MarketplaceApplication {
                 break;
             case 6:
                 exibirProdutosByLoja();
+                break;
+            default:
+                System.out.println("Escolha inválida!");
                 break;
         }
     }
@@ -111,6 +119,9 @@ public class MarketplaceApplication {
                 break;
             case 5:
                 System.out.println(compradorController.getAllCompradores());
+                break;
+            default:
+                System.out.println("Escolha inválida!");
                 break;
         }
     }
@@ -141,24 +152,46 @@ public class MarketplaceApplication {
             case 6:
                 exibirProdutosByLoja();
                 break;
+            default:
+                System.out.println("Escolha inválida!");
+                break;
         }
     }
 
     private static void cadastrarLoja() {
         System.out.print("Nome: ");
         String nome = scanner.nextLine();
+        if (!Validation.nomeLojaValido(nome)) {
+            System.out.println("Nome inválido! O nome não pode conter simbolos e deve ter até no máximo 50 caracteres");
+            return;
+        }
 
         System.out.print("E-mail: ");
         String email = scanner.nextLine();
+        if (!Validation.emailValido(email)) {
+            System.out.println("Email inválido! O email deve conter simbolos.");
+            return;
+        }
 
         System.out.print("Senha: ");
         String senha = scanner.nextLine();
+        if (!Validation.senhaValida(senha)) {
+            System.out.println("Senha inválida! A senha deve conter de 6 a 20 caracteres.");
+            return;
+        }
 
         System.out.print("CNPJ: ");
         String cnpj = scanner.nextLine();
-
+        if(!Validation.CnpjValido(cnpj)){
+            System.out.println("Cnpj inválido!");
+            return;
+         }
         System.out.print("Endereço: ");
         String endereco = scanner.nextLine();
+        if (!Validation.enderecoValido(endereco)) {
+            System.out.println("Endereço Inválido!");
+            return;
+        }
 
         Loja loja = new Loja(nome, email, senha, cnpj, endereco);
 
@@ -169,7 +202,10 @@ public class MarketplaceApplication {
     private static void exibirLoja() {
         System.out.print("CNPJ da Loja: ");
         String cnpj = scanner.nextLine();
-
+        if(!Validation.CnpjValido(cnpj)){
+            System.out.println("Cnpj inválido!");
+            return;
+        }
         Loja retrievedLoja = lojaController.getLojaByCnpj(cnpj);
 
         System.out.println(retrievedLoja);
@@ -179,7 +215,10 @@ public class MarketplaceApplication {
     private static void atualizarLoja() {
         System.out.print("Informe o CNPJ da Loja: ");
         String cnpj = scanner.nextLine();
-
+        if(!Validation.CnpjValido(cnpj)){
+            System.out.println("Cnpj inválido!");
+            return;
+        }
         Loja retrievedLoja = lojaController.getLojaByCnpj(cnpj);
 
         if (retrievedLoja != null) {
@@ -187,18 +226,35 @@ public class MarketplaceApplication {
 
             System.out.print("Nome: ");
             String nome = scanner.nextLine();
+            if (!Validation.nomeLojaValido(nome)) {
+                System.out.println("Nome inválido! O nome não pode conter digitos e deve ter até no máximo 50 caracteres");
+                return;
+            }
             retrievedLoja.setNome(nome);
+            
 
             System.out.print("E-mail: ");
             String email = scanner.nextLine();
+            if (!Validation.emailValido(email)) {
+                System.out.println("Email inválido!");
+                return;
+            }
             retrievedLoja.setEmail(email);
 
             System.out.print("Senha: ");
             String senha = scanner.nextLine();
+            if (!Validation.senhaValida(senha)) {
+                System.out.println("Senha inválida! A senha deve conter de 6 a 20 caracteres.");
+                return;
+            }
             retrievedLoja.setSenha(senha);
 
             System.out.print("Endereço: ");
             String endereco = scanner.nextLine();
+            if (!Validation.enderecoValido(endereco)) {
+                System.out.println("Endereço Inválido!");
+                return;
+            }
             retrievedLoja.setEndereco(endereco);
 
             lojaController.updateLoja(cnpj, retrievedLoja);
@@ -214,7 +270,10 @@ public class MarketplaceApplication {
     private static void removerLoja() {
         System.out.print("CNPJ da Loja: ");
         String cnpj = scanner.nextLine();
-
+        if(!Validation.CnpjValido(cnpj)){
+            System.out.println("Cnpj inválido!");
+            return;
+        }
         Loja retrievedLoja = lojaController.getLojaByCnpj(cnpj);
 
         lojaController.deleteLoja(cnpj);
@@ -329,51 +388,51 @@ public class MarketplaceApplication {
         System.out.print("Nome: ");
         String nome = scanner.nextLine();
         if (!Validation.nomeProdutoValido(nome)) {
-            System.out.println("Nome inválido! O nome deve ter até no máximo 30 caracteres");
+            System.out.println("Nome inválido! O nome não deve ter símbolos e ter até no máximo 30 caracteres.");
             return;
         }
 
         System.out.print("Valor: ");
         double valor = Double.parseDouble(scanner.nextLine());
         if(!Validation.valorProdutoValido(valor)){
-            System.out.println("Valor inválido!");
+            System.out.println("Valor inválido! O valor não deve ter letras ou símbolos.");
             return;
         }
 
         System.out.print("Tipo: ");
         String tipo = scanner.nextLine();
         if(!Validation.tipoProdutoValido(tipo)){
-            System.out.println("Tipo de produto inválido!");
+            System.out.println("Tipo de produto inválido! O tipo não deve conter números ou símbolos e ter até no máximo 20 caracteres.");
             return;
         }
 
         System.out.print("Quantidade: ");
         int quantidade = Integer.parseInt(scanner.nextLine());
         if(!Validation.quantProdutoValido(quantidade)){
-            System.out.println("Quantidade de produto inválida!");
+            System.out.println("Quantidade de produto inválida! A quantidade não deve ter letras ou símbolos.");
             return;
         }
 
         System.out.print("Marca: ");
         String marca = scanner.nextLine();
         if(!Validation.marcaProdutoValido(marca)){
-            System.out.println("Marca de produto inválida!");
+            System.out.println("Marca de produto inválida! A marca não deve conter símbolos e ter até no máximo 20 caracteres.");
             return;
         }
 
         System.out.print("Descrição: ");
         String descricao = scanner.nextLine();
         if(!Validation.descricaoProdutoValido(descricao)){
-            System.out.println("Descrição inválida!");
+            System.out.println("Descrição inválida! A descrição deve ter até no máximo 100 caracteres.");
             return;
         }
 
         System.out.print("Cnpj da Loja: ");
         String lojaCnpj = scanner.nextLine();
-        /*if(!Validation.lojaCnpjValido(lojaCnpj)){
+        if(!Validation.CnpjValido(lojaCnpj)){
             System.out.println("Cnpj inválido!");
             return;
-        }*/
+        }
 
         Produto produto = new Produto(nome, valor, tipo, quantidade, marca, descricao, lojaCnpj);
         produtoController.createProduto(produto);

@@ -6,7 +6,7 @@ public class Validation {
     private static String EMAIL_REGEX = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@" + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
     private static String CPF_CNPJ_REGEX = "([0-9]{2}[\\.]?[0-9]{3}[\\.]?[0-9]{3}[\\/]?[0-9]{4}[-]" + "?[0-9]{2})|([0-9]{3}[\\.]?[0-9]{3}[\\.]?[0-9]{3}[-]?[0-9]{2})";
 
-    private static String NOME_PRODUTO_REGEX = "([0-9]*[a-zA-Z]+)|([a-zA-Z]+[0-9]*)";
+    private static String NOME_PRODUTO_REGEX = "^[a-zA-Z0-9 ]+$";
 
     private static String TIPO_REGEX = "^[a-zA-Z]*$";
 
@@ -17,6 +17,7 @@ public class Validation {
     private static String MARCA_REGEX = "([0-9]*[a-zA-Z]+)|([a-zA-Z]+[0-9]*)";
 
     private static String DESCRICAO_REGEX = ".*";
+
     private static boolean isAlphabetic(String string) {
         if (string == null) return true;
         return string.chars().noneMatch(Character::isDigit);
@@ -64,7 +65,7 @@ public class Validation {
     }
 
     public static boolean valorProdutoValido(Double valor) {
-       if(valor <= 0 || valor == null) { return false;}
+       if(valor <= 0 || valor == null || valor.isNaN()) { return false;}
        return patternMatches(Double.toString(valor),VALOR_REGEX);
     }
 
@@ -92,6 +93,17 @@ public class Validation {
             return patternMatches(descricao,DESCRICAO_REGEX);
         }
 
+    //LOJA VALIDAÇÃO
+    public static boolean nomeLojaValido(String nome){
+            if (nome == null || nome.isBlank()) return false;
+            if (nome.length() > 15) return false;
+            return patternMatches(nome,NOME_PRODUTO_REGEX);
+        }
+    public static boolean CnpjValido(String nome){
+            if (nome == null || nome.isBlank()) return false;
+            if (nome.length() > 18) return false;
+            return patternMatches(nome,CPF_CNPJ_REGEX);
+        }
 }
 
 
