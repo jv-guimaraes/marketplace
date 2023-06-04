@@ -1,32 +1,30 @@
 package repositories;
 import port.repositories.ILojaRepository;
+import util.JsonFileCRUDCompradorUtil;
 import util.JsonFileCRUDLojaUtil;
 import entities.Loja;
 
 import java.util.List;
 
 public class LojaRepository implements ILojaRepository {
-
-    public LojaRepository() {
+    private JsonFileCRUDLojaUtil collection;
+    public LojaRepository(JsonFileCRUDLojaUtil collection) {
+        this.collection = collection;
     }
-
     public List<Loja> getAllLojas() {
-        return JsonFileCRUDLojaUtil.getAllLojas();
+        return this.collection.getAllLojas();
     }
-
     public Loja getLojaByCnpj(String cnpj) {
-        return JsonFileCRUDLojaUtil.getLojaByCnpj(cnpj);
+        return this.collection.getLojaByCnpj(cnpj);
     }
-
     public void createLoja(Loja loja) {
-        JsonFileCRUDLojaUtil.createLoja(loja);
+        this.collection.createLoja(loja);
     }
-
     public void updateLoja(String cnpj, Loja loja) {
-        JsonFileCRUDLojaUtil.updateLoja(cnpj, loja);
+        this.collection.updateLoja(cnpj, loja);
     }
 
     public void deleteLoja(String cnpj) {
-        JsonFileCRUDLojaUtil.deleteLoja(cnpj);
+        this.collection.deleteLoja(cnpj);
     }
 }

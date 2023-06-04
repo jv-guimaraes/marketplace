@@ -8,11 +8,16 @@ import entities.Loja;
 import org.json.*;
 
 public class JsonFileCRUDLojaUtil {
+    private final JsonFileUtil jsonHandler;
 
-    private static final String JSON_FILE_PATH = "database/lojas.json";
+    private final String JSON_FILE_PATH = "database/lojas.json";
 
-    public static void createLoja(Loja loja) {
-        JSONArray jsonArray = JsonFileUtil.loadJsonArray(JSON_FILE_PATH);
+    public JsonFileCRUDLojaUtil(JsonFileUtil jsonHandler){
+        this.jsonHandler = jsonHandler;
+    }
+
+    public void createLoja(Loja loja) {
+        JSONArray jsonArray = this.jsonHandler.loadJsonArray(JSON_FILE_PATH);
 
         // Check if the CNPJ already exists
         for (int i = 0; i < jsonArray.length(); i++) {
@@ -27,17 +32,17 @@ public class JsonFileCRUDLojaUtil {
         JSONObject lojaJson = new JSONObject(loja);
         jsonArray.put(lojaJson);
 
-        JsonFileUtil.saveJsonArray(jsonArray, JSON_FILE_PATH);
+        this.jsonHandler.saveJsonArray(jsonArray, JSON_FILE_PATH);
         System.out.println("Loja created successfully.");
     }
 
-    public static Loja getLojaByCnpj(String cnpj) {
+    public Loja getLojaByCnpj(String cnpj) {
         File file = new File(JSON_FILE_PATH);
         if (!file.exists()) {
             return null;
         }
 
-        JSONArray jsonArray = JsonFileUtil.loadJsonArray(JSON_FILE_PATH);
+        JSONArray jsonArray = this.jsonHandler.loadJsonArray(JSON_FILE_PATH);
 
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject lojaJson = jsonArray.getJSONObject(i);
@@ -49,13 +54,13 @@ public class JsonFileCRUDLojaUtil {
         return null;
     }
 
-    public static List<Loja> getAllLojas() {
+    public List<Loja> getAllLojas() {
         File file = new File(JSON_FILE_PATH);
         if (!file.exists()) {
             return new ArrayList<>();
         }
 
-        JSONArray jsonArray = JsonFileUtil.loadJsonArray(JSON_FILE_PATH);
+        JSONArray jsonArray = this.jsonHandler.loadJsonArray(JSON_FILE_PATH);
         List<Loja> lojas = new ArrayList<>();
 
         for (int i = 0; i < jsonArray.length(); i++) {
@@ -67,13 +72,13 @@ public class JsonFileCRUDLojaUtil {
         return lojas;
     }
 
-    public static void updateLoja(String cnpj, Loja updatedLoja) {
+    public void updateLoja(String cnpj, Loja updatedLoja) {
         File file = new File(JSON_FILE_PATH);
         if (!file.exists()) {
             return;
         }
 
-        JSONArray jsonArray = JsonFileUtil.loadJsonArray(JSON_FILE_PATH);
+        JSONArray jsonArray = this.jsonHandler.loadJsonArray(JSON_FILE_PATH);
         boolean isUpdated = false;
 
         for (int i = 0; i < jsonArray.length(); i++) {
@@ -90,20 +95,20 @@ public class JsonFileCRUDLojaUtil {
         }
 
         if (isUpdated) {
-            JsonFileUtil.saveJsonArray(jsonArray, JSON_FILE_PATH);
+            this.jsonHandler.saveJsonArray(jsonArray, JSON_FILE_PATH);
             System.out.println("Loja updated successfully.");
         } else {
             System.out.println("Loja not found.");
         }
     }
 
-    public static void deleteLoja(String cnpj) {
+    public void deleteLoja(String cnpj) {
         File file = new File(JSON_FILE_PATH);
         if (!file.exists()) {
             return;
         }
 
-        JSONArray jsonArray = JsonFileUtil.loadJsonArray(JSON_FILE_PATH);
+        JSONArray jsonArray = this.jsonHandler.loadJsonArray(JSON_FILE_PATH);
         boolean isDeleted = false;
 
         for (int i = 0; i < jsonArray.length(); i++) {
@@ -116,7 +121,7 @@ public class JsonFileCRUDLojaUtil {
         }
 
         if (isDeleted) {
-            JsonFileUtil.saveJsonArray(jsonArray, JSON_FILE_PATH);
+            this.jsonHandler.saveJsonArray(jsonArray, JSON_FILE_PATH);
             System.out.println("Loja deleted successfully.");
         } else {
             System.out.println("Loja not found.");

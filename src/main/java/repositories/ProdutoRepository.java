@@ -7,27 +7,31 @@ import util.JsonFileCRUDProdutoUtil;
 import java.util.List;
 
 public class ProdutoRepository implements IProdutoRepository {
+    private JsonFileCRUDProdutoUtil collection;
+    public ProdutoRepository(JsonFileCRUDProdutoUtil collection){
+        this.collection = collection;
+    }
     public List<Produto> getAllProdutos() {
-        return JsonFileCRUDProdutoUtil.getAllProdutos();
+        return this.collection.getAllProdutos();
     }
 
     public Produto getProdutoById(long id) {
-        return JsonFileCRUDProdutoUtil.getProdutoById(id);
+        return this.collection.getProdutoById(id);
     }
 
     public void createProduto(Produto produto) {
-        JsonFileCRUDProdutoUtil.createProduto(produto);
+        this.collection.createProduto(produto);
     }
 
     public void updateProduto(long id, Produto produto) {
-        JsonFileCRUDProdutoUtil.updateProduto(id, produto);
+        this.collection.updateProduto(id, produto);
     }
 
     public void deleteProduto(long id) {
-        JsonFileCRUDProdutoUtil.deleteProduto(id);
+        this.collection.deleteProduto(id);
     }
 
     public List<Produto> getProdutosByLoja(String cnpj) {
-        return JsonFileCRUDProdutoUtil.getProdutosByLoja(cnpj);
+        return this.collection.getProdutosByLoja(cnpj);
     }
 }

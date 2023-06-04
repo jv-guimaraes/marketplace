@@ -11,15 +11,22 @@ import services.CompradorService;
 import services.LojaService;
 import services.ProdutoService;
 import util.JsonFileCRUDCompradorUtil;
+import util.JsonFileCRUDLojaUtil;
+import util.JsonFileCRUDProdutoUtil;
+import util.JsonFileUtil;
 import validation.Validation;
 
 import java.util.List;
 import java.util.Scanner;
 
 public class MarketplaceApplication {
-    private static final CompradorRepository compradorRepository = new CompradorRepository(new JsonFileCRUDCompradorUtil());
-    private static final LojaRepository lojaRepository = new LojaRepository();
-    private static final ProdutoRepository produtoRepository = new ProdutoRepository();
+    private static final JsonFileUtil jsonFileUtil = new JsonFileUtil();
+    private static final JsonFileCRUDCompradorUtil jsonFileCRUDComprador = new JsonFileCRUDCompradorUtil(jsonFileUtil);
+    private static final JsonFileCRUDLojaUtil jsonFileCRUDLoja = new JsonFileCRUDLojaUtil(jsonFileUtil);
+    private static final JsonFileCRUDProdutoUtil jsonFileCRUDProduto = new JsonFileCRUDProdutoUtil(jsonFileUtil);
+    private static final CompradorRepository compradorRepository = new CompradorRepository(jsonFileCRUDComprador);
+    private static final LojaRepository lojaRepository = new LojaRepository(jsonFileCRUDLoja);
+    private static final ProdutoRepository produtoRepository = new ProdutoRepository(jsonFileCRUDProduto);
     private static final LojaService lojaService = new LojaService(lojaRepository);
     private static final LojaController lojaController = new LojaController(lojaService);
     private static final CompradorService compradorService = new CompradorService(compradorRepository);

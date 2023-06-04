@@ -20,7 +20,7 @@ public class CompradorRepositoryTest {
     @Test
     public void getCompradorByCpf() throws Exception {
         String cpf = comprador.getCpf();
-        JsonFileCRUDCompradorUtil mock = mock();
+        JsonFileCRUDCompradorUtil mock = mock(JsonFileCRUDCompradorUtil.class);
         when(mock.getCompradorByCpf(cpf)).thenReturn(comprador);
         CompradorRepository repository = new CompradorRepository(mock);
         assertTrue(repository.getCompradorByCpf(cpf).equals(comprador));
@@ -30,31 +30,31 @@ public class CompradorRepositoryTest {
     public void getAllCompradores() throws Exception {
         JsonFileCRUDCompradorUtil mock = mock();
         when(mock.getAllCompradores()).thenReturn(compradorArray);
-        CompradorRepository service = new CompradorRepository(mock);
-        assertTrue(service.getAllCompradores().equals(compradorArray));
+        CompradorRepository repository = new CompradorRepository(mock);
+        assertTrue(repository.getAllCompradores().equals(compradorArray));
         verify(mock, times(1)).getAllCompradores();
     }
     @Test
     public void createComprador() throws Exception {
         JsonFileCRUDCompradorUtil mock = mock();
-        CompradorRepository service = new CompradorRepository(mock);
-        service.createComprador(comprador);
+        CompradorRepository repository = new CompradorRepository(mock);
+        repository.createComprador(comprador);
         verify(mock, times(1)).createComprador(comprador);
     }
     @Test
     public void updateComprador() throws Exception {
         String cpf = comprador.getCpf();
         JsonFileCRUDCompradorUtil mock = mock();
-        CompradorRepository service = new CompradorRepository(mock);
-        service.updateComprador(cpf, comprador);
+        CompradorRepository repository = new CompradorRepository(mock);
+        repository.updateComprador(cpf, comprador);
         verify(mock, times(1)).updateComprador(cpf, comprador);
     }
     @Test
     public void deleteComprador() throws Exception {
         String cpf = comprador.getCpf();
         JsonFileCRUDCompradorUtil mock = mock();
-        CompradorRepository service = new CompradorRepository(mock);
-        service.deleteComprador(cpf);
+        CompradorRepository repository = new CompradorRepository(mock);
+        repository.deleteComprador(cpf);
         verify(mock, times(1)).deleteComprador(cpf);
     }
 }
