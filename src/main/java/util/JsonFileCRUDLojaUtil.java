@@ -15,6 +15,12 @@ public class JsonFileCRUDLojaUtil {
     public JsonFileCRUDLojaUtil(JsonFileUtil jsonHandler){
         this.jsonHandler = jsonHandler;
     }
+    public String getFilePath(){
+        return JSON_FILE_PATH;
+    }
+    private File getFile(){
+        return new File(JSON_FILE_PATH);
+    }
 
     public void createLoja(Loja loja) {
         JSONArray jsonArray = this.jsonHandler.loadJsonArray(JSON_FILE_PATH);
@@ -37,7 +43,7 @@ public class JsonFileCRUDLojaUtil {
     }
 
     public Loja getLojaByCnpj(String cnpj) {
-        File file = new File(JSON_FILE_PATH);
+        File file = this.getFile();
         if (!file.exists()) {
             return null;
         }
@@ -55,7 +61,7 @@ public class JsonFileCRUDLojaUtil {
     }
 
     public List<Loja> getAllLojas() {
-        File file = new File(JSON_FILE_PATH);
+        File file = this.getFile();
         if (!file.exists()) {
             return new ArrayList<>();
         }
@@ -73,7 +79,7 @@ public class JsonFileCRUDLojaUtil {
     }
 
     public void updateLoja(String cnpj, Loja updatedLoja) {
-        File file = new File(JSON_FILE_PATH);
+        File file = this.getFile();
         if (!file.exists()) {
             return;
         }
@@ -103,7 +109,7 @@ public class JsonFileCRUDLojaUtil {
     }
 
     public void deleteLoja(String cnpj) {
-        File file = new File(JSON_FILE_PATH);
+        File file = this.getFile();
         if (!file.exists()) {
             return;
         }

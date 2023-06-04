@@ -16,9 +16,15 @@ public class JsonFileCRUDProdutoUtil {
         this.jsonHandler = jsonHandler;
     }
 
+    public String getFilePath(){
+        return JSON_FILE_PATH;
+    }
+    private File getFile(){
+        return new File(JSON_FILE_PATH);
+    }
     public void createProduto(Produto produto) {
         JSONArray jsonArray;
-        File file = new File(JSON_FILE_PATH);
+        File file = this.getFile();
 
         if (file.exists()) {
             jsonArray = this.jsonHandler.loadJsonArray(JSON_FILE_PATH);
@@ -63,7 +69,7 @@ public class JsonFileCRUDProdutoUtil {
     }
 
     public Produto getProdutoById(long id) {
-        File file = new File(JSON_FILE_PATH);
+        File file = this.getFile();
         if (!file.exists()) {
             return null;
         }
@@ -84,7 +90,7 @@ public class JsonFileCRUDProdutoUtil {
     }
 
     public List<Produto> getProdutosByLoja(String cnpj) {
-        File file = new File(JSON_FILE_PATH);
+        File file = this.getFile();
         if (!file.exists()) {
             return null;
         }
@@ -104,7 +110,7 @@ public class JsonFileCRUDProdutoUtil {
     }
 
     public void updateProduto(long id, Produto produto) {
-        File file = new File(JSON_FILE_PATH);
+        File file = this.getFile();
         if (!file.exists()) {
             return;
         }
@@ -131,7 +137,7 @@ public class JsonFileCRUDProdutoUtil {
     }
 
     public void deleteProduto(long id) {
-        File file = new File(JSON_FILE_PATH);
+        File file = this.getFile();
         if (!file.exists()) {
             return;
         }
@@ -151,7 +157,7 @@ public class JsonFileCRUDProdutoUtil {
     }
 
     public List<Produto> getAllProdutos() {
-        File file = new File(JSON_FILE_PATH);
+        File file = this.getFile();
         if (!file.exists()) {
             return new ArrayList<>();
         }

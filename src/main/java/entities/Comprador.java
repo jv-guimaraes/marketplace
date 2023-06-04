@@ -91,6 +91,14 @@ public class Comprador {
     public void setSenha(String senha) {
         this.senha = senha;
     }
+    public Comprador clone(){
+        Comprador newComprador = new Comprador();
+        newComprador.setCpf(this.cpf);
+        newComprador.setEmail(this.email);
+        newComprador.setEndereco(this.endereco);
+        newComprador.setSenha(this.senha);
+        return newComprador;
+    }
 
     @Override
     public String toString() {

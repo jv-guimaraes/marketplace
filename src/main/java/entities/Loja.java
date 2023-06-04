@@ -30,6 +30,14 @@ public class Loja {
         this.cnpj = jsonObject.getString("cnpj");
         this.endereco = jsonObject.getString("endereco");
     }
+    public Loja clone(){
+        Loja newLoja = new Loja();
+        newLoja.setCnpj(this.cnpj);
+        newLoja.setEmail(this.email);
+        newLoja.setEndereco(this.endereco);
+        newLoja.setSenha(this.senha);
+        return newLoja;
+    }
 
     public String getNome() {
         return nome;

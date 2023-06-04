@@ -26,8 +26,18 @@ public class Produto {
         this.descricao = descricao;
         this.lojaCnpj = lojaCnpj;
     }
-
+    public Produto clone(){
+        Produto newProduto = new Produto();
+        newProduto.setNome(this.nome);
+        newProduto.setDescricao(this.descricao);
+        newProduto.setTipo(this.tipo);
+        newProduto.setMarca(this.marca);
+        newProduto.setQuantidade(this.quantidade);
+        newProduto.setValor(this.valor);
+        return newProduto;
+    }
     public Produto(JSONObject jsonObject) {
+        this.id = jsonObject.getLong("id");
         this.nome = jsonObject.getString("nome");
         this.valor = jsonObject.getDouble("valor");
         this.tipo = jsonObject.getString("tipo");

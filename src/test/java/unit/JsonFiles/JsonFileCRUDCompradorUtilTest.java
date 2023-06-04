@@ -50,4 +50,53 @@ public class JsonFileCRUDCompradorUtilTest {
         assertTrue(jsonFileCRUD.getCompradorByCpf(cpf).equals(comprador));
         verify(mock, times(1)).loadJsonArray(filePath);
     }
+    @Test
+    public void getAllCompradores() throws Exception {
+        List<Comprador> result = Arrays.asList(comprador);
+        MyJsonFileUtil mock = mock(MyJsonFileUtil.class);
+        JsonFileCRUDCompradorUtil jsonFileCRUD = new JsonFileCRUDCompradorUtil(mock);
+        String filePath = jsonFileCRUD.getFilePath();
+
+        when(mock.loadJsonArray(filePath)).thenReturn(getFilledArray);
+        assertTrue(jsonFileCRUD.getAllCompradores().equals(result));
+        verify(mock, times(1)).loadJsonArray(filePath);
+    }
+    @Test
+    public void createComprador() throws Exception {
+        MyJsonFileUtil mock = mock(MyJsonFileUtil.class);
+        JsonFileCRUDCompradorUtil jsonFileCRUD = new JsonFileCRUDCompradorUtil(mock);
+        String filePath = jsonFileCRUD.getFilePath();
+
+        when(mock.loadJsonArray(filePath)).thenReturn(getFilledArray);
+        jsonFileCRUD.createComprador(comprador);
+        verify(mock, times(1)).loadJsonArray(filePath);
+    }
+    @Test
+    public void updateComprador() throws Exception {
+        String cpf = comprador.getCpf();
+
+        String alteredEmail = "altered@gmail.com";
+
+        Comprador alteredComprador = comprador.clone();
+        alteredComprador.setEmail(alteredEmail);
+
+        MyJsonFileUtil mock = mock(MyJsonFileUtil.class);
+        JsonFileCRUDCompradorUtil jsonFileCRUD = new JsonFileCRUDCompradorUtil(mock);
+        String filePath = jsonFileCRUD.getFilePath();
+
+        when(mock.loadJsonArray(filePath)).thenReturn(getFilledArray);
+        jsonFileCRUD.updateComprador(cpf, alteredComprador);
+        verify(mock, times(1)).loadJsonArray(filePath);
+    }
+    @Test
+    public void deleteComprador() throws Exception {
+        String cpf = comprador.getCpf();
+        MyJsonFileUtil mock = mock(MyJsonFileUtil.class);
+        JsonFileCRUDCompradorUtil jsonFileCRUD = new JsonFileCRUDCompradorUtil(mock);
+        String filePath = jsonFileCRUD.getFilePath();
+
+        when(mock.loadJsonArray(filePath)).thenReturn(getFilledArray);
+        jsonFileCRUD.deleteComprador(cpf);
+        verify(mock, times(1)).loadJsonArray(filePath);
+    }
 }

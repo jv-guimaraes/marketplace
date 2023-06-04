@@ -17,6 +17,7 @@ public class ProdutoEntityTest {
     public void produtoFromObject(){
         JSONObject json = new JSONObject();
         produtoFilled.setId(1L);
+        json.put("id", produtoFilled.getId());
         json.put("nome", produtoFilled.getNome());
         json.put("valor", produtoFilled.getValor());
         json.put("tipo", produtoFilled.getTipo());
