@@ -25,7 +25,7 @@ public class Validation {
         return string.chars().noneMatch(Character::isDigit);
     }
 
-    public static boolean patternMatches(String string, String regexPattern) {
+    protected static boolean patternMatches(String string, String regexPattern) {
         return Pattern.compile(regexPattern).matcher(string).matches();
     }
 
@@ -100,10 +100,10 @@ public class Validation {
             if (nome.length() > 15) return false;
             return patternMatches(nome,NOME_PRODUTO_REGEX);
         }
-    public static boolean CnpjValido(String nome){
-            if (nome == null || nome.isBlank()) return false;
-            if (nome.length() > 18) return false;
-            return patternMatches(nome,CPF_CNPJ_REGEX);
+    public static boolean CnpjValido(String cnpj){
+            if (cnpj == null || cnpj.isBlank()) return false;
+            if (cnpj.length() > 18) return false;
+            return patternMatches(cnpj,CPF_CNPJ_REGEX);
     }
 }
 

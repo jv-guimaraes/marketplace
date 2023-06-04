@@ -1,11 +1,12 @@
 package validation;
 
+import org.json.JSONArray;
 import org.junit.jupiter.api.Test;
+import util.JsonFileUtil;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class ValidationTest {
-
     @Test
     void emailValido() {
         String emailValido = "jose@gmail.com";
@@ -90,23 +91,39 @@ class ValidationTest {
 
     @Test
     void  descricaoProdutoValido(){
-        String marcaProdutoValido = "Uma descrição Breve";
-        assertFalse(Validation.marcaProdutoValido(marcaProdutoValido));
-        String marcaProdutoInvalido = "maahsldhsjgasfsfgsljfsçkjfkfgfhgfhjgfhgfkhfkhfkfhgdkdhfkjhgkhgdldfjfhdflkfjfhfdkjglhflfljghlhglfdhfdlfdhjgljglhgljjllhfghjgfdhglfhgkgfkhgfkhfkhgfkfgfkhgkfgkfhgfkgdldudyrurghrgxhfl";
-        assertFalse(Validation.marcaProdutoValido(marcaProdutoInvalido));
+        String descricaoProdutoValido = "UmadescricaoBreve";
+        assertTrue(Validation.descricaoProdutoValido(descricaoProdutoValido));
+        String descricaoProdutoInvalido = "maahsldhsjgasfsfgsljfsçkjfkfgfhgfhjgfhgfkhfkhfkfhgdkdhfkjhgkhgdldfjfhdflkfjfhfdkjglhflfljghlhglfdhfdlfdhjgljglhgljjllhfghjgfdhglfhgkgfkhgfkhfkhgfkfgfkhgkfgkfhgfkgdldudyrurghrgxhfl";
+        assertFalse(Validation.descricaoProdutoValido(descricaoProdutoInvalido));
     }
 
     @Test
     void  nomeLojaValido(){
-
+        String nomeLojaValido = "americanas";
+        assertTrue(Validation.nomeLojaValido(nomeLojaValido));
+        String nomeLojaInvalido = "Americanas1#Company";
+        assertFalse(Validation.nomeLojaValido(nomeLojaInvalido));
     }
 
     @Test
     void  CnpjValido(){
-
+        String cpfCnpjValido = "93.763.071/0001-27";
+        assertTrue(Validation.cpfCnpjValido(cpfCnpjValido));
+        String cpfCnpjInvalido = "93.763.071001-2-7";
+        assertFalse(Validation.cpfCnpjValido(cpfCnpjInvalido));
+        String cpfCnpjBlank = "";
+        assertFalse(Validation.cpfCnpjValido(cpfCnpjBlank));
+        String cpfCnpjBig = "maahsldhsjgasfsfgsljfsçkjfkfgfhgfhjgfhgfkhfkhfkfhgdkdhfkjhgkhgdldfjfhdflkfjfhfdkjglhflfljghlhglfdhfdlfdhjgljglhgljjllhfghjgfdhglfhgkgfkhgfkhfkhgfkfgfkhgkfgkfhgfkgdldudyrurghrgxhfl";
+        assertFalse(Validation.cpfCnpjValido(cpfCnpjBig));
     }
     @Test
     void nomeProdutoValido(){
-
+        String nomeProdutoValido = "IPHONE";
+        assertTrue(Validation.nomeProdutoValido(nomeProdutoValido));
+        String nomeProdutoInvalido = "I#BOP";
+        assertFalse(Validation.nomeProdutoValido(nomeProdutoInvalido));
+        String nomeProdutoBlank = "";
+        assertFalse(Validation.nomeProdutoValido(nomeProdutoBlank));
     }
+
 }
