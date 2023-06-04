@@ -2,32 +2,35 @@ package repositories;
 
 
 import entities.Comprador;
+import port.repositories.ICompradorRepository;
 import util.JsonFileCRUDCompradorUtil;
 
 import java.util.List;
 
-public class CompradorRepository {
+public class CompradorRepository implements ICompradorRepository {
+    private JsonFileCRUDCompradorUtil collection;
 
-    public CompradorRepository() {
+    public CompradorRepository(JsonFileCRUDCompradorUtil collection) {
+        this.collection = collection;
     }
 
     public List<Comprador> getAllCompradores() {
-        return JsonFileCRUDCompradorUtil.getAllCompradores();
+        return this.collection.getAllCompradores();
     }
 
     public Comprador getCompradorByCpf(String cpf) {
-        return JsonFileCRUDCompradorUtil.getCompradorByCpf(cpf);
+        return this.collection.getCompradorByCpf(cpf);
     }
 
     public void createComprador(Comprador comprador) {
-        JsonFileCRUDCompradorUtil.createComprador(comprador);
+        this.collection.createComprador(comprador);
     }
 
     public void updateComprador(String cpf, Comprador comprador) {
-        JsonFileCRUDCompradorUtil.updateComprador(cpf, comprador);
+        this.collection.updateComprador(cpf, comprador);
     }
 
     public void deleteComprador(String cpf) {
-        JsonFileCRUDCompradorUtil.deleteComprador(cpf);
+        this.collection.deleteComprador(cpf);
     }
 }

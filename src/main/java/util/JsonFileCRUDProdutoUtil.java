@@ -2,22 +2,32 @@ package util;
 
 import entities.Produto;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.*;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 public class JsonFileCRUDProdutoUtil {
-    private static final String JSON_FILE_PATH = "produtos.json";
+    private final JsonFileUtil jsonHandler;
+    private final String JSON_FILE_PATH = "database/produtos.json";
 
-    public static void createProduto(Produto produto) {
+    public JsonFileCRUDProdutoUtil(JsonFileUtil jsonHandler){
+        this.jsonHandler = jsonHandler;
+    }
+
+    public String getFilePath(){
+        return JSON_FILE_PATH;
+    }
+    private File getFile(){
+        return new File(JSON_FILE_PATH);
+    }
+    public void createProduto(Produto produto) {
         JSONArray jsonArray;
-        File file = new File(JSON_FILE_PATH);
+        File file = this.getFile();
 
         if (file.exists()) {
-            jsonArray = JsonFileUtil.loadJsonArray(JSON_FILE_PATH);
+            jsonArray = this.jsonHandler.loadJsonArray(JSON_FILE_PATH);
         } else {
             jsonArray = new JSONArray();
         }
@@ -38,40 +48,38 @@ public class JsonFileCRUDProdutoUtil {
         // Set the new id in the produto object
         produto.setId(newId);
 
-        JSONObject produtoJson = new JSONObject();
-        produtoJson.put("id", produto.getId());
-        produtoJson.put("nome", produto.getNome());
-        produtoJson.put("valor", produto.getValor());
-        produtoJson.put("tipo", produto.getTipo());
-        produtoJson.put("quantidade", produto.getQuantidade());
-        produtoJson.put("marca", produto.getMarca());
-        produtoJson.put("descricao", produto.getDescricao());
+        // Check if lojaCnpj is valid
+        Boolean cnpjValido = false;
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject produtoJson = jsonArray.getJSONObject(i);
+            if (produtoJson.getString("lojaCnpj").equals(produto.getLojaCnpj())) {
+                cnpjValido = true;
+            }
+        }
+        if (!cnpjValido) {
+            System.out.println("Falha ao criar Produto. CNPJ da loja não foi encontrado.");
+            return;
+        }
 
+        JSONObject produtoJson = new JSONObject(produto);
         jsonArray.put(produtoJson);
 
-        JsonFileUtil.saveJsonArray(jsonArray, JSON_FILE_PATH);
+        this.jsonHandler.saveJsonArray(jsonArray, JSON_FILE_PATH);
 
     }
 
-    public static Produto getProdutoById(long id) {
-        File file = new File(JSON_FILE_PATH);
+    public Produto getProdutoById(long id) {
+        File file = this.getFile();
         if (!file.exists()) {
             return null;
         }
 
-        JSONArray jsonArray = JsonFileUtil.loadJsonArray(JSON_FILE_PATH);
+        JSONArray jsonArray = this.jsonHandler.loadJsonArray(JSON_FILE_PATH);
 
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject produtoJson = jsonArray.getJSONObject(i);
             if (produtoJson.getLong("id") == id) {
-                String nome = produtoJson.getString("nome");
-                double valor = produtoJson.getDouble("valor");
-                String tipo = produtoJson.getString("tipo");
-                int quantidade = produtoJson.getInt("quantidade");
-                String marca = produtoJson.getString("marca");
-                String descricao = produtoJson.getString("descricao");
-
-                Produto produto = new Produto(nome, valor, tipo, quantidade, marca, descricao);
+                Produto produto = new Produto(produtoJson);
                 produto.setId(id);
 
                 return produto;
@@ -81,13 +89,33 @@ public class JsonFileCRUDProdutoUtil {
         return null;
     }
 
-    public static void updateProduto(long id, Produto produto) {
-        File file = new File(JSON_FILE_PATH);
+    public List<Produto> getProdutosByLoja(String cnpj) {
+        File file = this.getFile();
+        if (!file.exists()) {
+            return null;
+        }
+
+        JSONArray jsonArray = this.jsonHandler.loadJsonArray(JSON_FILE_PATH);
+        List<Produto> produtos = new ArrayList<>();
+
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject produtoJson = jsonArray.getJSONObject(i);
+            if (produtoJson.getString("lojaCnpj").equals(cnpj)) {
+                Produto produto = new Produto(produtoJson);
+                produtos.add(produto);
+            }
+        }
+
+        return produtos;
+    }
+
+    public void updateProduto(long id, Produto produto) {
+        File file = this.getFile();
         if (!file.exists()) {
             return;
         }
 
-        JSONArray jsonArray = JsonFileUtil.loadJsonArray(JSON_FILE_PATH);
+        JSONArray jsonArray = this.jsonHandler.loadJsonArray(JSON_FILE_PATH);
 
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject produtoJson = jsonArray.getJSONObject(i);
@@ -99,7 +127,7 @@ public class JsonFileCRUDProdutoUtil {
                 produtoJson.put("marca", produto.getMarca());
                 produtoJson.put("descricao", produto.getDescricao());
 
-                JsonFileUtil.saveJsonArray(jsonArray, JSON_FILE_PATH);
+                this.jsonHandler.saveJsonArray(jsonArray, JSON_FILE_PATH);
                 System.out.println("Produto updated successfully.");
                 return;
             }
@@ -108,19 +136,19 @@ public class JsonFileCRUDProdutoUtil {
         System.out.println("Produto not found.");
     }
 
-    public static void deleteProduto(long id) {
-        File file = new File(JSON_FILE_PATH);
+    public void deleteProduto(long id) {
+        File file = this.getFile();
         if (!file.exists()) {
             return;
         }
 
-        JSONArray jsonArray = JsonFileUtil.loadJsonArray(JSON_FILE_PATH);
+        JSONArray jsonArray = this.jsonHandler.loadJsonArray(JSON_FILE_PATH);
 
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject produtoJson = jsonArray.getJSONObject(i);
             if (produtoJson.getLong("id") == id) {
                 jsonArray.remove(i);
-                JsonFileUtil.saveJsonArray(jsonArray, JSON_FILE_PATH);
+                this.jsonHandler.saveJsonArray(jsonArray, JSON_FILE_PATH);
                 return;
             }
         }
@@ -128,26 +156,19 @@ public class JsonFileCRUDProdutoUtil {
         System.out.println("Produto not found.");
     }
 
-    public static List<Produto> getAllProdutos() {
-        File file = new File(JSON_FILE_PATH);
+    public List<Produto> getAllProdutos() {
+        File file = this.getFile();
         if (!file.exists()) {
             return new ArrayList<>();
         }
 
-        JSONArray jsonArray = JsonFileUtil.loadJsonArray(JSON_FILE_PATH);
+        JSONArray jsonArray = this.jsonHandler.loadJsonArray(JSON_FILE_PATH);
         List<Produto> produtos = new ArrayList<>();
 
         for (int i = 0; i < jsonArray.length(); i++) {
             JSONObject produtoJson = jsonArray.getJSONObject(i);
             long id = produtoJson.getLong("id");
-            String nome = produtoJson.getString("nome");
-            double valor = produtoJson.getDouble("valor");
-            String tipo = produtoJson.getString("tipo");
-            int quantidade = produtoJson.getInt("quantidade");
-            String marca = produtoJson.getString("marca");
-            String descricao = produtoJson.getString("descricao");
-
-            Produto produto = new Produto(nome, valor, tipo, quantidade, marca, descricao);
+            Produto produto = new Produto(produtoJson);
             produto.setId(id);
 
             produtos.add(produto);

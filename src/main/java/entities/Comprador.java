@@ -1,5 +1,7 @@
 package entities;
 
+import org.json.JSONObject;
+
 import java.util.Objects;
 
 public class Comprador {
@@ -19,6 +21,14 @@ public class Comprador {
         this.senha = senha;
         this.cpf = cpf;
         this.endereco = endereco;
+    }
+
+    public Comprador(JSONObject jsonObject) {
+        this.nome = jsonObject.getString("nome");
+        this.email = jsonObject.getString("email");
+        this.senha = jsonObject.getString("senha");
+        this.cpf = jsonObject.getString("cpf");
+        this.endereco = jsonObject.getString("endereco");
     }
 
     public String getNome() {
@@ -80,6 +90,14 @@ public class Comprador {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+    public Comprador clone(){
+        Comprador newComprador = new Comprador();
+        newComprador.setCpf(this.cpf);
+        newComprador.setEmail(this.email);
+        newComprador.setEndereco(this.endereco);
+        newComprador.setSenha(this.senha);
+        return newComprador;
     }
 
     @Override

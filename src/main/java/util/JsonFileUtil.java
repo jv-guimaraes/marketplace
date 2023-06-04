@@ -7,7 +7,7 @@ import java.io.*;
 
 public class JsonFileUtil {
 
-    protected static JSONArray loadJsonArray(String jsonFilePath) {
+    protected JSONArray loadJsonArray(String jsonFilePath) {
         try {
             File file = new File(jsonFilePath);
             if (!file.exists()) {
@@ -22,7 +22,7 @@ public class JsonFileUtil {
         }
     }
 
-    protected static void saveJsonArray(JSONArray jsonArray, String jsonFilePath) {
+    protected void saveJsonArray(JSONArray jsonArray, String jsonFilePath) {
         try (FileWriter fileWriter = new FileWriter(jsonFilePath)) {
             fileWriter.write(jsonArray.toString());
             fileWriter.flush();
@@ -31,7 +31,7 @@ public class JsonFileUtil {
         }
     }
 
-    protected static String readFileContent(File file) {
+    protected String readFileContent(File file) {
         StringBuilder content = new StringBuilder();
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String line;

@@ -1,15 +1,16 @@
 package services;
 
 import entities.Produto;
+import port.services.IProdutoService;
 import repositories.ProdutoRepository;
 
 import java.util.List;
 
-public class ProdutoService {
+public class ProdutoService implements IProdutoService {
     private final ProdutoRepository produtoRepository;
 
-    public ProdutoService() {
-        this.produtoRepository = new ProdutoRepository();
+    public ProdutoService(ProdutoRepository repository) {
+        this.produtoRepository = repository;
     }
 
     public List<Produto> getAllProdutos() {
@@ -30,5 +31,9 @@ public class ProdutoService {
 
     public void deleteProduto(long id) {
         produtoRepository.deleteProduto(id);
+    }
+
+    public List<Produto> getProdutosByLoja(String cnpj) {
+        return produtoRepository.getProdutosByLoja(cnpj);
     }
 }

@@ -1,5 +1,7 @@
 package entities;
 
+import org.json.JSONObject;
+
 import java.util.Objects;
 
 public class Produto {
@@ -11,17 +13,38 @@ public class Produto {
     Integer quantidade;
     String marca;
     String descricao;
-
+    String lojaCnpj;
     public Produto() {
     }
 
-    public Produto(String nome, Double valor, String tipo, Integer quantidade, String marca, String descricao) {
+    public Produto(String nome, Double valor, String tipo, Integer quantidade, String marca, String descricao, String lojaCnpj) {
         this.nome = nome;
         this.valor = valor;
         this.tipo = tipo;
         this.quantidade = quantidade;
         this.marca = marca;
         this.descricao = descricao;
+        this.lojaCnpj = lojaCnpj;
+    }
+    public Produto clone(){
+        Produto newProduto = new Produto();
+        newProduto.setNome(this.nome);
+        newProduto.setDescricao(this.descricao);
+        newProduto.setTipo(this.tipo);
+        newProduto.setMarca(this.marca);
+        newProduto.setQuantidade(this.quantidade);
+        newProduto.setValor(this.valor);
+        return newProduto;
+    }
+    public Produto(JSONObject jsonObject) {
+        this.id = jsonObject.getLong("id");
+        this.nome = jsonObject.getString("nome");
+        this.valor = jsonObject.getDouble("valor");
+        this.tipo = jsonObject.getString("tipo");
+        this.quantidade = jsonObject.getInt("quantidade");
+        this.marca = jsonObject.getString("marca");
+        this.descricao = jsonObject.getString("descricao");
+        this.lojaCnpj = jsonObject.getString("lojaCnpj");
     }
 
     public java.lang.Long getId() {
@@ -79,6 +102,10 @@ public class Produto {
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
+
+    public String getLojaCnpj() { return lojaCnpj; }
+
+    public void setLojaCnpj(String lojaCnpj) { this.lojaCnpj = lojaCnpj; }
 
     @Override
     public boolean equals(Object o) {
