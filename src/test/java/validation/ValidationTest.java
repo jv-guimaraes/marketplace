@@ -105,8 +105,8 @@ class ValidationTest {
     void  CnpjValido(){
 
     }
+    @Test
+    void nomeProdutoValido(){
 
-
-
-
+    }
 }

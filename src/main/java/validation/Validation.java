@@ -88,7 +88,6 @@ public class Validation {
             return patternMatches(marca,MARCA_REGEX);
         }
 
-
     public static boolean descricaoProdutoValido(String descricao){
             if (descricao == null || descricao.isBlank()) return false;
             if (descricao.length() > 100) return false;
@@ -105,7 +104,7 @@ public class Validation {
             if (nome == null || nome.isBlank()) return false;
             if (nome.length() > 18) return false;
             return patternMatches(nome,CPF_CNPJ_REGEX);
-        }
+    }
 }
 
 

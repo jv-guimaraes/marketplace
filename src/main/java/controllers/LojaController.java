@@ -7,7 +7,6 @@ import java.util.List;
 
 public class LojaController {
     private final LojaService lojaService;
-
     public LojaController(LojaService service) {
         this.lojaService = service;
     }
