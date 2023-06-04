@@ -1,38 +1,14 @@
-import controllers.CompradorController;
-import controllers.LojaController;
-import controllers.ProdutoController;
 import entities.Comprador;
 import entities.Loja;
 import entities.Produto;
-import repositories.CompradorRepository;
-import repositories.LojaRepository;
-import repositories.ProdutoRepository;
-import services.CompradorService;
-import services.LojaService;
-import services.ProdutoService;
-import util.JsonFileCRUDCompradorUtil;
-import util.JsonFileCRUDLojaUtil;
-import util.JsonFileCRUDProdutoUtil;
-import util.JsonFileUtil;
 import validation.Validation;
+import di.DI;
 
 import java.util.List;
 import java.util.Scanner;
 
 public class MarketplaceApplication {
-    private static final JsonFileUtil jsonFileUtil = new JsonFileUtil();
-    private static final JsonFileCRUDCompradorUtil jsonFileCRUDComprador = new JsonFileCRUDCompradorUtil(jsonFileUtil);
-    private static final JsonFileCRUDLojaUtil jsonFileCRUDLoja = new JsonFileCRUDLojaUtil(jsonFileUtil);
-    private static final JsonFileCRUDProdutoUtil jsonFileCRUDProduto = new JsonFileCRUDProdutoUtil(jsonFileUtil);
-    private static final CompradorRepository compradorRepository = new CompradorRepository(jsonFileCRUDComprador);
-    private static final LojaRepository lojaRepository = new LojaRepository(jsonFileCRUDLoja);
-    private static final ProdutoRepository produtoRepository = new ProdutoRepository(jsonFileCRUDProduto);
-    private static final LojaService lojaService = new LojaService(lojaRepository);
-    private static final LojaController lojaController = new LojaController(lojaService);
-    private static final CompradorService compradorService = new CompradorService(compradorRepository);
-    private static final CompradorController compradorController = new CompradorController(compradorService);
-    private static final ProdutoService produtoService = new ProdutoService(produtoRepository);
-    private static final ProdutoController produtoController = new ProdutoController(produtoService);
+    private static final DI di = new DI();
     private static final Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
@@ -103,7 +79,7 @@ public class MarketplaceApplication {
                 removerLoja();
                 break;
             case 5:
-                System.out.println(lojaController.getAllLojas());
+                System.out.println(di.getLojaController().getAllLojas());
                 break;
             case 6:
                 exibirProdutosByLoja();
@@ -134,7 +110,7 @@ public class MarketplaceApplication {
                 removerComprador();
                 break;
             case 5:
-                System.out.println(compradorController.getAllCompradores());
+                System.out.println(di.getCompradorController().getAllCompradores());
                 break;
             default:
                 System.out.println("Escolha inválida!");
@@ -163,7 +139,7 @@ public class MarketplaceApplication {
                 removerProduto();
                 break;
             case 5:
-                System.out.println(produtoController.getAllProdutos());
+                System.out.println(di.getProdutoController().getAllProdutos());
                 break;
             case 6:
                 exibirProdutosByLoja();
@@ -211,7 +187,7 @@ public class MarketplaceApplication {
 
         Loja loja = new Loja(nome, email, senha, cnpj, endereco);
 
-        lojaController.createLoja(loja);
+        di.getLojaController().createLoja(loja);
     }
 
 
@@ -222,7 +198,7 @@ public class MarketplaceApplication {
             System.out.println("Cnpj inválido!");
             return;
         }
-        Loja retrievedLoja = lojaController.getLojaByCnpj(cnpj);
+        Loja retrievedLoja = di.getLojaController().getLojaByCnpj(cnpj);
 
         System.out.println(retrievedLoja);
 
@@ -235,7 +211,7 @@ public class MarketplaceApplication {
             System.out.println("Cnpj inválido!");
             return;
         }
-        Loja retrievedLoja = lojaController.getLojaByCnpj(cnpj);
+        Loja retrievedLoja = di.getLojaController().getLojaByCnpj(cnpj);
 
         if (retrievedLoja != null) {
             System.out.println("Digite os novos dados da loja:");
@@ -273,7 +249,7 @@ public class MarketplaceApplication {
             }
             retrievedLoja.setEndereco(endereco);
 
-            lojaController.updateLoja(cnpj, retrievedLoja);
+            di.getLojaController().updateLoja(cnpj, retrievedLoja);
             System.out.println(retrievedLoja);
 
             System.out.println("Loja atualizada com sucesso!");
@@ -290,9 +266,9 @@ public class MarketplaceApplication {
             System.out.println("Cnpj inválido!");
             return;
         }
-        Loja retrievedLoja = lojaController.getLojaByCnpj(cnpj);
+        Loja retrievedLoja = di.getLojaController().getLojaByCnpj(cnpj);
 
-        lojaController.deleteLoja(cnpj);
+        di.getLojaController().deleteLoja(cnpj);
     }
 
     private static void cadastrarComprador() {
@@ -333,14 +309,14 @@ public class MarketplaceApplication {
 
         Comprador comprador = new Comprador(nome, email, senha, cpf, endereco);
 
-        compradorController.createComprador(comprador);
+        di.getCompradorController().createComprador(comprador);
     }
 
     private static void exibirComprador() {
         System.out.print("CPF do Comprador: ");
         String cpf = scanner.nextLine();
 
-        Comprador retrievedComprador = compradorController.getCompradorByCpf(cpf);
+        Comprador retrievedComprador = di.getCompradorController().getCompradorByCpf(cpf);
 
         if (retrievedComprador != null) {
             System.out.println("Nome: " + retrievedComprador.getNome());
@@ -358,7 +334,7 @@ public class MarketplaceApplication {
         System.out.print("CPF do Comprador: ");
         String cpf = scanner.nextLine();
 
-        Comprador retrievedComprador = compradorController.getCompradorByCpf(cpf);
+        Comprador retrievedComprador = di.getCompradorController().getCompradorByCpf(cpf);
 
         if (retrievedComprador != null) {
             System.out.println("Digite os novos dados do comprador:");
@@ -379,7 +355,7 @@ public class MarketplaceApplication {
             String senha = scanner.nextLine();
             retrievedComprador.setSenha(senha);
 
-            compradorController.updateComprador(cpf, retrievedComprador);
+            di.getCompradorController().updateComprador(cpf, retrievedComprador);
             System.out.println("Comprador atualizado com sucesso!");
         } else {
             System.out.println("Comprador não encontrado.");
@@ -390,10 +366,10 @@ public class MarketplaceApplication {
         System.out.print("CPF do Comprador: ");
         String cpf = scanner.nextLine();
 
-        Comprador retrievedComprador = compradorController.getCompradorByCpf(cpf);
+        Comprador retrievedComprador = di.getCompradorController().getCompradorByCpf(cpf);
 
         if (retrievedComprador != null) {
-            compradorController.deleteComprador(cpf);
+            di.getCompradorController().deleteComprador(cpf);
             //System.out.println("Comprador removido com sucesso!");
         } else {
             System.out.println("Comprador não encontrado.");
@@ -475,7 +451,7 @@ public class MarketplaceApplication {
         }
 
         Produto produto = new Produto(nome, valor, tipo, quantidade, marca, descricao, lojaCnpj);
-        produtoController.createProduto(produto);
+        di.getProdutoController().createProduto(produto);
     }
 
 
@@ -483,7 +459,7 @@ public class MarketplaceApplication {
         System.out.print("ID do Produto: ");
         long id = Long.parseLong(scanner.nextLine());
 
-        Produto retrievedProduto = produtoController.getProdutoById(id);
+        Produto retrievedProduto = di.getProdutoController().getProdutoById(id);
 
         if (retrievedProduto != null) {
             System.out.println("Nome: " + retrievedProduto.getNome());
@@ -502,7 +478,7 @@ public class MarketplaceApplication {
         System.out.print("ID do Produto: ");
         long id = Long.parseLong(scanner.nextLine());
 
-        Produto retrievedProduto = produtoController.getProdutoById(id);
+        Produto retrievedProduto = di.getProdutoController().getProdutoById(id);
 
         if (retrievedProduto != null) {
             System.out.println("Digite os novos dados do produto:");
@@ -531,7 +507,7 @@ public class MarketplaceApplication {
             String descricao = scanner.nextLine();
             retrievedProduto.setDescricao(descricao);
 
-            produtoController.updateProduto(id, retrievedProduto);
+            di.getProdutoController().updateProduto(id, retrievedProduto);
 
             System.out.println("Produto atualizado com sucesso!");
         } else {
@@ -543,10 +519,10 @@ public class MarketplaceApplication {
         System.out.print("ID do Produto: ");
         long id = Long.parseLong(scanner.nextLine());
 
-        Produto retrievedProduto = produtoController.getProdutoById(id);
+        Produto retrievedProduto = di.getProdutoController().getProdutoById(id);
 
         if (retrievedProduto != null) {
-            produtoController.deleteProduto(id);
+            di.getProdutoController().deleteProduto(id);
             System.out.println("Produto removido com sucesso!");
         } else {
             System.out.println("Produto não encontrado.");
@@ -557,7 +533,7 @@ public class MarketplaceApplication {
         System.out.print("CNPJ da Loja: ");
         String cnpj = scanner.nextLine();
 
-        List<Produto> produtos = produtoController.getProdutosByLoja(cnpj);
+        List<Produto> produtos = di.getProdutoController().getProdutosByLoja(cnpj);
         if (produtos.isEmpty()) {
             System.out.println("Nenhum produto encontrado!");
         } else {
