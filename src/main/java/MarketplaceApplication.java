@@ -60,9 +60,18 @@ public class MarketplaceApplication {
     }
 
     public static int getEscolha() {
-        var escolha = scanner.nextInt();
-            scanner.nextLine();
-            return escolha;
+        var escolha = 0;
+        boolean entradaValida = false;
+        while (!entradaValida) {
+            try {
+                escolha = Integer.parseInt(scanner.nextLine());
+                entradaValida = true;
+            } catch (NumberFormatException e) {
+                System.out.println("Entrada inválida! Por favor, insira um número.");
+                return -1;
+            }
+        }
+        return escolha;
     }
 
     public static void gerenciarLojas() {
@@ -393,10 +402,22 @@ public class MarketplaceApplication {
         }
 
         System.out.print("Valor: ");
-        double valor = Double.parseDouble(scanner.nextLine());
-        if(!Validation.valorProdutoValido(valor)){
-            System.out.println("Valor inválido! O valor não deve ter letras ou símbolos.");
-            return;
+        double valor = 0;
+        boolean entradaValida = false;
+        while (!entradaValida) {
+            String input = scanner.nextLine();
+            try {
+                valor = Double.parseDouble(input);
+                if (Validation.valorProdutoValido(valor)) {
+                    entradaValida = true;
+                } else {
+                    System.out.println("Valor inválido! O valor não deve ter letras ou símbolos.");
+                    System.out.print("Valor: ");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Valor inválido! Por favor, insira um número.");
+                System.out.print("Valor: ");
+            }
         }
 
         System.out.print("Tipo: ");
@@ -407,10 +428,22 @@ public class MarketplaceApplication {
         }
 
         System.out.print("Quantidade: ");
-        int quantidade = Integer.parseInt(scanner.nextLine());
-        if(!Validation.quantProdutoValido(quantidade)){
-            System.out.println("Quantidade de produto inválida! A quantidade não deve ter letras ou símbolos.");
-            return;
+        int quantidade = 0;
+        boolean quantValida = false;
+        while (!quantValida) {
+            String input = scanner.nextLine();
+            try {
+                quantidade = Integer.parseInt(input);
+                if (Validation.quantProdutoValido(quantidade)) {
+                    quantValida = true;
+                } else {
+                    System.out.println("Quantidade de produto inválida! A quantidade não deve ter letras ou símbolos.");
+                    System.out.print("Quantidade: ");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Quantidade inválida! Por favor, insira um número inteiro.");
+                System.out.print("Quantidade: ");
+            }
         }
 
         System.out.print("Marca: ");

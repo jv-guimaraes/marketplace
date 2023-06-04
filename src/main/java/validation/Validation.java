@@ -3,19 +3,21 @@ package validation;
 import java.util.regex.Pattern;
 
 public class Validation {
+    //EMAIL_REGEX: input para aceitar
     private static String EMAIL_REGEX = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@" + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
+    //CPF_CNPJ_REGEX: input para aceitar números e símbolos e rejeitar letras
     private static String CPF_CNPJ_REGEX = "([0-9]{2}[\\.]?[0-9]{3}[\\.]?[0-9]{3}[\\/]?[0-9]{4}[-]" + "?[0-9]{2})|([0-9]{3}[\\.]?[0-9]{3}[\\.]?[0-9]{3}[-]?[0-9]{2})";
-
+    //NOME_PRODUTO_REGEX : input para aceitar números e letras maiusculas e minusculas rejeita caracteres símbolos
     private static String NOME_PRODUTO_REGEX = "^[a-zA-Z0-9 ]+$";
-
+    //TIPO_REGEX : aceita letras maiusculas e minusculas rejeita números e símbolos
     private static String TIPO_REGEX = "^[a-zA-Z]*$";
-
+    //VALOR_REGEX = aceita números rejeita letras e simbolos
     private static String VALOR_REGEX = "^(?!0\\.0*$)(?!0+$)\\d*(\\.\\d+)?$";
-
+    //QUANTIDADE_REGEX = aceita números rejeita letras e símbolos
     private static String QUANTIDADE_REGEX = "^(?!0\\.0*$)(?!0+$)\\d*(\\.\\d+)?$";
-
+    //MARCA_REGEX : aceita letras e números rejeita símbolos
     private static String MARCA_REGEX = "([0-9]*[a-zA-Z]+)|([a-zA-Z]+[0-9]*)";
-
+    //DESCRICAO_REGEX = aceita letras,simbolos,numeros (todos os caracteres)
     private static String DESCRICAO_REGEX = ".*";
 
     private static boolean isAlphabetic(String string) {
