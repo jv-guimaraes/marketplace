@@ -3,7 +3,7 @@ package validation;
 import java.util.regex.Pattern;
 
 public class Validation {
-    //EMAIL_REGEX: input para aceitar
+    //EMAIL_REGEX: input para aceitar todos os simbolos e rejeitar input sem @
     private static String EMAIL_REGEX = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@" + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
     //CPF_CNPJ_REGEX: input para aceitar números e símbolos e rejeitar letras
     private static String CPF_CNPJ_REGEX = "([0-9]{2}[\\.]?[0-9]{3}[\\.]?[0-9]{3}[\\/]?[0-9]{4}[-]" + "?[0-9]{2})|([0-9]{3}[\\.]?[0-9]{3}[\\.]?[0-9]{3}[-]?[0-9]{2})";
