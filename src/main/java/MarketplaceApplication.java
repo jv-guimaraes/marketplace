@@ -11,7 +11,7 @@ public class MarketplaceApplication {
     private static final DI di = new DI();
     private static final Scanner scanner = new Scanner(System.in);
 
-    public void main(String[] args) {
+    public static void main(String[] args) {
         Boolean sair = false;
         while (!sair) {
             System.out.println("1 - Gerenciar Lojas");
@@ -42,7 +42,7 @@ public class MarketplaceApplication {
         //System.out.println(produtoController.getAllProdutos());
     }
 
-    public int getEscolha() {
+    public static int getEscolha() {
         var escolha = 0;
         boolean entradaValida = false;
         while (!entradaValida) {
@@ -57,7 +57,7 @@ public class MarketplaceApplication {
         return escolha;
     }
 
-    public void gerenciarLojas() {
+    public static void gerenciarLojas() {
         System.out.println("1 - Cadastrar loja");
         System.out.println("2 - Exibir loja");
         System.out.println("3 - Atualizar loja");
@@ -90,7 +90,7 @@ public class MarketplaceApplication {
         }
     }
 
-    public void gerenciarCompradores() {
+    public static void gerenciarCompradores() {
         System.out.println("1 - Cadastrar comprador");
         System.out.println("2 - Exibir comprador");
         System.out.println("3 - Atualizar comprador");
@@ -118,7 +118,7 @@ public class MarketplaceApplication {
         }
     }
 
-    public void gerenciarProdutos() {
+    public static void gerenciarProdutos() {
         System.out.println("1 - Cadastrar produto");
         System.out.println("2 - Exibir produto");
         System.out.println("3 - Atualizar produto");
@@ -150,7 +150,7 @@ public class MarketplaceApplication {
         }
     }
 
-    private void cadastrarLoja() {
+    private static void cadastrarLoja() {
         System.out.print("Nome: ");
         String nome = scanner.nextLine();
         if (!Validation.nomeLojaValido(nome)) {
@@ -191,7 +191,7 @@ public class MarketplaceApplication {
     }
 
 
-    private void exibirLoja() {
+    private static void exibirLoja() {
         System.out.print("CNPJ da Loja: ");
         String cnpj = scanner.nextLine();
         if(!Validation.CnpjValido(cnpj)){
@@ -204,7 +204,7 @@ public class MarketplaceApplication {
 
     }
 
-    private void atualizarLoja() {
+    private static void atualizarLoja() {
         System.out.print("Informe o CNPJ da Loja: ");
         String cnpj = scanner.nextLine();
         if(!Validation.CnpjValido(cnpj)){
@@ -259,7 +259,7 @@ public class MarketplaceApplication {
         }
     }
 
-    private void removerLoja() {
+    private static void removerLoja() {
         System.out.print("CNPJ da Loja: ");
         String cnpj = scanner.nextLine();
         if(!Validation.CnpjValido(cnpj)){
@@ -271,7 +271,7 @@ public class MarketplaceApplication {
         di.getLojaController().deleteLoja(cnpj);
     }
 
-    private void cadastrarComprador() {
+    private static void cadastrarComprador() {
         System.out.print("Nome: ");
         String nome = scanner.nextLine();
         if (!Validation.nomeProprioValido(nome)) {
@@ -312,7 +312,7 @@ public class MarketplaceApplication {
         di.getCompradorController().createComprador(comprador);
     }
 
-    private void exibirComprador() {
+    private static void exibirComprador() {
         System.out.print("CPF do Comprador: ");
         String cpf = scanner.nextLine();
 
@@ -330,7 +330,7 @@ public class MarketplaceApplication {
         }
     }
 
-    private void atualizarComprador() {
+    private static void atualizarComprador() {
         System.out.print("CPF do Comprador: ");
         String cpf = scanner.nextLine();
 
@@ -362,7 +362,7 @@ public class MarketplaceApplication {
         }
     }
 
-    private void removerComprador() {
+    private static void removerComprador() {
         System.out.print("CPF do Comprador: ");
         String cpf = scanner.nextLine();
 
@@ -376,7 +376,7 @@ public class MarketplaceApplication {
         }
     }
 
-    private void cadastrarProduto() {
+    private static void cadastrarProduto() {
         System.out.print("Nome: ");
         String nome = scanner.nextLine();
         if (!Validation.nomeProdutoValido(nome)) {
@@ -455,7 +455,7 @@ public class MarketplaceApplication {
     }
 
 
-    private void exibirProduto() {
+    private static void exibirProduto() {
         System.out.print("ID do Produto: ");
         long id = Long.parseLong(scanner.nextLine());
 
@@ -474,7 +474,7 @@ public class MarketplaceApplication {
     }
 
 
-    private void atualizarProduto() {
+    private static void atualizarProduto() {
         System.out.print("ID do Produto: ");
         long id = Long.parseLong(scanner.nextLine());
 
@@ -515,7 +515,7 @@ public class MarketplaceApplication {
         }
     }
 
-    private void removerProduto() {
+    private static void removerProduto() {
         System.out.print("ID do Produto: ");
         long id = Long.parseLong(scanner.nextLine());
 
@@ -529,7 +529,7 @@ public class MarketplaceApplication {
         }
     }
 
-    private void exibirProdutosByLoja() {
+    private static void exibirProdutosByLoja() {
         System.out.print("CNPJ da Loja: ");
         String cnpj = scanner.nextLine();
 
