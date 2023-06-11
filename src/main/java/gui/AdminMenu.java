@@ -1,4 +1,5 @@
-import di.DI;
+package gui;
+
 import entities.Comprador;
 import entities.Loja;
 import entities.Produto;
@@ -8,12 +9,13 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.function.Predicate;
 
-public class MarketplaceApplication {
-    private static final DI di = new DI();
+import static gui.GuiUtil.*;
+
+public class AdminMenu {
     private static final Scanner scanner = new Scanner(System.in);
 
-    public static void main(String[] args) {
-        Boolean sair = false;
+    public static void run() {
+        boolean sair = false;
         while (!sair) {
             System.out.println("1 - Gerenciar Lojas");
             System.out.println("2 - Gerenciar Compradores");
@@ -21,26 +23,14 @@ public class MarketplaceApplication {
             System.out.println("4 - Sair");
             var escolha = getEscolha();
             switch (escolha) {
-                case 1:
-                    gerenciarLojas();
-                    break;
-                case 2:
-                    gerenciarCompradores();
-                    break;
-                case 3:
-                    gerenciarProdutos();
-                    break;
-                case 4:
-                    sair = true;
-                    break;
-                default:
-                    System.out.println("Escolha inválida!");
-                    break;
+                case 1 -> gerenciarLojas();
+                case 2 -> gerenciarCompradores();
+                case 3 -> gerenciarProdutos();
+                case 4 -> sair = true;
+                default -> System.out.println("Escolha inválida!");
             }
         }
 
-
-        //System.out.println(produtoController.getAllProdutos());
     }
 
     public static int getEscolha() {
@@ -67,27 +57,13 @@ public class MarketplaceApplication {
         System.out.println("6 - Exibir produtos de uma loja");
 
         switch (getEscolha()) {
-            case 1:
-                cadastrarLoja();
-                break;
-            case 2:
-                exibirLoja();
-                break;
-            case 3:
-                atualizarLoja();
-                break;
-            case 4:
-                removerLoja();
-                break;
-            case 5:
-                System.out.println(di.getLojaController().getAllLojas());
-                break;
-            case 6:
-                exibirProdutosByLoja();
-                break;
-            default:
-                System.out.println("Escolha inválida!");
-                break;
+            case 1 -> cadastrarLoja();
+            case 2 -> exibirLoja();
+            case 3 -> atualizarLoja();
+            case 4 -> removerLoja();
+            case 5 -> lojaService.getAllLojas().forEach(System.out::println);
+            case 6 -> exibirProdutosByLoja();
+            default -> System.out.println("Escolha inválida!");
         }
     }
 
@@ -98,24 +74,12 @@ public class MarketplaceApplication {
         System.out.println("4 - Deletar comprador");
         System.out.println("5 - Exibir todos os compradores");
         switch (getEscolha()) {
-            case 1:
-                cadastrarComprador();
-                break;
-            case 2:
-                exibirComprador();
-                break;
-            case 3:
-                atualizarComprador();
-                break;
-            case 4:
-                removerComprador();
-                break;
-            case 5:
-                System.out.println(di.getCompradorController().getAllCompradores());
-                break;
-            default:
-                System.out.println("Escolha inválida!");
-                break;
+            case 1 -> cadastrarComprador();
+            case 2 -> exibirComprador();
+            case 3 -> atualizarComprador();
+            case 4 -> removerComprador();
+            case 5 -> compradorService.getAllCompradores().forEach(System.out::println);
+            default -> System.out.println("Escolha inválida!");
         }
     }
 
@@ -127,27 +91,13 @@ public class MarketplaceApplication {
         System.out.println("5 - Exibir todos os produtos");
         System.out.println("6 - Exibir todos os produtos de uma Loja");
         switch (getEscolha()) {
-            case 1:
-                cadastrarProduto();
-                break;
-            case 2:
-                exibirProduto();
-                break;
-            case 3:
-                atualizarProduto();
-                break;
-            case 4:
-                removerProduto();
-                break;
-            case 5:
-                System.out.println(di.getProdutoController().getAllProdutos());
-                break;
-            case 6:
-                exibirProdutosByLoja();
-                break;
-            default:
-                System.out.println("Escolha inválida!");
-                break;
+            case 1 -> cadastrarProduto();
+            case 2 -> exibirProduto();
+            case 3 -> atualizarProduto();
+            case 4 -> removerProduto();
+            case 5 -> produtoService.getAllProdutos().forEach(System.out::println);
+            case 6 -> exibirProdutosByLoja();
+            default -> System.out.println("Escolha inválida!");
         }
     }
 
@@ -157,21 +107,19 @@ public class MarketplaceApplication {
         String senha = receberInput("senha", Validation::senhaValida);
         String cnpj = receberInput("CNPJ", Validation::cpfCnpjValido);
         String endereco = receberInput("endereço", Validation::enderecoValido);
-        Loja loja = new Loja(nome, email, senha, cnpj, endereco);
-
-        di.getLojaController().createLoja(loja);
+        lojaService.createLoja(nome, email, senha, cnpj, endereco);
     }
 
 
     private static void exibirLoja() {
         String cnpj = receberInput("CNPJ", Validation::cpfCnpjValido);
-        Loja retrievedLoja = di.getLojaController().getLojaByCnpj(cnpj);
+        Loja retrievedLoja = lojaService.getLojaByCnpj(cnpj);
         System.out.println(retrievedLoja);
     }
 
     private static void atualizarLoja() {
         String cnpj = receberInput("CNPJ", Validation::cpfCnpjValido);
-        Loja retrievedLoja = di.getLojaController().getLojaByCnpj(cnpj);
+        Loja retrievedLoja = lojaService.getLojaByCnpj(cnpj);
 
         if (retrievedLoja != null) {
             System.out.println("Digite os novos dados da loja:");
@@ -188,7 +136,7 @@ public class MarketplaceApplication {
             String endereco = receberInput("Endereço", Validation::enderecoValido);
             retrievedLoja.setEndereco(endereco);
 
-            di.getLojaController().updateLoja(cnpj, retrievedLoja);
+            lojaService.updateLoja(cnpj, retrievedLoja);
             System.out.println(retrievedLoja);
 
             System.out.println("Loja atualizada com sucesso!");
@@ -200,7 +148,7 @@ public class MarketplaceApplication {
 
     private static void removerLoja() {
         String cnpj = receberInput("CNPJ", Validation::cpfCnpjValido);
-        di.getLojaController().deleteLoja(cnpj);
+        lojaService.deleteLoja(cnpj);
     }
 
     private static void cadastrarComprador() {
@@ -209,14 +157,13 @@ public class MarketplaceApplication {
         String senha = receberInput("Senha", Validation::senhaValida);
         String cpf = receberInput("CPF", Validation::cpfCnpjValido);
         String endereco = receberInput("Endereço", Validation::enderecoValido);
-        Comprador comprador = new Comprador(nome, email, senha, cpf, endereco);
-        di.getCompradorController().createComprador(comprador);
+        compradorService.createComprador(nome, email, senha, cpf, endereco);
     }
 
     private static void exibirComprador() {
         System.out.print("CPF do Comprador: ");
         String cpf = receberInput("CPF", Validation::cpfCnpjValido);
-        Comprador retrievedComprador = di.getCompradorController().getCompradorByCpf(cpf);
+        Comprador retrievedComprador = compradorService.getCompradorByCpf(cpf);
         if (retrievedComprador != null) {
             System.out.println(retrievedComprador);
         } else {
@@ -226,7 +173,7 @@ public class MarketplaceApplication {
 
     private static void atualizarComprador() {
         String cpf = receberInput("CPF", Validation::cpfCnpjValido);
-        Comprador retrievedComprador = di.getCompradorController().getCompradorByCpf(cpf);
+        Comprador retrievedComprador = compradorService.getCompradorByCpf(cpf);
         if (retrievedComprador != null) {
             System.out.println("Digite os novos dados do comprador:");
 
@@ -239,10 +186,10 @@ public class MarketplaceApplication {
             String endereco = receberInput("Endereço", Validation::enderecoValido);
             retrievedComprador.setEndereco(endereco);
 
-            String senha = receberInput("Senha", Validation::senhaValida);;
+            String senha = receberInput("Senha", Validation::senhaValida);
             retrievedComprador.setSenha(senha);
 
-            di.getCompradorController().updateComprador(cpf, retrievedComprador);
+            compradorService.updateComprador(cpf, retrievedComprador);
             System.out.println("Comprador atualizado com sucesso!");
         } else {
             System.out.println("Comprador não encontrado.");
@@ -251,9 +198,9 @@ public class MarketplaceApplication {
 
     private static void removerComprador() {
         String cpf = receberInput("CPF", Validation::cpfCnpjValido);
-        Comprador retrievedComprador = di.getCompradorController().getCompradorByCpf(cpf);
+        Comprador retrievedComprador = compradorService.getCompradorByCpf(cpf);
         if (retrievedComprador != null) {
-            di.getCompradorController().deleteComprador(cpf);
+            compradorService.deleteComprador(cpf);
             System.out.println("Comprador removido com sucesso!");
         } else {
             System.out.println("Comprador não encontrado.");
@@ -310,14 +257,14 @@ public class MarketplaceApplication {
         String lojaCnpj = receberInput("CNPJ da Loja", Validation::cpfCnpjValido);
 
         Produto produto = new Produto(nome, valor, tipo, quantidade, marca, descricao, lojaCnpj);
-        di.getProdutoController().createProduto(produto);
+        produtoService.createProduto(produto);
     }
 
     private static void exibirProduto() {
         System.out.print("ID do Produto: ");
         long id = Long.parseLong(scanner.nextLine());
 
-        Produto retrievedProduto = di.getProdutoController().getProdutoById(id);
+        Produto retrievedProduto = produtoService.getProdutoById(id);
 
         if (retrievedProduto != null) {
             System.out.println(retrievedProduto);
@@ -330,7 +277,7 @@ public class MarketplaceApplication {
         System.out.print("ID do Produto: ");
         long id = Long.parseLong(scanner.nextLine());
 
-        Produto retrievedProduto = di.getProdutoController().getProdutoById(id);
+        Produto retrievedProduto = produtoService.getProdutoById(id);
 
         if (retrievedProduto != null) {
             System.out.println("Digite os novos dados do produto:");
@@ -355,7 +302,7 @@ public class MarketplaceApplication {
             String descricao = receberInput("Descrição", Validation::descricaoProdutoValido);
             retrievedProduto.setDescricao(descricao);
 
-            di.getProdutoController().updateProduto(id, retrievedProduto);
+            produtoService.updateProduto(id, retrievedProduto);
 
             System.out.println("Produto atualizado com sucesso!");
         } else {
@@ -367,10 +314,10 @@ public class MarketplaceApplication {
         System.out.print("ID do Produto: ");
         long id = Long.parseLong(scanner.nextLine());
 
-        Produto retrievedProduto = di.getProdutoController().getProdutoById(id);
+        Produto retrievedProduto = produtoService.getProdutoById(id);
 
         if (retrievedProduto != null) {
-            di.getProdutoController().deleteProduto(id);
+            produtoService.deleteProduto(id);
             System.out.println("Produto removido com sucesso!");
         } else {
             System.out.println("Produto não encontrado.");
@@ -380,7 +327,7 @@ public class MarketplaceApplication {
     private static void exibirProdutosByLoja() {
         String cnpj = receberInput("CNPJ", Validation::cpfCnpjValido);
 
-        List<Produto> produtos = di.getProdutoController().getProdutosByLoja(cnpj);
+        List<Produto> produtos = produtoService.getProdutosByLoja(cnpj);
         if (produtos.isEmpty()) {
             System.out.println("Nenhum produto encontrado!");
         } else {

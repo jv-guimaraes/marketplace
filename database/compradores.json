@@ -1,1 +1,20 @@
-[{"senha":"jose123","endereco":"Rua Jose de Maria da Silva, 123","cpf":"09876554321","nome":"José Maria","email":"josemaria@gmail.com"}]
+[
+  {
+    "senha": "joao123",
+    "endereco": "R Qualquer das Nuvens, 654",
+    "cpf": "32165498754",
+    "nome": "João Vitor",
+    "carrinho": [],
+    "email": "jvitor@gmail.com"
+  },
+  {
+    "senha": "maria123",
+    "endereco": "Rua Honório da Silva Costa, 12",
+    "cpf": "11122233344",
+    "nome": "Maria Clara",
+    "carrinho": [
+      1
+    ],
+    "email": "maria@clara.com"
+  }
+]

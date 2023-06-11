@@ -1,13 +1,28 @@
-package util;
+package repositories;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.*;
 
 public class JsonFileUtil {
+    public static JSONObject loadJsonObject(String jsonFilePath) {
+        try {
+            File file = new File(jsonFilePath);
+            if (!file.exists()) {
+                return new JSONObject();
+            }
 
-    protected JSONArray loadJsonArray(String jsonFilePath) {
+            String json = readFileContent(file);
+            return new JSONObject(json);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return new JSONObject();
+        }
+    }
+
+    public static JSONArray loadJsonArray(String jsonFilePath) {
         try {
             File file = new File(jsonFilePath);
             if (!file.exists()) {
@@ -22,7 +37,7 @@ public class JsonFileUtil {
         }
     }
 
-    protected void saveJsonArray(JSONArray jsonArray, String jsonFilePath) {
+    public static void saveJsonArray(JSONArray jsonArray, String jsonFilePath) {
         try (FileWriter fileWriter = new FileWriter(jsonFilePath)) {
             fileWriter.write(jsonArray.toString());
             fileWriter.flush();
@@ -31,7 +46,16 @@ public class JsonFileUtil {
         }
     }
 
-    protected String readFileContent(File file) {
+    public static void saveJsonObject(JSONObject jsonObject, String jsonFilePath) {
+        try (FileWriter fileWriter = new FileWriter(jsonFilePath)) {
+            fileWriter.write(jsonObject.toString());
+            fileWriter.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static String readFileContent(File file) {
         StringBuilder content = new StringBuilder();
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String line;

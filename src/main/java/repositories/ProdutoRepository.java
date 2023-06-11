@@ -1,37 +1,46 @@
 package repositories;
 
 import entities.Produto;
-import port.repositories.IProdutoRepository;
-import util.JsonFileCRUDProdutoUtil;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
-public class ProdutoRepository implements IProdutoRepository {
-    private JsonFileCRUDProdutoUtil collection;
-    public ProdutoRepository(JsonFileCRUDProdutoUtil collection){
-        this.collection = collection;
+public class ProdutoRepository {
+    private String produtosPath = "database/produtos.json";
+
+    public ProdutoRepository() {
     }
+
+    public ProdutoRepository(String produtosPath) {
+        this.produtosPath = produtosPath;
+    }
+
     public List<Produto> getAllProdutos() {
-        return this.collection.getAllProdutos();
+        File file = new File(produtosPath);
+        if (!file.exists()) {
+            return new ArrayList<>();
+        }
+
+        JSONArray jsonArray = JsonFileUtil.loadJsonArray(produtosPath);
+        List<Produto> produtos = new ArrayList<>();
+
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject produtoJson = jsonArray.getJSONObject(i);
+            long id = produtoJson.getLong("id");
+            Produto produto = new Produto(produtoJson);
+            produto.setId(id);
+
+            produtos.add(produto);
+        }
+
+        return produtos;
     }
 
-    public Produto getProdutoById(long id) {
-        return this.collection.getProdutoById(id);
-    }
-
-    public void createProduto(Produto produto) {
-        this.collection.createProduto(produto);
-    }
-
-    public void updateProduto(long id, Produto produto) {
-        this.collection.updateProduto(id, produto);
-    }
-
-    public void deleteProduto(long id) {
-        this.collection.deleteProduto(id);
-    }
-
-    public List<Produto> getProdutosByLoja(String cnpj) {
-        return this.collection.getProdutosByLoja(cnpj);
+    public void setAllProdutos(List<Produto> produtos) {
+        JSONArray jsonArray = new JSONArray(produtos);
+        JsonFileUtil.saveJsonArray(jsonArray, produtosPath);
     }
 }

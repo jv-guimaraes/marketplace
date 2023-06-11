@@ -1,6 +1,5 @@
 package entities;
 
-import com.sun.tools.javac.Main;
 import org.json.JSONObject;
 
 import java.util.Objects;
@@ -30,7 +29,8 @@ public class Loja {
         this.cnpj = jsonObject.getString("cnpj");
         this.endereco = jsonObject.getString("endereco");
     }
-    public Loja clone(){
+
+    public Loja clone() {
         Loja newLoja = new Loja();
         newLoja.setCnpj(this.cnpj);
         newLoja.setEmail(this.email);
@@ -85,11 +85,9 @@ public class Loja {
         boolean result;
         if (this == o) {
             result = true;
-        }
-        else if (!(o instanceof Loja loja)) {
+        } else if (!(o instanceof Loja loja)) {
             result = false;
-        }
-        else{
+        } else {
             result = cnpj.equals(loja.cnpj);
         }
 
@@ -104,12 +102,6 @@ public class Loja {
 
     @Override
     public String toString() {
-        return "\n{\n" +
-                "\"senha\":" + this.senha + ",\n" +
-                "\"endereco\":" + this.endereco + ",\n" +
-                "\"nome\":" + this.nome + ",\n" +
-                "\"cnpj\":" + this.cnpj + ",\n" +
-                "\"email\":" + this.email + ",\n" +
-                "}\n";
+        return String.format("%s, %s, %s, %s, %s", nome, email, senha, cnpj, endereco);
     }
 }
