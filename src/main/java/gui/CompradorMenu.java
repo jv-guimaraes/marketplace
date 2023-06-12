@@ -54,7 +54,6 @@ public class CompradorMenu {
     }
 
     private static void comprarItensCarrinho(String email) {
-
         var comprador = compradorService.getCompradorByEmail(email);
         if (comprador.getCarrinho().isEmpty()) {
             System.out.println("O carrinho está vazio.");
@@ -65,20 +64,23 @@ public class CompradorMenu {
         for (var id : comprador.getCarrinho()) {
             var produto = produtoService.getProdutoById(id);
             System.out.println("Comprando: " + produto.getNome());
-            UpdateProduto(id,1);
+            updateProduto(id, 1);
             compradorService.clearCarrinho(comprador.getCpf());
         }
 
         System.out.println("Compra concluída com sucesso!");
     }
-    private static void UpdateProduto(long id, int quantidadeComprada) {
-        Produto renewProduto = produtoService.getProdutoById(id);
-        int quantidade = renewProduto.getQuantidade();
+
+    private static void updateProduto(long id, int quantidadeComprada) {
+        Produto produto = produtoService.getProdutoById(id);
+        int quantidade = produto.getQuantidade();
         quantidade -= quantidadeComprada;
 
-        renewProduto.setQuantidade(quantidade);
-        if(renewProduto.getQuantidade() == 0){
+        produto.setQuantidade(quantidade);
+        if (produto.getQuantidade() == 0) {
             produtoService.deleteProduto(id);
+        } else {
+            produtoService.updateProduto(id, produto);
         }
     }
 }
