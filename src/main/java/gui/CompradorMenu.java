@@ -1,5 +1,6 @@
 package gui;
 
+import entities.Produto;
 import validation.Validation;
 
 import static gui.GuiUtil.*;
@@ -16,6 +17,7 @@ public class CompradorMenu {
                 case 1 -> exibirProdutos();
                 case 2 -> adcionarProdutoCarrinho(email);
                 case 3 -> exibirCarrinho(email);
+                case 4 -> comprarItensCarrinho(email);
                 case 5 -> {
                     return;
                 }
@@ -49,5 +51,34 @@ public class CompradorMenu {
 
     private static void exibirProdutos() {
         produtoService.getAllProdutos().forEach(System.out::println);
+    }
+
+    private static void comprarItensCarrinho(String email) {
+
+        var comprador = compradorService.getCompradorByEmail(email);
+        if (comprador.getCarrinho().isEmpty()) {
+            System.out.println("O carrinho está vazio.");
+            return;
+        }
+
+        System.out.println("Realizando a compra dos itens no carrinho:");
+        for (var id : comprador.getCarrinho()) {
+            var produto = produtoService.getProdutoById(id);
+            System.out.println("Comprando: " + produto.getNome());
+            UpdateProduto(id,1);
+            compradorService.clearCarrinho(comprador.getCpf());
+        }
+
+        System.out.println("Compra concluída com sucesso!");
+    }
+    private static void UpdateProduto(long id, int quantidadeComprada) {
+        Produto renewProduto = produtoService.getProdutoById(id);
+        int quantidade = renewProduto.getQuantidade();
+        quantidade -= quantidadeComprada;
+
+        renewProduto.setQuantidade(quantidade);
+        if(renewProduto.getQuantidade() == 0){
+            produtoService.deleteProduto(id);
+        }
     }
 }
