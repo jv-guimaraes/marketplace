@@ -7,7 +7,6 @@ import validation.Validation;
 
 import java.util.List;
 import java.util.Scanner;
-import java.util.function.Predicate;
 
 import static gui.GuiUtil.*;
 
@@ -102,38 +101,38 @@ public class AdminMenu {
     }
 
     private static void cadastrarLoja() {
-        String nome = receberInput("Nome", Validation::nomeLojaValido);
-        String email = receberInput("email", Validation::emailValido);
-        String senha = receberInput("senha", Validation::senhaValida);
-        String cnpj = receberInput("CNPJ", Validation::cpfCnpjValido);
-        String endereco = receberInput("endereço", Validation::enderecoValido);
+        String nome = receberString("Nome", Validation::nomeLojaValido);
+        String email = receberString("email", Validation::emailValido);
+        String senha = receberString("senha", Validation::senhaValida);
+        String cnpj = receberString("CNPJ", Validation::cpfCnpjValido);
+        String endereco = receberString("endereço", Validation::enderecoValido);
         lojaService.createLoja(nome, email, senha, cnpj, endereco);
     }
 
 
     private static void exibirLoja() {
-        String cnpj = receberInput("CNPJ", Validation::cpfCnpjValido);
+        String cnpj = receberString("CNPJ", Validation::cpfCnpjValido);
         Loja retrievedLoja = lojaService.getLojaByCnpj(cnpj);
         System.out.println(retrievedLoja);
     }
 
     private static void atualizarLoja() {
-        String cnpj = receberInput("CNPJ", Validation::cpfCnpjValido);
+        String cnpj = receberString("CNPJ", Validation::cpfCnpjValido);
         Loja retrievedLoja = lojaService.getLojaByCnpj(cnpj);
 
         if (retrievedLoja != null) {
             System.out.println("Digite os novos dados da loja:");
 
-            String nome = receberInput("Nome", Validation::nomeProprioValido);
+            String nome = receberString("Nome", Validation::nomeProprioValido);
             retrievedLoja.setNome(nome);
 
-            String email = receberInput("E-mail", Validation::emailValido);
+            String email = receberString("E-mail", Validation::emailValido);
             retrievedLoja.setEmail(email);
 
-            String senha = receberInput("Senha", Validation::senhaValida);
+            String senha = receberString("Senha", Validation::senhaValida);
             retrievedLoja.setSenha(senha);
 
-            String endereco = receberInput("Endereço", Validation::enderecoValido);
+            String endereco = receberString("Endereço", Validation::enderecoValido);
             retrievedLoja.setEndereco(endereco);
 
             lojaService.updateLoja(cnpj, retrievedLoja);
@@ -147,22 +146,22 @@ public class AdminMenu {
     }
 
     private static void removerLoja() {
-        String cnpj = receberInput("CNPJ", Validation::cpfCnpjValido);
+        String cnpj = receberString("CNPJ", Validation::cpfCnpjValido);
         lojaService.deleteLoja(cnpj);
     }
 
     private static void cadastrarComprador() {
-        String nome = receberInput("Nome", Validation::nomeProprioValido);
-        String email = receberInput("E-mail", Validation::emailValido);
-        String senha = receberInput("Senha", Validation::senhaValida);
-        String cpf = receberInput("CPF", Validation::cpfCnpjValido);
-        String endereco = receberInput("Endereço", Validation::enderecoValido);
+        String nome = receberString("Nome", Validation::nomeProprioValido);
+        String email = receberString("E-mail", Validation::emailValido);
+        String senha = receberString("Senha", Validation::senhaValida);
+        String cpf = receberString("CPF", Validation::cpfCnpjValido);
+        String endereco = receberString("Endereço", Validation::enderecoValido);
         compradorService.createComprador(nome, email, senha, cpf, endereco);
     }
 
     private static void exibirComprador() {
         System.out.print("CPF do Comprador: ");
-        String cpf = receberInput("CPF", Validation::cpfCnpjValido);
+        String cpf = receberString("CPF", Validation::cpfCnpjValido);
         Comprador retrievedComprador = compradorService.getCompradorByCpf(cpf);
         if (retrievedComprador != null) {
             System.out.println(retrievedComprador);
@@ -172,21 +171,21 @@ public class AdminMenu {
     }
 
     private static void atualizarComprador() {
-        String cpf = receberInput("CPF", Validation::cpfCnpjValido);
+        String cpf = receberString("CPF", Validation::cpfCnpjValido);
         Comprador retrievedComprador = compradorService.getCompradorByCpf(cpf);
         if (retrievedComprador != null) {
             System.out.println("Digite os novos dados do comprador:");
 
-            String nome = receberInput("Nome", Validation::nomeProprioValido);
+            String nome = receberString("Nome", Validation::nomeProprioValido);
             retrievedComprador.setNome(nome);
 
-            String email = receberInput("E-mail", Validation::emailValido);
+            String email = receberString("E-mail", Validation::emailValido);
             retrievedComprador.setEmail(email);
 
-            String endereco = receberInput("Endereço", Validation::enderecoValido);
+            String endereco = receberString("Endereço", Validation::enderecoValido);
             retrievedComprador.setEndereco(endereco);
 
-            String senha = receberInput("Senha", Validation::senhaValida);
+            String senha = receberString("Senha", Validation::senhaValida);
             retrievedComprador.setSenha(senha);
 
             compradorService.updateComprador(cpf, retrievedComprador);
@@ -197,7 +196,7 @@ public class AdminMenu {
     }
 
     private static void removerComprador() {
-        String cpf = receberInput("CPF", Validation::cpfCnpjValido);
+        String cpf = receberString("CPF", Validation::cpfCnpjValido);
         Comprador retrievedComprador = compradorService.getCompradorByCpf(cpf);
         if (retrievedComprador != null) {
             compradorService.deleteComprador(cpf);
@@ -208,28 +207,9 @@ public class AdminMenu {
     }
 
     private static void cadastrarProduto() {
-        String nome = receberInput("Nome", Validation::nomeProprioValido);
-
-        System.out.print("Valor: ");
-        double valor = 0;
-        boolean entradaValida = false;
-        while (!entradaValida) {
-            String input = scanner.nextLine();
-            try {
-                valor = Double.parseDouble(input);
-                if (Validation.valorProdutoValido(valor)) {
-                    entradaValida = true;
-                } else {
-                    System.out.println("Valor inválido! O valor não deve ter letras ou símbolos.");
-                    System.out.print("Valor: ");
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("Valor inválido! Por favor, insira um número.");
-                System.out.print("Valor: ");
-            }
-        }
-
-        String tipo = receberInput("Tipo", Validation::tipoProdutoValido);
+        String nome = receberString("Nome", Validation::nomeProprioValido);
+        double valor = Double.parseDouble(receberString("Valor", Validation::valorProdutoValido));
+        String tipo = receberString("Tipo", Validation::tipoProdutoValido);
 
         System.out.print("Quantidade: ");
         int quantidade = 0;
@@ -250,11 +230,11 @@ public class AdminMenu {
             }
         }
 
-        String marca = receberInput("Marca", Validation::marcaProdutoValido);
+        String marca = receberString("Marca", Validation::marcaProdutoValido);
 
-        String descricao = receberInput("Descrição", Validation::descricaoProdutoValido);
+        String descricao = receberString("Descrição", Validation::descricaoProdutoValido);
 
-        String lojaCnpj = receberInput("CNPJ da Loja", Validation::cpfCnpjValido);
+        String lojaCnpj = receberString("CNPJ da Loja", Validation::cpfCnpjValido);
 
         Produto produto = new Produto(nome, valor, tipo, quantidade, marca, descricao, lojaCnpj);
         produtoService.createProduto(produto);
@@ -282,24 +262,24 @@ public class AdminMenu {
         if (retrievedProduto != null) {
             System.out.println("Digite os novos dados do produto:");
 
-            String nome = receberInput("Nome", Validation::nomeProprioValido);
+            String nome = receberString("Nome", Validation::nomeProprioValido);
             retrievedProduto.setNome(nome);
 
             System.out.print("Valor: ");
             double valor = Double.parseDouble(scanner.nextLine());
             retrievedProduto.setValor(valor);
 
-            String tipo = receberInput("Tipo", Validation::tipoProdutoValido);
+            String tipo = receberString("Tipo", Validation::tipoProdutoValido);
             retrievedProduto.setTipo(tipo);
 
             System.out.print("Quantidade: ");
             int quantidade = Integer.parseInt(scanner.nextLine());
             retrievedProduto.setQuantidade(quantidade);
 
-            String marca = receberInput("Marca", Validation::marcaProdutoValido);
+            String marca = receberString("Marca", Validation::marcaProdutoValido);
             retrievedProduto.setMarca(marca);
 
-            String descricao = receberInput("Descrição", Validation::descricaoProdutoValido);
+            String descricao = receberString("Descrição", Validation::descricaoProdutoValido);
             retrievedProduto.setDescricao(descricao);
 
             produtoService.updateProduto(id, retrievedProduto);
@@ -325,7 +305,7 @@ public class AdminMenu {
     }
 
     private static void exibirProdutosByLoja() {
-        String cnpj = receberInput("CNPJ", Validation::cpfCnpjValido);
+        String cnpj = receberString("CNPJ", Validation::cpfCnpjValido);
 
         List<Produto> produtos = produtoService.getProdutosByLoja(cnpj);
         if (produtos.isEmpty()) {
@@ -333,21 +313,6 @@ public class AdminMenu {
         } else {
             System.out.println(produtos);
         }
-    }
-
-    private static String receberInput(String tipo, Predicate<String> validator) {
-        System.out.print(tipo + ": ");
-        String userInput = scanner.nextLine();
-        while (!validator.test(userInput)) {
-            if (tipo.endsWith("a")) {
-                System.out.println(tipo + " inválida!");
-            } else {
-                System.out.println(tipo + " inválido!");
-            }
-            System.out.print(tipo + ": ");
-            userInput = scanner.nextLine();
-        }
-        return userInput;
     }
 }
 

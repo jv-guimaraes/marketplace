@@ -8,17 +8,18 @@ import org.junit.jupiter.api.Test;
 import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 public class CompradorEntityTest {
     private Comprador comprador;
-    private Comprador compradorFilled = new Comprador("josé", "hugo@gmail.com", "mustbe a hash", "701.254.231-72", "myhome");;
+    private final Comprador compradorFilled = new Comprador("josé", "hugo@gmail.com", "mustbe a hash", "701.254.231-72", "myhome");
+
     @BeforeEach
     void createComprador() {
         comprador = new Comprador();
     }
+
     @Test
-    public void compradorFromObject(){
+    public void compradorFromObject() {
         JSONObject json = new JSONObject();
         json.put("nome", compradorFilled.getNome());
         json.put("email", compradorFilled.getEmail());
@@ -26,54 +27,62 @@ public class CompradorEntityTest {
         json.put("cpf", compradorFilled.getCpf());
         json.put("endereco", compradorFilled.getEndereco());
         Comprador compradorFjson = new Comprador(json);
-        assert(compradorFjson.equals(compradorFilled));
+        assert (compradorFjson.equals(compradorFilled));
     }
+
     @Test
-    public void getCpf(){
+    public void getCpf() {
         String cpf = "701.254.231-72";
         assertNull(comprador.getCpf());
         comprador.setCpf(cpf);
         assertEquals(comprador.getCpf(), cpf);
     }
+
     @Test
-    public void getEmail(){
+    public void getEmail() {
         String email = "hugo@gmail.com";
         assertNull(comprador.getEmail());
         comprador.setEmail(email);
         assertEquals(comprador.getEmail(), email);
     }
+
     @Test
-    public void getNome(){
+    public void getNome() {
         String nome = "josé";
         assertNull(comprador.getNome());
         comprador.setNome(nome);
         assertEquals(comprador.getNome(), nome);
     }
+
     @Test
-    public void getEndereco(){
+    public void getEndereco() {
         String nome = "myhome";
         assertNull(comprador.getEndereco());
         comprador.setEndereco(nome);
         assertEquals(comprador.getEndereco(), nome);
     }
+
     @Test
-    public void getSenha(){
+    public void getSenha() {
         String senha = "123asds";
         assertNull(comprador.getSenha());
         comprador.setSenha(senha);
         assertEquals(comprador.getSenha(), senha);
     }
+
     @Test
-    public void testHashCode(){
+    public void testHashCode() {
         String cpf = compradorFilled.getCpf();
         assertEquals(compradorFilled.hashCode(), Objects.hash(cpf));
     }
+
     @Test
-    public void testEquals(){
-        assertFalse(compradorFilled.equals(1));
+    public void testEquals() {
+        assertNotEquals(1, compradorFilled);
     }
+
     @Test
-    public void testEmptyToString(){
+    public void testEmptyToString() {
         assertEquals(comprador.toString(), "\n" +
                 "{\n" +
                 "\"nome\":null,\n" +
@@ -83,8 +92,9 @@ public class CompradorEntityTest {
                 "\"endereco\":null,\n" +
                 "}\n");
     }
+
     @Test
-    public void testFilledToString(){
+    public void testFilledToString() {
         assertEquals(compradorFilled.toString(), "\n" +
                 "{\n" +
                 "\"nome\":josé,\n" +

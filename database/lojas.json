@@ -1,9 +1,16 @@
 [
   {
-    "senha": "palhaçomac123",
+    "senha": "mac123",
     "endereco": "hamburguer123",
     "nome": "McDonalds",
     "cnpj": "12312312312",
     "email": "mcdonalds@email.com"
+  },
+  {
+    "senha": "tech123",
+    "endereco": "R. Revolução dos Rôbos, 111",
+    "nome": "TechBuy",
+    "cnpj": "95175332198",
+    "email": "tech@mail.com"
   }
 ]

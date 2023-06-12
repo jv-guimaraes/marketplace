@@ -71,7 +71,7 @@ public class ProdutoService {
                 resultado.add(produto);
             }
         }
-        return produtos;
+        return resultado;
     }
 
     public boolean produtoExiste(long id) {

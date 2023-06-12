@@ -8,6 +8,7 @@ import static gui.GuiUtil.*;
 public class LojaMenu {
     public static void run(String email) {
         while (true) {
+            System.out.println("Logado como: " + email);
             System.out.println("1 - Adcionar produto");
             System.out.println("2 - Exibir produtos");
             System.out.println("3 - Remover produto");
@@ -37,14 +38,14 @@ public class LojaMenu {
     }
 
     private static void exibirProdutos(String email) {
-        var produtos = produtoService.getProdutosByLoja(lojaService.getCnpjFromEmail(email));
-        System.out.println(produtos);
+        var cnpj = lojaService.getCnpjFromEmail(email);
+        var produtos = produtoService.getProdutosByLoja(cnpj);
+        produtos.forEach(System.out::println);
     }
 
     private static void adcionarProduto(String email) {
-        String nome = receberString("Nome", Validation::nomeProprioValido);
-        System.out.print("Valor: ");
-        double valor = Double.parseDouble(scanner.nextLine());
+        String nome = receberString("Nome", Validation::nomeProdutoValido);
+        double valor = Double.parseDouble(receberString("Valor", Validation::valorProdutoValido));
         String tipo = receberString("Tipo", Validation::tipoProdutoValido);
         System.out.print("Quantidade: ");
         int quantidade = Integer.parseInt(scanner.nextLine());

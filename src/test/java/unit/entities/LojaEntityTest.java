@@ -13,7 +13,7 @@ public class LojaEntityTest {
     Loja lojaFilled = new Loja("americanas", "americanas@gmail.com", "mustbe a hash", "93.763.071/0001-27", "av.brasil 232, campina grande");
 
     @Test
-    public void lojaFromObject(){
+    public void lojaFromObject() {
         JSONObject json = new JSONObject();
         json.put("nome", lojaFilled.getNome());
         json.put("email", lojaFilled.getEmail());
@@ -21,54 +21,62 @@ public class LojaEntityTest {
         json.put("cnpj", lojaFilled.getCnpj());
         json.put("endereco", lojaFilled.getEndereco());
         Loja lojaFjson = new Loja(json);
-        assert(lojaFjson.equals(lojaFilled));
+        assert (lojaFjson.equals(lojaFilled));
     }
+
     @Test
-    public void getCnpj(){
+    public void getCnpj() {
         String cnpj = "93.763.071/0001-27";
         assertNull(loja.getCnpj());
         loja.setCnpj(cnpj);
         assertEquals(loja.getCnpj(), cnpj);
     }
+
     @Test
-    public void getEmail(){
+    public void getEmail() {
         String email = "americanas@gmail.com";
         assertNull(loja.getEmail());
         loja.setEmail(email);
         assertEquals(loja.getEmail(), email);
     }
+
     @Test
-    public void getNome(){
+    public void getNome() {
         String nome = "americanas";
         assertNull(loja.getNome());
         loja.setNome(nome);
         assertEquals(loja.getNome(), nome);
     }
+
     @Test
-    public void getEndereco(){
+    public void getEndereco() {
         String nome = "myhome";
         assertNull(loja.getEndereco());
         loja.setEndereco(nome);
         assertEquals(loja.getEndereco(), nome);
     }
+
     @Test
-    public void getSenha(){
+    public void getSenha() {
         String senha = "mustbe a hash";
         assertNull(loja.getSenha());
         loja.setSenha(senha);
         assertEquals(loja.getSenha(), senha);
     }
+
     @Test
-    public void testHashCode(){
+    public void testHashCode() {
         String cnpj = lojaFilled.getCnpj();
         assertEquals(lojaFilled.hashCode(), Objects.hash(cnpj));
     }
+
     @Test
-    public void testEquals(){
-        assertFalse(lojaFilled.equals(1));
+    public void testEquals() {
+        assertNotEquals(1, lojaFilled);
     }
+
     @Test
-    public void testEmptyToString(){
+    public void testEmptyToString() {
         assertEquals(loja.toString(), "\n" +
                 "{\n" +
                 "\"senha\":null,\n" +
@@ -78,8 +86,9 @@ public class LojaEntityTest {
                 "\"email\":null,\n" +
                 "}\n");
     }
+
     @Test
-    public void testFilledToString(){
+    public void testFilledToString() {
         assertEquals(lojaFilled.toString(), "\n" +
                 "{\n" +
                 "\"senha\":mustbe a hash,\n" +

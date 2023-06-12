@@ -11,8 +11,6 @@ public class Validation {
     private static final String NOME_PRODUTO_REGEX = "^[a-zA-Z0-9 ]+$";
     //TIPO_REGEX : aceita letras maiusculas e minusculas rejeita números e símbolos
     private static final String TIPO_REGEX = "^[a-zA-Z]*$";
-    //VALOR_REGEX = aceita números rejeita letras e simbolos
-    private static final String VALOR_REGEX = "^(?!0\\.0*$)(?!0+$)\\d*(\\.\\d+)?$";
     //QUANTIDADE_REGEX = aceita números rejeita letras e símbolos
     private static final String QUANTIDADE_REGEX = "^(?!0\\.0*$)(?!0+$)\\d*(\\.\\d+)?$";
     //MARCA_REGEX : aceita letras e números rejeita símbolos
@@ -30,6 +28,15 @@ public class Validation {
     }
 
     //COMPRADOR VALIDAÇÃO
+    public static boolean idValido(String input) {
+        try {
+            int id = Integer.parseInt(input);
+            return id >= 0;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
     public static boolean nomeProprioValido(String nome) {
         if (nome == null || nome.isBlank()) return false;
         if (nome.length() > 50) return false;
@@ -57,18 +64,20 @@ public class Validation {
     }
 
     //PRODUTO VALIDAÇÃO
-
     public static boolean nomeProdutoValido(String nome) {
         if (nome == null || nome.isBlank()) return false;
         if (nome.length() > 20) return false;
         return patternMatches(nome, NOME_PRODUTO_REGEX);
     }
 
-    public static boolean valorProdutoValido(Double valor) {
-        if (valor <= 0 || valor == null || valor.isNaN()) {
+    public static boolean valorProdutoValido(String valor) {
+        try {
+            var valorInt = Double.parseDouble(valor);
+            if (valorInt >= 0) return true;
+        } catch (NumberFormatException e) {
             return false;
         }
-        return patternMatches(Double.toString(valor), VALOR_REGEX);
+        return false;
     }
 
     public static boolean tipoProdutoValido(String tipo) {

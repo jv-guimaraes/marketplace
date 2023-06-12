@@ -1,37 +1,41 @@
 package unit.services;
-import entities.Comprador;
-import services.CompradorService;
-import repositories.CompradorRepository;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
+import entities.Comprador;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.DisplayName;
+import repositories.CompradorRepository;
+import services.CompradorService;
 
 import java.util.Arrays;
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.*;
 
 public class CompradorServiceTest {
     Comprador comprador = new Comprador("josé", "hugo@gmail.com", "mustbe a hash", "701.254.231-72", "myhome");
 
     List<Comprador> compradorArray = Arrays.asList(comprador, new Comprador());
+
     @Test
     public void getCompradorByCpf() throws Exception {
         String cpf = comprador.getCpf();
         CompradorRepository mock = mock();
         when(mock.getCompradorByCpf(cpf)).thenReturn(comprador);
         CompradorService service = new CompradorService(mock);
-        assertTrue(service.getCompradorByCpf(cpf).equals(comprador));
+        assertEquals(service.getCompradorByCpf(cpf), comprador);
         verify(mock, times(1)).getCompradorByCpf(cpf);
     }
+
     @Test
     public void getAllCompradores() throws Exception {
         CompradorRepository mock = mock();
         when(mock.getAllCompradores()).thenReturn(compradorArray);
         CompradorService service = new CompradorService(mock);
-        assertTrue(service.getAllCompradores().equals(compradorArray));
+        assertEquals(service.getAllCompradores(), compradorArray);
         verify(mock, times(1)).getAllCompradores();
     }
+
     @Test
     public void createComprador() throws Exception {
         CompradorRepository mock = mock();
@@ -39,6 +43,7 @@ public class CompradorServiceTest {
         service.createComprador(comprador);
         verify(mock, times(1)).createComprador(comprador);
     }
+
     @Test
     public void updateComprador() throws Exception {
         String cpf = comprador.getCpf();
@@ -47,6 +52,7 @@ public class CompradorServiceTest {
         service.updateComprador(cpf, comprador);
         verify(mock, times(1)).updateComprador(cpf, comprador);
     }
+
     @Test
     public void deleteComprador() throws Exception {
         String cpf = comprador.getCpf();

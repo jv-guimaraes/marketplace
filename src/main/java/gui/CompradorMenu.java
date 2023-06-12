@@ -1,5 +1,7 @@
 package gui;
 
+import validation.Validation;
+
 import static gui.GuiUtil.*;
 
 public class CompradorMenu {
@@ -22,16 +24,16 @@ public class CompradorMenu {
     }
 
     private static void exibirCarrinho(String email) {
-        var carrinho = compradorService.getCompradorByEmail(email);
-        for (var id : carrinho.getCarrinho()) {
+        var comprador = compradorService.getCompradorByEmail(email);
+        System.out.println("CARRINHO:");
+        for (var id : comprador.getCarrinho()) {
             System.out.println(id.toString() + " - " + produtoService.getProdutoById(id).getNome());
         }
         System.out.println();
     }
 
     private static void adcionarProdutoCarrinho(String email) {
-        System.out.println("ID do produto: ");
-        long id = Integer.parseInt(scanner.nextLine());
+        long id = Integer.parseInt(receberString("ID do produto", Validation::idValido));
         if (!produtoService.produtoExiste(id)) {
             System.out.println("Produto não encontrado.");
             return;
@@ -46,6 +48,6 @@ public class CompradorMenu {
     }
 
     private static void exibirProdutos() {
-        System.out.println(produtoService.getAllProdutos());
+        produtoService.getAllProdutos().forEach(System.out::println);
     }
 }
