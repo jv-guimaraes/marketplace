@@ -14,6 +14,7 @@ public class Produto {
     String marca;
     String descricao;
     String lojaCnpj;
+
     public Produto() {
     }
 
@@ -26,16 +27,7 @@ public class Produto {
         this.descricao = descricao;
         this.lojaCnpj = lojaCnpj;
     }
-    public Produto clone(){
-        Produto newProduto = new Produto();
-        newProduto.setNome(this.nome);
-        newProduto.setDescricao(this.descricao);
-        newProduto.setTipo(this.tipo);
-        newProduto.setMarca(this.marca);
-        newProduto.setQuantidade(this.quantidade);
-        newProduto.setValor(this.valor);
-        return newProduto;
-    }
+
     public Produto(JSONObject jsonObject) {
         this.id = jsonObject.getLong("id");
         this.nome = jsonObject.getString("nome");
@@ -47,11 +39,22 @@ public class Produto {
         this.lojaCnpj = jsonObject.getString("lojaCnpj");
     }
 
+    public Produto clone() {
+        Produto newProduto = new Produto();
+        newProduto.setNome(this.nome);
+        newProduto.setDescricao(this.descricao);
+        newProduto.setTipo(this.tipo);
+        newProduto.setMarca(this.marca);
+        newProduto.setQuantidade(this.quantidade);
+        newProduto.setValor(this.valor);
+        return newProduto;
+    }
+
     public java.lang.Long getId() {
         return id;
     }
 
-    public void setId(java.lang.Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -103,9 +106,13 @@ public class Produto {
         this.descricao = descricao;
     }
 
-    public String getLojaCnpj() { return lojaCnpj; }
+    public String getLojaCnpj() {
+        return lojaCnpj;
+    }
 
-    public void setLojaCnpj(String lojaCnpj) { this.lojaCnpj = lojaCnpj; }
+    public void setLojaCnpj(String lojaCnpj) {
+        this.lojaCnpj = lojaCnpj;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -113,11 +120,9 @@ public class Produto {
         boolean result;
         if (this == o) {
             result = true;
-        }
-        else if (!(o instanceof Produto produto)) {
+        } else if (!(o instanceof Produto produto)) {
             result = false;
-        }
-        else{
+        } else {
             result = id.equals(produto.id);
         }
 
@@ -131,14 +136,6 @@ public class Produto {
 
     @Override
     public String toString() {
-        return "\n{\n" +
-                "\"id\":" + this.id + ",\n" +
-                "\"nome\":" + this.nome + ",\n" +
-                "\"valor\":" + this.valor + ",\n" +
-                "\"tipo\":" + this.tipo + ",\n" +
-                "\"quantidade\":" + this.quantidade + ",\n" +
-                "\"marca\":" + this.marca + ",\n" +
-                "\"descricao\":" + this.descricao + ",\n" +
-                "}\n";
+        return String.format("%d, %s, %s, %s, %d, %s, %s", id, nome, valor, tipo, quantidade, marca, descricao);
     }
 }

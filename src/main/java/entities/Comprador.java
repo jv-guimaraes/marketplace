@@ -1,8 +1,12 @@
 package entities;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class Comprador {
 
@@ -11,6 +15,10 @@ public class Comprador {
     String senha;
     String cpf;
     String endereco;
+
+    List<Long> carrinho;
+
+    List<Produto> produtos;
 
     public Comprador() {
     }
@@ -21,6 +29,7 @@ public class Comprador {
         this.senha = senha;
         this.cpf = cpf;
         this.endereco = endereco;
+        this.carrinho = new ArrayList<Long>();
     }
 
     public Comprador(JSONObject jsonObject) {
@@ -29,6 +38,12 @@ public class Comprador {
         this.senha = jsonObject.getString("senha");
         this.cpf = jsonObject.getString("cpf");
         this.endereco = jsonObject.getString("endereco");
+
+        this.carrinho = new ArrayList<Long>();
+        var carrinhoJson = jsonObject.getJSONArray("carrinho");
+        for (int i = 0; i < carrinhoJson.length(); i++) {
+            carrinho.add(carrinhoJson.getLong(i));
+        }
     }
 
     public String getNome() {
@@ -68,11 +83,9 @@ public class Comprador {
         boolean result;
         if (this == o) {
             result = true;
-        }
-        else if (!(o instanceof Comprador comprador)) {
+        } else if (!(o instanceof Comprador comprador)) {
             result = false;
-        }
-        else{
+        } else {
             result = cpf.equals(comprador.cpf);
         }
 
@@ -91,23 +104,47 @@ public class Comprador {
     public void setSenha(String senha) {
         this.senha = senha;
     }
-    public Comprador clone(){
+
+    public List<Long> getCarrinho() {
+        return carrinho;
+    }
+
+    public void setCarrinho(List<Long> carrinho) {
+        this.carrinho = carrinho;
+    }
+
+    public List<Produto> getProdutos() {
+        return produtos;
+    }
+
+    public void setProdutos(List<Produto> produtos) {
+        this.produtos = produtos;
+    }
+
+    public Comprador clone() {
         Comprador newComprador = new Comprador();
         newComprador.setCpf(this.cpf);
         newComprador.setEmail(this.email);
         newComprador.setEndereco(this.endereco);
         newComprador.setSenha(this.senha);
-        return newComprador;
+        return new Comprador(nome, email, senha, cpf, endereco);
     }
 
     @Override
     public String toString() {
-        return "\n{\n" +
-                "\"nome\":" + this.nome + ",\n" +
-                "\"cpf\":" + this.cpf + ",\n" +
-                "\"email\":" + this.email + ",\n" +
-                "\"senha\":" + this.senha + ",\n" +
-                "\"endereco\":" + this.endereco + ",\n" +
-                "}\n";
+        return String.format("nome: %s, email: %s, senha: %s, cpf: %s, endereco: %s, nomesProdutosComprados: %s",
+                nome, email, senha, cpf, endereco, produtos.stream().map(Produto::getNome).collect(Collectors.toList()));
+    }
+
+    public void addProdutoCarrinho(long produto) {
+        carrinho.add(produto);
+    }
+
+    public void clearCarrinho() {
+        carrinho.clear();
+    }
+
+    public boolean carrinhoContem(long id) {
+        return carrinho.contains(id);
     }
 }

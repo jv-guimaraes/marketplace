@@ -1,7 +1,6 @@
 package unit.repositories;
 
 import entities.Loja;
-import entities.Loja;
 import org.junit.jupiter.api.Test;
 import repositories.LojaRepository;
 import util.JsonFileCRUDLojaUtil;
@@ -9,15 +8,16 @@ import util.JsonFileCRUDLojaUtil;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.verify;
 
 public class LojaRepositoryTest {
 
     Loja loja = new Loja("josé", "hugo@gmail.com", "mustbe a hash", "701.254.231-72", "myhome");
 
     List<Loja> lojaArray = Arrays.asList(loja, new Loja());
+
     @Test
     public void getLojaByCnpj() throws Exception {
         String cpf = loja.getCnpj();
@@ -27,14 +27,16 @@ public class LojaRepositoryTest {
         assertTrue(repository.getLojaByCnpj(cpf).equals(loja));
         verify(mock, times(1)).getLojaByCnpj(cpf);
     }
+
     @Test
     public void getAllLojas() throws Exception {
         JsonFileCRUDLojaUtil mock = mock();
         when(mock.getAllLojas()).thenReturn(lojaArray);
         LojaRepository repository = new LojaRepository(mock);
-        assertTrue(repository.getAllLojas().equals(lojaArray));
+        assertEquals(repository.getAllLojas(), lojaArray);
         verify(mock, times(1)).getAllLojas();
     }
+
     @Test
     public void createLoja() throws Exception {
         JsonFileCRUDLojaUtil mock = mock();
@@ -42,6 +44,7 @@ public class LojaRepositoryTest {
         repository.createLoja(loja);
         verify(mock, times(1)).createLoja(loja);
     }
+
     @Test
     public void updateLoja() throws Exception {
         String cpf = loja.getCnpj();
@@ -50,6 +53,7 @@ public class LojaRepositoryTest {
         repository.updateLoja(cpf, loja);
         verify(mock, times(1)).updateLoja(cpf, loja);
     }
+
     @Test
     public void deleteLoja() throws Exception {
         String cpf = loja.getCnpj();
