@@ -1,10 +1,12 @@
 package entities;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class Comprador {
 
@@ -15,6 +17,8 @@ public class Comprador {
     String endereco;
 
     List<Long> carrinho;
+
+    List<Produto> produtos;
 
     public Comprador() {
     }
@@ -108,6 +112,14 @@ public class Comprador {
         this.carrinho = carrinho;
     }
 
+    public List<Produto> getProdutos() {
+        return produtos;
+    }
+
+    public void setProdutos(List<Produto> produtos) {
+        this.produtos = produtos;
+    }
+
     public Comprador clone() {
         Comprador newComprador = new Comprador();
         newComprador.setCpf(this.cpf);
@@ -119,7 +131,8 @@ public class Comprador {
 
     @Override
     public String toString() {
-        return String.format("%s, %s, %s, %s, %s", nome, email, senha, cpf, endereco);
+        return String.format("nome: %s, email: %s, senha: %s, cpf: %s, endereco: %s, nomesProdutosComprados: %s",
+                nome, email, senha, cpf, endereco, produtos.stream().map(Produto::getNome).collect(Collectors.toList()));
     }
 
     public void addProdutoCarrinho(long produto) {

@@ -1,7 +1,10 @@
 package services;
 
 import entities.Comprador;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import repositories.CompradorRepository;
+import repositories.JsonFileUtil;
 
 import java.util.List;
 
@@ -38,8 +41,19 @@ public class CompradorService {
         }
 
         // CPF and email don't exist, proceed with creating the Comprador
-        compradores.add(comprador);
-        compradorRepository.setAllCompradores(compradores);
+        /*compradores.add(comprador);
+        compradorRepository.setAllCompradores(compradores);*/
+
+        JSONObject compradorJson = new JSONObject();
+        compradorJson.put("nome", comprador.getNome());
+        compradorJson.put("email", comprador.getEmail());
+        compradorJson.put("senha", comprador.getSenha());
+        compradorJson.put("cpf", comprador.getCpf());
+        compradorJson.put("endereco", comprador.getEndereco());
+        compradorJson.put("carrinho", new JSONArray());
+        compradorJson.put("produtos", new JSONArray());
+
+        compradorRepository.createComprador(compradorJson);
 
         System.out.println("Comprador created successfully.");
     }
@@ -143,5 +157,9 @@ public class CompradorService {
             }
         }
         return null;
+    }
+
+    public void addProduto(String cpf, Long produtoId) {
+        compradorRepository.addProduto(cpf, produtoId);
     }
 }
