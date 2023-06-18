@@ -38,7 +38,6 @@ public class Comprador {
         this.senha = jsonObject.getString("senha");
         this.cpf = jsonObject.getString("cpf");
         this.endereco = jsonObject.getString("endereco");
-
         this.carrinho = new ArrayList<Long>();
         var carrinhoJson = jsonObject.getJSONArray("carrinho");
         for (int i = 0; i < carrinhoJson.length(); i++) {
