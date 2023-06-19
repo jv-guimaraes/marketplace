@@ -9,6 +9,7 @@ public class LojaService {
     private LojaRepository lojaRepository;
 
     public LojaService() {
+        this.lojaRepository = new LojaRepository();
     }
 
     public LojaService(LojaRepository repository) {
