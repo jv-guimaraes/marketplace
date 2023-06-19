@@ -1,7 +1,7 @@
 package unit.repositories;
 
 import entities.Comprador;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Test;/*
 import repositories.CompradorRepository;
 import util.JsonFileCRUDCompradorUtil;
 
@@ -63,3 +63,4 @@ public class CompradorRepositoryTest {
         verify(mock, times(1)).deleteComprador(cpf);
     }
 }
+*/

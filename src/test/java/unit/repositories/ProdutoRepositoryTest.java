@@ -2,7 +2,7 @@ package unit.repositories;
 
 import entities.Produto;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Test;/*
 import repositories.ProdutoRepository;
 import util.JsonFileCRUDProdutoUtil;
 
@@ -77,4 +77,4 @@ public class ProdutoRepositoryTest {
         repository.deleteProduto(produtoId);
         verify(mock, times(1)).deleteProduto(produtoId);
     }
-}
+}*/

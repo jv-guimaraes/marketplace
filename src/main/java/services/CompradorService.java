@@ -1,10 +1,10 @@
 package services;
 
 import entities.Comprador;
+import infrastructure.repositories.LojaRepository;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import repositories.CompradorRepository;
-import repositories.JsonFileUtil;
+import infrastructure.repositories.CompradorRepository;
 
 import java.util.List;
 
@@ -15,14 +15,16 @@ public class CompradorService {
     public CompradorService() {
 
     }
+    public CompradorService(CompradorRepository repository) {
+        this.compradorRepository = repository;
+    }
 
     public CompradorService(String compradoresPath, String produtosPath) {
         this.compradorRepository = new CompradorRepository(compradoresPath);
         this.produtoService = new ProdutoService(produtosPath);
     }
 
-    public void createComprador(String nome, String email, String senha, String cpf, String endereco) {
-        Comprador comprador = new Comprador(nome, email, senha, cpf, endereco);
+    public void createComprador(Comprador comprador) {
         var compradores = compradorRepository.getAllCompradores();
         // Check if the CPF already exists
         for (var compradorJaCadastrado : compradores) {

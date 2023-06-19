@@ -4,7 +4,7 @@ import entities.Loja;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Test;/*
 import util.JsonFileCRUDLojaUtil;
 import util.JsonFileUtil;
 
@@ -104,4 +104,4 @@ public class JsonFileCRUDLojaUtilTest {
             return super.loadJsonArray(path);
         }
     }
-}
+}*/

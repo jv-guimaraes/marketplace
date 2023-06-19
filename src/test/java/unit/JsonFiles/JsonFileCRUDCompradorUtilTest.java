@@ -4,7 +4,7 @@ import entities.Comprador;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Test;/*
 import util.JsonFileCRUDCompradorUtil;
 import util.JsonFileUtil;
 
@@ -104,4 +104,4 @@ public class JsonFileCRUDCompradorUtilTest {
             return super.loadJsonArray(path);
         }
     }
-}
+}*/

@@ -1,4 +1,4 @@
-package repositories;
+package infrastructure.jsonFiles;
 
 import org.json.JSONArray;
 import org.json.JSONException;

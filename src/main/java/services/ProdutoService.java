@@ -1,7 +1,8 @@
 package services;
 
 import entities.Produto;
-import repositories.ProdutoRepository;
+import infrastructure.repositories.LojaRepository;
+import infrastructure.repositories.ProdutoRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +12,9 @@ public class ProdutoService {
 
     public ProdutoService() {
     }
-
+    public ProdutoService(ProdutoRepository repository) {
+        this.produtoRepository = repository;
+    }
     public ProdutoService(String produtosPath) {
         this.produtoRepository = new ProdutoRepository(produtosPath);
     }

@@ -1,0 +1,37 @@
+package di;
+
+import infrastructure.repositories.CompradorRepository;
+import infrastructure.repositories.LojaRepository;
+import infrastructure.repositories.ProdutoRepository;
+import services.CompradorService;
+import services.LojaService;
+import services.ProdutoService;/*
+import util.JsonFileCRUDCompradorUtil;
+import util.JsonFileCRUDLojaUtil;
+import util.JsonFileCRUDProdutoUtil;
+import util.JsonFileUtil;*/
+
+public class DI {
+    /*
+    private static final JsonFileUtil jsonFileUtil = new JsonFileUtil();
+    private static final JsonFileCRUDCompradorUtil jsonFileCRUDComprador = new JsonFileCRUDCompradorUtil(jsonFileUtil);
+    private static final JsonFileCRUDLojaUtil jsonFileCRUDLoja = new JsonFileCRUDLojaUtil(jsonFileUtil);
+    private static final JsonFileCRUDProdutoUtil jsonFileCRUDProduto = new JsonFileCRUDProdutoUtil(jsonFileUtil);*/
+    private static final CompradorRepository compradorRepository = new CompradorRepository();
+    private static final LojaRepository lojaRepository = new LojaRepository();
+    private static final ProdutoRepository produtoRepository = new ProdutoRepository();
+    private static final LojaService lojaService = new LojaService(lojaRepository);
+    private static final CompradorService compradorService = new CompradorService(compradorRepository);
+    private static final ProdutoService produtoService = new ProdutoService(produtoRepository);
+
+
+    public CompradorService getCompradorService(){
+        return this.compradorService;
+    }
+    public LojaService getLojaService(){
+        return this.lojaService;
+    }
+    public ProdutoService getProdutoService(){
+        return this.produtoService;
+    }
+}

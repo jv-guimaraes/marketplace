@@ -106,7 +106,8 @@ public class AdminMenu {
         String senha = receberString("senha", Validation::senhaValida);
         String cnpj = receberString("CNPJ", Validation::cpfCnpjValido);
         String endereco = receberString("endereço", Validation::enderecoValido);
-        lojaService.createLoja(nome, email, senha, cnpj, endereco);
+        Loja loja = new Loja(nome, email, senha, cnpj, endereco);
+        lojaService.createLoja(loja);
     }
 
 
@@ -156,7 +157,8 @@ public class AdminMenu {
         String senha = receberString("Senha", Validation::senhaValida);
         String cpf = receberString("CPF", Validation::cpfCnpjValido);
         String endereco = receberString("Endereço", Validation::enderecoValido);
-        compradorService.createComprador(nome, email, senha, cpf, endereco);
+        Comprador comprador = new Comprador(nome, email, senha, cpf, endereco);
+        compradorService.createComprador(comprador);
     }
 
     private static void exibirComprador() {

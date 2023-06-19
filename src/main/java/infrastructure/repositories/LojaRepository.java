@@ -1,6 +1,7 @@
-package repositories;
+package infrastructure.repositories;
 
 import entities.Loja;
+import infrastructure.jsonFiles.JsonFileUtil;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -9,10 +10,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LojaRepository {
+    private JsonFileUtil jsonHandler;
     private String lojasPath = "database/lojas.json";
 
     public LojaRepository() {
+    }
 
+    public LojaRepository(JsonFileUtil jsonHandler){
+        this.jsonHandler = jsonHandler;
     }
 
     public LojaRepository(String lojasPath) {
@@ -25,7 +30,7 @@ public class LojaRepository {
             return new ArrayList<>();
         }
 
-        JSONArray jsonArray = JsonFileUtil.loadJsonArray(lojasPath);
+        JSONArray jsonArray = this.jsonHandler.loadJsonArray(lojasPath);
         List<Loja> lojas = new ArrayList<>();
 
         for (int i = 0; i < jsonArray.length(); i++) {
@@ -39,7 +44,6 @@ public class LojaRepository {
 
     public void setAllLojas(List<Loja> lojas) {
         JSONArray jsonArray = new JSONArray(lojas);
-        JsonFileUtil.saveJsonArray(jsonArray, lojasPath);
+        this.jsonHandler .saveJsonArray(jsonArray, lojasPath);
     }
-
 }

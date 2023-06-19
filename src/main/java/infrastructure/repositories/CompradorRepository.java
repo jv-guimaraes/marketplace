@@ -1,7 +1,8 @@
-package repositories;
+package infrastructure.repositories;
 
 import entities.Comprador;
 import entities.Produto;
+import infrastructure.jsonFiles.JsonFileUtil;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import services.ProdutoService;

@@ -1,5 +1,7 @@
 package gui;
 
+import entities.Comprador;
+import entities.Loja;
 import validation.Validation;
 
 import static gui.GuiUtil.*;
@@ -54,7 +56,8 @@ public class LoginMenu {
         String senha = receberString("Senha", Validation::senhaValida);
         String cpf = receberString("CPF", Validation::cpfCnpjValido);
         String endereco = receberString("Endereço", Validation::enderecoValido);
-        compradorService.createComprador(nome, email, senha, cpf, endereco);
+        Comprador comprador = new Comprador(nome, email, senha, cpf, endereco);
+        compradorService.createComprador(comprador);
     }
 
 
@@ -91,7 +94,8 @@ public class LoginMenu {
         String senha = receberString("Senha", Validation::senhaValida);
         String cnpj = receberString("CPF", Validation::cpfCnpjValido);
         String endereco = receberString("Endereço", Validation::enderecoValido);
-        lojaService.createLoja(nome, email, senha, cnpj, endereco);
+        Loja loja = new Loja(nome, email, senha, cnpj, endereco);
+        lojaService.createLoja(loja);
     }
 
 }

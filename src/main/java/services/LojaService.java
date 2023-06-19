@@ -1,22 +1,21 @@
 package services;
 
 import entities.Loja;
-import repositories.LojaRepository;
+import infrastructure.repositories.LojaRepository;
 
 import java.util.List;
 
 public class LojaService {
-    private LojaRepository lojaRepository = new LojaRepository();
+    private LojaRepository lojaRepository;
 
     public LojaService() {
     }
 
-    public LojaService(String lojasPath) {
-        this.lojaRepository = new LojaRepository(lojasPath);
+    public LojaService(LojaRepository repository) {
+        this.lojaRepository = repository;
     }
 
-    public void createLoja(String nome, String email, String senha, String cnpj, String endereco) {
-        var loja = new Loja(nome, email, senha, cnpj, endereco);
+    public void createLoja(Loja loja) {
         var lojas = lojaRepository.getAllLojas();
 
         // Checar se CNPJ já existe no banco de dados
@@ -26,7 +25,6 @@ public class LojaService {
                 return;
             }
         }
-
         lojas.add(loja);
         lojaRepository.setAllLojas(lojas);
     }

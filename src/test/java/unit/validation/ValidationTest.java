@@ -1,6 +1,8 @@
-package validation;
+package unit.validation;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import validation.Validation;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -9,7 +11,7 @@ class ValidationTest {
     @Test
     void emailValido() {
         String emailValido = "jose@gmail.com";
-        assertTrue(Validation.emailValido(emailValido));
+        Assertions.assertTrue(Validation.emailValido(emailValido));
         String emailInvalido = "djaskldjasldj";
         assertFalse(Validation.emailValido(emailInvalido));
     }
@@ -54,9 +56,9 @@ class ValidationTest {
 
     @Test
     void valorProdutoValido() {
-        Double valorProdutoValido = 1.0;
+        String valorProdutoValido = "1.0";
         assertTrue(Validation.valorProdutoValido(valorProdutoValido));
-        Double valorProdutoInvalido = -3.5;
+        String valorProdutoInvalido = "-3.5";
         assertFalse(Validation.valorProdutoValido(valorProdutoInvalido));
     }
 
