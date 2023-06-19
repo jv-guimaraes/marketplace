@@ -1,12 +1,10 @@
 package entities;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 public class Comprador {
 
@@ -18,7 +16,7 @@ public class Comprador {
 
     List<Long> carrinho;
 
-    List<Produto> produtos;
+    List<Long> historico;
 
     public Comprador() {
     }
@@ -29,7 +27,8 @@ public class Comprador {
         this.senha = senha;
         this.cpf = cpf;
         this.endereco = endereco;
-        this.carrinho = new ArrayList<Long>();
+        this.carrinho = new ArrayList<>();
+        this.historico = new ArrayList<>();
     }
 
     public Comprador(JSONObject jsonObject) {
@@ -38,10 +37,15 @@ public class Comprador {
         this.senha = jsonObject.getString("senha");
         this.cpf = jsonObject.getString("cpf");
         this.endereco = jsonObject.getString("endereco");
-        this.carrinho = new ArrayList<Long>();
+        this.carrinho = new ArrayList<>();
+        this.historico = new ArrayList<>();
         var carrinhoJson = jsonObject.getJSONArray("carrinho");
         for (int i = 0; i < carrinhoJson.length(); i++) {
             carrinho.add(carrinhoJson.getLong(i));
+        }
+        var historicoJson = jsonObject.getJSONArray("historico");
+        for (int i = 0; i < historicoJson.length(); i++) {
+            historico.add(historicoJson.getLong(i));
         }
     }
 
@@ -112,27 +116,25 @@ public class Comprador {
         this.carrinho = carrinho;
     }
 
-    public List<Produto> getProdutos() {
-        return produtos;
+    public List<Long> getHistorico() {
+        return historico;
     }
 
-    public void setProdutos(List<Produto> produtos) {
-        this.produtos = produtos;
+    public void setHistorico(List<Long> historico) {
+        this.historico = historico;
     }
 
     public Comprador clone() {
-        Comprador newComprador = new Comprador();
-        newComprador.setCpf(this.cpf);
-        newComprador.setEmail(this.email);
-        newComprador.setEndereco(this.endereco);
-        newComprador.setSenha(this.senha);
-        return new Comprador(nome, email, senha, cpf, endereco);
+        Comprador newComprador = new Comprador(nome, email, senha, cpf, endereco);
+        newComprador.setCarrinho(this.carrinho);
+        newComprador.setHistorico(this.historico);
+        return newComprador;
     }
 
     @Override
     public String toString() {
         return String.format("nome: %s, email: %s, senha: %s, cpf: %s, endereco: %s, nomesProdutosComprados: %s",
-                nome, email, senha, cpf, endereco, produtos.stream().map(Produto::getNome).collect(Collectors.toList()));
+                nome, email, senha, cpf, endereco, historico);
     }
 
     public void addProdutoCarrinho(long produto) {
@@ -145,5 +147,9 @@ public class Comprador {
 
     public boolean carrinhoContem(long id) {
         return carrinho.contains(id);
+    }
+
+    public void addToHistorico(Long produtoId) {
+        historico.add(produtoId);
     }
 }

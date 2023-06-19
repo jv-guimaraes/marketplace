@@ -16,7 +16,7 @@ public class LojaRepository {
     public LojaRepository() {
     }
 
-    public LojaRepository(JsonFileUtil jsonHandler){
+    public LojaRepository(JsonFileUtil jsonHandler) {
         this.jsonHandler = jsonHandler;
     }
 
@@ -30,7 +30,7 @@ public class LojaRepository {
             return new ArrayList<>();
         }
 
-        JSONArray jsonArray = this.jsonHandler.loadJsonArray(lojasPath);
+        JSONArray jsonArray = JsonFileUtil.loadJsonArray(lojasPath);
         List<Loja> lojas = new ArrayList<>();
 
         for (int i = 0; i < jsonArray.length(); i++) {
@@ -44,6 +44,6 @@ public class LojaRepository {
 
     public void setAllLojas(List<Loja> lojas) {
         JSONArray jsonArray = new JSONArray(lojas);
-        this.jsonHandler .saveJsonArray(jsonArray, lojasPath);
+        JsonFileUtil.saveJsonArray(jsonArray, lojasPath);
     }
 }

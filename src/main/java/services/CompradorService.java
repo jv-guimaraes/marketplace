@@ -1,9 +1,6 @@
 package services;
 
 import entities.Comprador;
-import infrastructure.repositories.LojaRepository;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import infrastructure.repositories.CompradorRepository;
 
 import java.util.List;
@@ -15,6 +12,7 @@ public class CompradorService {
     public CompradorService() {
 
     }
+
     public CompradorService(CompradorRepository repository) {
         this.compradorRepository = repository;
     }
@@ -37,25 +35,14 @@ public class CompradorService {
         // Check if the email already exists
         for (var compradorJaCadastrado : compradores) {
             if (comprador.getEmail().equals(compradorJaCadastrado.getEmail())) {
-                System.out.println("Cannot create Comprador. CPF already exists.");
+                System.out.println("Cannot create Comprador. Email already exists.");
                 return;
             }
         }
 
         // CPF and email don't exist, proceed with creating the Comprador
-        /*compradores.add(comprador);
-        compradorRepository.setAllCompradores(compradores);*/
-
-        JSONObject compradorJson = new JSONObject();
-        compradorJson.put("nome", comprador.getNome());
-        compradorJson.put("email", comprador.getEmail());
-        compradorJson.put("senha", comprador.getSenha());
-        compradorJson.put("cpf", comprador.getCpf());
-        compradorJson.put("endereco", comprador.getEndereco());
-        compradorJson.put("carrinho", new JSONArray());
-        compradorJson.put("produtos", new JSONArray());
-
-        compradorRepository.createComprador(compradorJson);
+        compradores.add(comprador);
+        compradorRepository.setAllCompradores(compradores);
 
         System.out.println("Comprador created successfully.");
     }
@@ -111,16 +98,6 @@ public class CompradorService {
         compradorRepository.setAllCompradores(compradores);
     }
 
-    public void clearCarrinho(String cpf) {
-        var compradores = compradorRepository.getAllCompradores();
-        for (var comprador : compradores) {
-            if (comprador.getCpf().equals(cpf)) {
-                comprador.clearCarrinho();
-            }
-        }
-        compradorRepository.setAllCompradores(compradores);
-    }
-
     public boolean emailCadastrado(String email) {
         var compradores = compradorRepository.getAllCompradores();
         for (var comprador : compradores) {
@@ -159,9 +136,5 @@ public class CompradorService {
             }
         }
         return null;
-    }
-
-    public void addProduto(String cpf, Long produtoId) {
-        compradorRepository.addProduto(cpf, produtoId);
     }
 }

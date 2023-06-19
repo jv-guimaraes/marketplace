@@ -65,9 +65,10 @@ public class CompradorMenu {
             var produto = produtoService.getProdutoById(id);
             System.out.println("Comprando: " + produto.getNome());
             updateProduto(id, 1);
-            compradorService.addProduto(comprador.getCpf(), produto.getId());
-            compradorService.clearCarrinho(comprador.getCpf());
+            comprador.addToHistorico(id);
         }
+        comprador.clearCarrinho();
+        compradorService.updateComprador(comprador.getCpf(), comprador);
 
         System.out.println("Compra concluída com sucesso!");
     }

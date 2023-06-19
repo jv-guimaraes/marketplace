@@ -5,11 +5,7 @@ import infrastructure.repositories.LojaRepository;
 import infrastructure.repositories.ProdutoRepository;
 import services.CompradorService;
 import services.LojaService;
-import services.ProdutoService;/*
-import util.JsonFileCRUDCompradorUtil;
-import util.JsonFileCRUDLojaUtil;
-import util.JsonFileCRUDProdutoUtil;
-import util.JsonFileUtil;*/
+import services.ProdutoService;
 
 public class DI {
     /*
@@ -25,13 +21,15 @@ public class DI {
     private static final ProdutoService produtoService = new ProdutoService(produtoRepository);
 
 
-    public CompradorService getCompradorService(){
-        return this.compradorService;
+    public CompradorService getCompradorService() {
+        return compradorService;
     }
-    public LojaService getLojaService(){
-        return this.lojaService;
+
+    public LojaService getLojaService() {
+        return lojaService;
     }
-    public ProdutoService getProdutoService(){
-        return this.produtoService;
+
+    public ProdutoService getProdutoService() {
+        return produtoService;
     }
 }

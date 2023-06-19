@@ -1,1 +1,32 @@
-[{"marca":"McDonalds","tipo":"FastFood","lojaCnpj":"12312312312","valor":15,"nome":"BigMac","id":0,"quantidade":14,"descricao":"Hamburguer BigMac"},{"marca":"CocaCola","tipo":"Bebida","lojaCnpj":"12312312312","valor":10,"nome":"Coca Cola","id":1,"quantidade":92,"descricao":"Coca Cola de 1 Litro"},{"marca":"AMD","tipo":"GPU","lojaCnpj":"95175332198","valor":1449.99,"nome":"RX 6600 CLD 8G","id":2,"quantidade":30,"descricao":"Placa de Vídeo ASRock AMD Radeon RX 6600 CLD 8G, 8GB"}]
+[
+  {
+    "marca": "McDonalds",
+    "tipo": "FastFood",
+    "lojaCnpj": "12312312312",
+    "valor": 15,
+    "nome": "BigMac",
+    "id": 0,
+    "quantidade": 11,
+    "descricao": "Hamburguer BigMac"
+  },
+  {
+    "marca": "CocaCola",
+    "tipo": "Bebida",
+    "lojaCnpj": "12312312312",
+    "valor": 10,
+    "nome": "Coca Cola",
+    "id": 1,
+    "quantidade": 89,
+    "descricao": "Coca Cola de 1 Litro"
+  },
+  {
+    "marca": "AMD",
+    "tipo": "GPU",
+    "lojaCnpj": "95175332198",
+    "valor": 1449.99,
+    "nome": "RX 6600 CLD 8G",
+    "id": 2,
+    "quantidade": 27,
+    "descricao": "Placa de Vídeo ASRock AMD Radeon RX 6600 CLD 8G, 8GB"
+  }
+]

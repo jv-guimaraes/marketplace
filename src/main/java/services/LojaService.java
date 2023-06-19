@@ -6,10 +6,9 @@ import infrastructure.repositories.LojaRepository;
 import java.util.List;
 
 public class LojaService {
-    private LojaRepository lojaRepository;
+    private LojaRepository lojaRepository = new LojaRepository();
 
     public LojaService() {
-        this.lojaRepository = new LojaRepository();
     }
 
     public LojaService(LojaRepository repository) {
