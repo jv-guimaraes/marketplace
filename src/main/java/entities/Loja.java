@@ -10,6 +10,7 @@ public class Loja {
     private String senha;
     private String cnpj;
     private String endereco;
+    private String avaliacao;
 
     public Loja() {
     }
@@ -20,6 +21,7 @@ public class Loja {
         this.senha = senha;
         this.cnpj = cnpj;
         this.endereco = endereco;
+        this.avaliacao = " ";
     }
 
     public Loja(JSONObject jsonObject) {
@@ -28,6 +30,7 @@ public class Loja {
         this.senha = jsonObject.getString("senha");
         this.cnpj = jsonObject.getString("cnpj");
         this.endereco = jsonObject.getString("endereco");
+        this.avaliacao = jsonObject.getString("avaliacao");        
     }
 
     public Loja clone() {
@@ -36,6 +39,7 @@ public class Loja {
         newLoja.setEmail(this.email);
         newLoja.setEndereco(this.endereco);
         newLoja.setSenha(this.senha);
+        newLoja.setAvaliacao(this.avaliacao);
         return newLoja;
     }
 
@@ -77,6 +81,14 @@ public class Loja {
 
     public void setEndereco(String endereco) {
         this.endereco = endereco;
+    }
+
+    public String getAvaliacao() {
+        return avaliacao;
+    }
+
+    public void setAvaliacao(String avaliacao) {
+        this.avaliacao = avaliacao;
     }
 
     @Override

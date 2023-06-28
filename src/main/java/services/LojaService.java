@@ -1,19 +1,24 @@
 package services;
 
 import entities.Loja;
+import entities.Produto;
 import infrastructure.repositories.LojaRepository;
+import infrastructure.repositories.ProdutoRepository;
 
 import java.util.List;
 
 public class LojaService {
-    private LojaRepository lojaRepository = new LojaRepository();
+    private LojaRepository lojaRepository;
 
     public LojaService() {
+        this.lojaRepository = new LojaRepository();
     }
 
     public LojaService(LojaRepository repository) {
         this.lojaRepository = repository;
     }
+
+    private ProdutoRepository produtoRepository;
 
     public void createLoja(Loja loja) {
         var lojas = lojaRepository.getAllLojas();
@@ -92,4 +97,29 @@ public class LojaService {
         }
         return null;
     }
+
+    public void setAvaliacao(String cnpj, String avaliacao) {
+        var lojas = lojaRepository.getAllLojas();
+
+        for (Loja loja : lojas) {
+            if (loja.getCnpj().equals(cnpj)) {
+                loja.setAvaliacao(avaliacao);
+
+            }
+        }
+        lojaRepository.setAllLojas(lojas);
+    }
+
+    public Loja getLojaByProduto(long id) {
+        var produtos = produtoRepository.getAllProdutos();
+        for (Produto produto : produtos) {
+            if (produto.getId() == id) {
+                String lojaCnpj = produto.getLojaCnpj();
+                var lojaByCnpj = getLojaByCnpj(lojaCnpj);
+                return lojaByCnpj;
+            }
+        }
+        return null;
+    }
+    
 }
