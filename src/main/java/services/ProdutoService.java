@@ -8,7 +8,8 @@ import java.util.List;
 
 public class ProdutoService {
     private ProdutoRepository produtoRepository = new ProdutoRepository();
-
+    private LojaService lojaService;
+    private Produto produto;
     public ProdutoService() {
     }
 
@@ -84,5 +85,16 @@ public class ProdutoService {
             if (produto.getId() == id) return true;
         }
         return false;
+    }
+    public void adicionarNota(long id, int nota) {
+        if (produtoExiste(id)) return;
+        var produtos = produtoRepository.getAllProdutos();
+        for (var produto : produtos) {
+            if (produto.getId().equals(id)) {
+                produto.addNotaProduto(nota);
+            }
+        }
+
+        produtoRepository.setAllProdutos(produtos);
     }
 }

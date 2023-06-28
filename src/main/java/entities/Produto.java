@@ -2,6 +2,8 @@ package entities;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Produto {
@@ -14,7 +16,7 @@ public class Produto {
     String marca;
     String descricao;
     String lojaCnpj;
-
+    List<Integer> notas;
     public Produto() {
     }
 
@@ -26,6 +28,9 @@ public class Produto {
         this.marca = marca;
         this.descricao = descricao;
         this.lojaCnpj = lojaCnpj;
+        this.notas = new ArrayList<>();
+
+
     }
 
     public Produto(JSONObject jsonObject) {
@@ -37,6 +42,10 @@ public class Produto {
         this.marca = jsonObject.getString("marca");
         this.descricao = jsonObject.getString("descricao");
         this.lojaCnpj = jsonObject.getString("lojaCnpj");
+        this.notas = new ArrayList<>();
+        var notasArray = jsonObject.getJSONArray("notas");
+        for (int i = 0; i < notasArray.length(); i++) {
+            this.notas.add(notasArray.getInt(i));}
     }
 
     public Produto clone() {
@@ -113,7 +122,13 @@ public class Produto {
     public void setLojaCnpj(String lojaCnpj) {
         this.lojaCnpj = lojaCnpj;
     }
+    public List<Integer> getNotas() {
+        return notas;
+    }
 
+    public void setNotas(List<Integer> notas) {
+        this.notas = notas;
+    }
     @Override
     public boolean equals(Object o) {
 
@@ -137,5 +152,8 @@ public class Produto {
     @Override
     public String toString() {
         return String.format("%d, %s, %s, %s, %d, %s, %s", id, nome, valor, tipo, quantidade, marca, descricao);
+    }
+    public void addNotaProduto(int nota) {
+        notas.add(nota);
     }
 }

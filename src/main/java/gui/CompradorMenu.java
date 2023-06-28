@@ -66,6 +66,7 @@ public class CompradorMenu {
             System.out.println("Comprando: " + produto.getNome());
             updateProduto(id, 1);
             comprador.addToHistorico(id);
+            avaliar(id);
         }
         comprador.clearCarrinho();
         compradorService.updateComprador(comprador.getCpf(), comprador);
@@ -84,5 +85,11 @@ public class CompradorMenu {
         } else {
             produtoService.updateProduto(id, produto);
         }
+    }
+    private static void avaliar(long id) {
+        System.out.println("Digite a nota para o produto: ");
+        int nota = getNumero();
+        produtoService.adicionarNota(id, nota);
+
     }
 }
