@@ -8,7 +8,7 @@ import infrastructure.repositories.ProdutoRepository;
 import java.util.List;
 
 public class LojaService {
-    private LojaRepository lojaRepository;
+    private LojaRepository lojaRepository ;
 
     public LojaService() {
         this.lojaRepository = new LojaRepository();
@@ -18,7 +18,7 @@ public class LojaService {
         this.lojaRepository = repository;
     }
 
-    private ProdutoRepository produtoRepository;
+    private ProdutoRepository produtoRepository= new ProdutoRepository();
 
     public void createLoja(Loja loja) {
         var lojas = lojaRepository.getAllLojas();

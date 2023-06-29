@@ -56,6 +56,7 @@ public class Produto {
         newProduto.setMarca(this.marca);
         newProduto.setQuantidade(this.quantidade);
         newProduto.setValor(this.valor);
+        newProduto.setNotas(this.notas);
         return newProduto;
     }
 
