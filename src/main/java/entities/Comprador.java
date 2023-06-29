@@ -19,6 +19,8 @@ public class Comprador {
     List<Long> historico;
 
     public Comprador() {
+        this.carrinho = new ArrayList<>();
+        this.historico = new ArrayList<>();
     }
 
     public Comprador(String nome, String email, String senha, String cpf, String endereco) {

@@ -18,6 +18,7 @@ public class Produto {
     String lojaCnpj;
     List<Integer> notas;
     public Produto() {
+        this.notas = new ArrayList<>();
     }
 
     public Produto(String nome, Double valor, String tipo, Integer quantidade, String marca, String descricao, String lojaCnpj) {

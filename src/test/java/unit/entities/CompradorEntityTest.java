@@ -5,6 +5,9 @@ import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -15,7 +18,11 @@ public class CompradorEntityTest {
 
     @BeforeEach
     void createComprador() {
+        List<Long> carrinho = new ArrayList<Long>(Arrays.asList(1L,2L,3L));
+        List<Long> historico = new ArrayList<Long>(Arrays.asList(1L,2L,3L));
         comprador = new Comprador();
+        compradorFilled.setCarrinho(carrinho);
+        compradorFilled.setHistorico(historico);
     }
 
     @Test
@@ -26,8 +33,10 @@ public class CompradorEntityTest {
         json.put("senha", compradorFilled.getSenha());
         json.put("cpf", compradorFilled.getCpf());
         json.put("endereco", compradorFilled.getEndereco());
+        json.put("carrinho", compradorFilled.getCarrinho());
+        json.put("historico", compradorFilled.getHistorico());
         Comprador compradorFjson = new Comprador(json);
-        assert (compradorFjson.equals(compradorFilled));
+        assertTrue(compradorFjson.equals(compradorFilled));
     }
 
     @Test
@@ -69,7 +78,41 @@ public class CompradorEntityTest {
         comprador.setSenha(senha);
         assertEquals(comprador.getSenha(), senha);
     }
+    @Test
+    public void addProdutoCarrinho() {
+        Long produtoId = 1L;
+        List<Long> carrinho = new ArrayList<Long>(Arrays.asList(produtoId));
+        assertNotNull(comprador.getCarrinho());
+        assertTrue(comprador.getCarrinho().isEmpty());
+        comprador.addProdutoCarrinho(produtoId);
+        assertFalse(comprador.getCarrinho().isEmpty());
+        assertEquals(comprador.getCarrinho(), carrinho);
+    }
+    @Test
+    public void clearCarrinho() {
+        assertNotNull(compradorFilled.getCarrinho());
+        assertFalse(compradorFilled.getCarrinho().isEmpty());
+        compradorFilled.clearCarrinho();
+        assertTrue(compradorFilled.getCarrinho().isEmpty());
+    }
+    @Test
 
+    public void carrinhoContem() {
+        Long produtoId = 1L;
+        List<Long> carrinho = new ArrayList<Long>(Arrays.asList(produtoId));
+        comprador.setCarrinho(carrinho);
+        assertTrue(comprador.carrinhoContem(produtoId));
+    }
+    @Test
+    public void addToHistorico() {
+        Long produtoId = 1L;
+        List<Long> historico = new ArrayList<Long>(Arrays.asList(produtoId));
+        assertNotNull(comprador.getHistorico());
+        assertTrue(comprador.getHistorico().isEmpty());
+        comprador.addToHistorico(produtoId);
+        assertFalse(comprador.getHistorico().isEmpty());
+        assertEquals(comprador.getHistorico(), historico);
+    }
     @Test
     public void testHashCode() {
         String cpf = compradorFilled.getCpf();
@@ -78,30 +121,16 @@ public class CompradorEntityTest {
 
     @Test
     public void testEquals() {
-        assertNotEquals(1, compradorFilled);
+        assertFalse(compradorFilled.equals(1));
     }
 
     @Test
     public void testEmptyToString() {
-        assertEquals(comprador.toString(), "\n" +
-                "{\n" +
-                "\"nome\":null,\n" +
-                "\"cpf\":null,\n" +
-                "\"email\":null,\n" +
-                "\"senha\":null,\n" +
-                "\"endereco\":null,\n" +
-                "}\n");
+        assertEquals(comprador.toString(), "nome: null, email: null, senha: null, cpf: null, endereco: null, nomesProdutosComprados: []");
     }
 
     @Test
     public void testFilledToString() {
-        assertEquals(compradorFilled.toString(), "\n" +
-                "{\n" +
-                "\"nome\":josé,\n" +
-                "\"cpf\":701.254.231-72,\n" +
-                "\"email\":hugo@gmail.com,\n" +
-                "\"senha\":mustbe a hash,\n" +
-                "\"endereco\":myhome,\n" +
-                "}\n");
+        assertEquals(compradorFilled.toString(), "nome: josé, email: hugo@gmail.com, senha: mustbe a hash, cpf: 701.254.231-72, endereco: myhome, nomesProdutosComprados: [1, 2, 3]");
     }
 }

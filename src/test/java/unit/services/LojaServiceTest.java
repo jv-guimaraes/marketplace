@@ -11,17 +11,18 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 public class LojaServiceTest {
-    Loja loja = new Loja("josé", "hugo@gmail.com", "mustbe a hash", "701.254.231-72", "myhome");
-    Loja lojaNotCreated = new Loja("maria", "maria@gmail.com", "other a hash", "701.254.231-73", "otherplace");
+    Loja loja;
+    Loja lojaNotCreated;
     List<Loja> lojasArrayNotCreated;
     List<Loja> lojasArray;
     @BeforeEach
     void addToArray() {
+        loja = new Loja("josé", "hugo@gmail.com", "mustbe a hash", "701.254.231-72", "myhome");
+        lojaNotCreated = new Loja("maria", "maria@gmail.com", "other a hash", "701.254.231-73", "otherplace");
         lojasArrayNotCreated = new ArrayList<Loja>(Arrays.asList(loja));
         lojasArray = new ArrayList<Loja>(Arrays.asList(loja, lojaNotCreated));
     }
@@ -32,6 +33,10 @@ public class LojaServiceTest {
         LojaService service = new LojaService(mock);
         assertEquals(service.getAllLojas(), lojasArray);
         verify(mock, times(1)).getAllLojas();
+    }
+    @Test
+    public void createLojaDefault() throws Exception {
+        LojaService service = new LojaService();
     }
 
     @Test
@@ -54,7 +59,101 @@ public class LojaServiceTest {
         verify(mock, times(0)).setAllLojas(lojasArray);
         verify(mock, times(0)).setAllLojas(lojasArrayNotCreated);
     }
+    @Test
+    public void getLojaByCnpjThatExists(){
+        LojaRepository mock = mock();
+        LojaService service = new LojaService(mock);
+        when(mock.getAllLojas()).thenReturn(lojasArrayNotCreated);
+        assertEquals(service.getLojaByCnpj(loja.getCnpj()), loja);
+        verify(mock, times(1)).getAllLojas();
+    }
+    @Test
+    public void getLojaByCnpjThatNotExists(){
+        LojaRepository mock = mock();
+        LojaService service = new LojaService(mock);
+        when(mock.getAllLojas()).thenReturn(lojasArrayNotCreated);
+        assertEquals(service.getLojaByCnpj(lojaNotCreated.getCnpj()), null);
+        verify(mock, times(1)).getAllLojas();
+    }
+    @Test
+    public void emailCadastradoMustReturnTrue() {
+        LojaRepository mock = mock();
+        LojaService service = new LojaService(mock);
+        when(mock.getAllLojas()).thenReturn(lojasArrayNotCreated);
+        assertTrue(service.emailCadastrado(loja.getEmail()));
+        verify(mock, times(1)).getAllLojas();
+    }
+    @Test
+    public void emailCadastradoMustReturnFalse() {
+        LojaRepository mock = mock();
+        LojaService service = new LojaService(mock);
+        when(mock.getAllLojas()).thenReturn(lojasArrayNotCreated);
+        assertFalse(service.emailCadastrado(lojaNotCreated.getEmail()));
+        verify(mock, times(1)).getAllLojas();
+    }
 
+    @Test
+    public void loginValido() {
+        LojaRepository mock = mock();
+        LojaService service = new LojaService(mock);
+        when(mock.getAllLojas()).thenReturn(lojasArrayNotCreated);
+        assertTrue(service.loginValido(loja.getEmail(), loja.getSenha()));
+        verify(mock, times(1)).getAllLojas();
+    }
+
+    @Test
+    public void loginInvalido() {
+        LojaRepository mock = mock();
+        LojaService service = new LojaService(mock);
+        when(mock.getAllLojas()).thenReturn(lojasArrayNotCreated);
+        assertFalse(service.loginValido(lojaNotCreated.getEmail(), lojaNotCreated.getSenha()));
+        verify(mock, times(1)).getAllLojas();
+    }
+
+    @Test
+    public void getCnpjFromEmail(){
+        LojaRepository mock = mock();
+        LojaService service = new LojaService(mock);
+        when(mock.getAllLojas()).thenReturn(lojasArrayNotCreated);
+        assertEquals(service.getCnpjFromEmail(loja.getEmail()),loja.getCnpj());
+        verify(mock, times(1)).getAllLojas();
+    }
+
+    @Test
+    public void getCnpjFromEmailThatNotExists(){
+        LojaRepository mock = mock();
+        LojaService service = new LojaService(mock);
+        when(mock.getAllLojas()).thenReturn(lojasArrayNotCreated);
+        assertNull(service.getCnpjFromEmail(lojaNotCreated.getEmail()), lojaNotCreated.getCnpj());
+        verify(mock, times(1)).getAllLojas();
+    }
+
+    @Test
+    public void setAvaliacao(){
+        String avaliacao = "boa";
+        List<Loja> copyLojasArray = new ArrayList<Loja>();
+        copyLojasArray.addAll(lojasArrayNotCreated);
+        Loja alteredLoja = loja.clone();
+        alteredLoja.setAvaliacao(avaliacao);
+        copyLojasArray.set(0, alteredLoja);
+        LojaRepository mock = mock();
+        LojaService service = new LojaService(mock);
+        when(mock.getAllLojas()).thenReturn(lojasArrayNotCreated);
+        service.setAvaliacao(loja.getCnpj(), avaliacao);
+        InOrder inOrder = inOrder(mock);
+        inOrder.verify(mock, times(1)).getAllLojas();
+        inOrder.verify(mock, times(1)).setAllLojas(copyLojasArray);
+
+    }
+    @Test
+    public void getLojaByProduto(){
+        LojaRepository mock = mock();
+        LojaService service = new LojaService(mock);
+        service.getLojaByProduto(loja.ge)
+        service.getLojaByProduto(loja.ge)
+        verify(mock, times(1)).g();
+
+    }
     @Test
     public void updateLoja() throws Exception {
         LojaRepository mock = mock();

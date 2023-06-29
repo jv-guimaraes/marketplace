@@ -1,9 +1,13 @@
 package unit.entities;
 
 import entities.Produto;
+import entities.Loja;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -16,17 +20,21 @@ public class ProdutoEntityTest {
     public void produtoFromObject() {
         JSONObject json = new JSONObject();
         produtoFilled.setId(1L);
+        produtoFilled.setNotas(
+                new ArrayList<Integer>(Arrays.asList(1,2,3))
+        );
         json.put("id", produtoFilled.getId());
         json.put("nome", produtoFilled.getNome());
         json.put("valor", produtoFilled.getValor());
         json.put("tipo", produtoFilled.getTipo());
         json.put("quantidade", produtoFilled.getQuantidade());
         json.put("marca", produtoFilled.getMarca());
+        json.put("notas", produtoFilled.getNotas());
         json.put("descricao", produtoFilled.getDescricao());
         json.put("lojaCnpj", produtoFilled.getLojaCnpj());
         Produto produtoFjson = new Produto(json);
         produtoFjson.setId(produtoFilled.getId());
-        produtoFjson.equals(produtoFilled);
+        assertTrue(produtoFjson.equals(produtoFilled));
     }
 
     @Test
@@ -37,6 +45,15 @@ public class ProdutoEntityTest {
         assertEquals(produto.getNome(), nome);
     }
 
+    @Test
+    public void getNotas() {
+        new ArrayList<Produto>(Arrays.asList(produto));
+        List<Integer> notas = new ArrayList<Integer>(Arrays.asList(1,2,3));
+        assertNotNull(produto.getNotas());
+        assertTrue(produto.getNotas().isEmpty());
+        produto.setNotas(notas);
+        assertEquals(produto.getNotas(), notas);
+    }
     @Test
     public void getValor() {
         Double valor = 2290.35;
@@ -86,6 +103,17 @@ public class ProdutoEntityTest {
     }
 
     @Test
+    public void addNota(){
+        Integer nota = 2;
+        List<Integer> notas = new ArrayList<Integer>(Arrays.asList());
+        notas.add(nota);
+        assertNotNull(produto.getNotas());
+        assertTrue(produto.getNotas().isEmpty());
+        produto.addNotaProduto(nota);
+        assertEquals(produto.getNotas(), notas);
+
+    }
+    @Test
     public void testHashCode() {
         Long id = produtoFilled.getId();
         assertEquals(produtoFilled.hashCode(), Objects.hash(id));
@@ -93,35 +121,19 @@ public class ProdutoEntityTest {
 
     @Test
     public void testEquals() {
-        assertNotEquals(1, produtoFilled);
+        Loja loja = new Loja();
+        assertFalse(produtoFilled.equals(1));
+        assertFalse(produtoFilled.equals(loja));
     }
 
     @Test
     public void testEmptyToString() {
-        assertEquals(produto.toString(), "\n" +
-                "{\n" +
-                "\"id\":null,\n" +
-                "\"nome\":null,\n" +
-                "\"valor\":null,\n" +
-                "\"tipo\":null,\n" +
-                "\"quantidade\":null,\n" +
-                "\"marca\":null,\n" +
-                "\"descricao\":null,\n" +
-                "}\n");
+        assertEquals(produto.toString(), "null, null, null, null, null, null, null");
     }
 
     @Test
     public void testFilledToString() {
-        assertEquals(produtoFilled.toString(), "\n" +
-                "{\n" +
-                "\"id\":null,\n" +
-                "\"nome\":IPHONE XR,\n" +
-                "\"valor\":2290.35,\n" +
-                "\"tipo\":CELULAR,\n" +
-                "\"quantidade\":1,\n" +
-                "\"marca\":APPLE,\n" +
-                "\"descricao\":O iPhone XR tem tela Liquid Retina de 6,1 polegadas** e seis lindas cores. Face ID avançado para desbloquear o aparelho e acessar apps só com o olhar. Chip A12 Bionic, que usa aprendizado de máquina em tempo real para transformar sua maneira de interagir com fotos, jogos, realidade aumentada e muito mais,\n" +
-                "}\n");
+        assertEquals(produtoFilled.toString(), "null, IPHONE XR, 2290.35, CELULAR, 1, APPLE, O iPhone XR tem tela Liquid Retina de 6,1 polegadas** e seis lindas cores. Face ID avançado para desbloquear o aparelho e acessar apps só com o olhar. Chip A12 Bionic, que usa aprendizado de máquina em tempo real para transformar sua maneira de interagir com fotos, jogos, realidade aumentada e muito mais");
 
     }
 }
