@@ -101,7 +101,8 @@ public class ProdutoService {
     public void AdicionarNotaLoja(long id){
         var loja = lojaService.getLojaByProduto(id);
         List<Integer> notas = new ArrayList<Integer>();
-        notas = produto.getNotas();
+        var produ = getProdutoById(id);
+        notas = produ.getNotas();
         int soma =0;
         for(int nota : notas){
             soma += nota;
