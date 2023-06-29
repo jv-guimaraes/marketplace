@@ -146,15 +146,6 @@ public class LojaServiceTest {
 
     }
     @Test
-    public void getLojaByProduto(){
-        LojaRepository mock = mock();
-        LojaService service = new LojaService(mock);
-        service.getLojaByProduto(loja.ge)
-        service.getLojaByProduto(loja.ge)
-        verify(mock, times(1)).g();
-
-    }
-    @Test
     public void updateLoja() throws Exception {
         LojaRepository mock = mock();
         List<Loja> copyLojasArray = new ArrayList<Loja>();

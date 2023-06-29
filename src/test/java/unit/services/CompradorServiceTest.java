@@ -2,7 +2,9 @@ package unit.services;
 
 import entities.Comprador;
 import entities.Loja;
+import entities.Produto;
 import infrastructure.repositories.LojaRepository;
+import infrastructure.repositories.ProdutoRepository;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,12 +13,13 @@ import infrastructure.repositories.CompradorRepository;
 import org.mockito.InOrder;
 import services.CompradorService;
 import services.LojaService;
+import services.ProdutoService;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 public class CompradorServiceTest {
@@ -40,13 +43,38 @@ public class CompradorServiceTest {
         compradorArray = new ArrayList<Comprador>(Arrays.asList(comprador, compradorNotCreated));
     }
     @Test
-    public void getCompradorByCpf() throws Exception {
+    public void getCompradorByCpfThatExists() throws Exception {
         String cpf = comprador.getCpf();
         CompradorRepository mock = mock();
         when(mock.getAllCompradores()).thenReturn(compradorArray);
         CompradorService service = new CompradorService(mock);
         assertEquals(service.getCompradorByCpf(cpf), comprador);
         verify(mock, times(1)).getAllCompradores();
+    }
+    @Test
+    public void getCompradorByCpfThatNotExists() throws Exception {
+        String cpf = compradorNotCreated.getCpf();
+        CompradorRepository mock = mock();
+        when(mock.getAllCompradores()).thenReturn(compradorArrayNotCreated);
+        CompradorService service = new CompradorService(mock);
+        assertNull(service.getCompradorByCpf(cpf));
+        verify(mock, times(1)).getAllCompradores();
+    }
+    @Test
+    public void compradorExisteReturnsTrue(){
+        String cpf = comprador.getCpf();
+        CompradorRepository mock = mock();
+        when(mock.getAllCompradores()).thenReturn(compradorArrayNotCreated);
+        CompradorService service = new CompradorService(mock);
+        assertTrue(service.compradorExiste(cpf));
+    }
+    @Test
+    public void compradorExisteReturnsFalse(){
+        String cpf = compradorNotCreated.getCpf();
+        CompradorRepository mock = mock();
+        when(mock.getAllCompradores()).thenReturn(compradorArrayNotCreated);
+        CompradorService service = new CompradorService(mock);
+        assertFalse(service.compradorExiste(cpf));
     }
 
     @Test
@@ -78,6 +106,55 @@ public class CompradorServiceTest {
         service.createComprador(comprador);
         verify(mock, times(0)).setAllCompradores(compradorArray);
         verify(mock, times(0)).setAllCompradores(compradorArrayNotCreated);
+    }
+    @Test
+    public void loginValido() {
+        CompradorRepository mock = mock();
+        CompradorService service = new CompradorService(mock);
+        when(mock.getAllCompradores()).thenReturn(compradorArrayNotCreated);
+        assertTrue(service.loginValido(comprador.getEmail(), comprador.getSenha()));
+        verify(mock, times(1)).getAllCompradores();
+    }
+
+    @Test
+    public void loginInvalido() {
+        CompradorRepository mock = mock();
+        CompradorService service = new CompradorService(mock);
+        when(mock.getAllCompradores()).thenReturn(compradorArrayNotCreated);
+        assertFalse(service.loginValido(compradorNotCreated.getEmail(), compradorNotCreated.getSenha()));
+        verify(mock, times(1)).getAllCompradores();
+    }
+
+    @Test
+    public void emailCadastradoMustReturnTrue() {
+        CompradorRepository mock = mock();
+        CompradorService service = new CompradorService(mock);
+        when(mock.getAllCompradores()).thenReturn(compradorArrayNotCreated);
+        assertTrue(service.emailCadastrado(comprador.getEmail()));
+        verify(mock, times(1)).getAllCompradores();
+    }
+    @Test
+    public void emailCadastradoMustReturnFalse() {
+        CompradorRepository mock = mock();
+        CompradorService service = new CompradorService(mock);
+        when(mock.getAllCompradores()).thenReturn(compradorArrayNotCreated);
+        assertFalse(service.emailCadastrado(compradorNotCreated.getEmail()));
+        verify(mock, times(1)).getAllCompradores();
+    }
+    @Test
+    public void adicionarNota(){
+        int nota = 8;
+        List<Produto> copyProdutosArray = new ArrayList<Produto>();
+        copyProdutosArray.addAll(produtoArrayNotCreated);
+        Produto alteredProduto = produto.clone();
+        alteredProduto.addNotaProduto(nota);
+        copyProdutosArray.set(0, alteredProduto);
+        ProdutoRepository mock = mock();
+        ProdutoService service = new ProdutoService(mock);
+        when(mock.getAllProdutos()).thenReturn(produtoArrayNotCreated);
+        service.adicionarNota(produto.getId(), nota);
+        verify(mock, times(1)).getAllProdutos();
+        verify(mock, times(1)).setAllProdutos(copyProdutosArray);
     }
 
     @Test

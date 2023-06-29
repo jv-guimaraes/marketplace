@@ -1,27 +1,17 @@
 package unit.services;
 
-import entities.Loja;
 import entities.Produto;
-import entities.Produto;
-import entities.Produto;
-import infrastructure.repositories.LojaRepository;
-import infrastructure.repositories.ProdutoRepository;
 import infrastructure.repositories.ProdutoRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import infrastructure.repositories.ProdutoRepository;
 import org.mockito.InOrder;
-import services.LojaService;
-import services.ProdutoService;
-import services.ProdutoService;
 import services.ProdutoService;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 public class ProdutoServiceTest {
@@ -39,12 +29,25 @@ public class ProdutoServiceTest {
     }
 
     @Test
-    public void getProdutoById() throws Exception {
+    public void createProdutoServiceByPath() throws Exception {
+        ProdutoService service = new ProdutoService("example");
+    }
+    @Test
+    public void getProdutoByIdThatExists() throws Exception {
         Long produtoId = produto.getId();
         ProdutoRepository mock = mock();
         when(mock.getAllProdutos()).thenReturn(produtoArray);
         ProdutoService service = new ProdutoService(mock);
-        assert (service.getProdutoById(produtoId).equals(produto));
+        assertTrue(service.getProdutoById(produtoId).equals(produto));
+        verify(mock, times(1)).getAllProdutos();
+    }
+    @Test
+    public void getProdutoByIdThatNotExists() throws Exception {
+        Long produtoId = produtoNotCreated.getId();
+        ProdutoRepository mock = mock();
+        when(mock.getAllProdutos()).thenReturn(produtoArrayNotCreated);
+        ProdutoService service = new ProdutoService(mock);
+        assertNull(service.getProdutoById(produtoId));
         verify(mock, times(1)).getAllProdutos();
     }
 
@@ -76,6 +79,37 @@ public class ProdutoServiceTest {
         inOrder.verify(mock, times(1)).getAllProdutos();
         inOrder.verify(mock, times(1)).setAllProdutos(produtoArray);
     }
+    @Test
+    public void produtoExisteTrue(){
+        ProdutoRepository mock = mock();
+        ProdutoService service = new ProdutoService(mock);
+        when(mock.getAllProdutos()).thenReturn(produtoArray);
+        assertTrue(service.produtoExiste(produto.getId()));
+        verify(mock, times(1)).getAllProdutos();
+    }
+    @Test
+    public void produtoExisteFalse(){
+        ProdutoRepository mock = mock();
+        ProdutoService service = new ProdutoService(mock);
+        when(mock.getAllProdutos()).thenReturn(produtoArrayNotCreated);
+        assertFalse(service.produtoExiste(produtoNotCreated.getId()));
+        verify(mock, times(1)).getAllProdutos();
+    }
+    @Test
+    public void adicionarNota(){
+        int nota = 8;
+        List<Produto> copyProdutosArray = new ArrayList<Produto>();
+        copyProdutosArray.addAll(produtoArrayNotCreated);
+        Produto alteredProduto = produto.clone();
+        alteredProduto.addNotaProduto(nota);
+        copyProdutosArray.set(0, alteredProduto);
+        ProdutoRepository mock = mock();
+        ProdutoService service = new ProdutoService(mock);
+        when(mock.getAllProdutos()).thenReturn(produtoArrayNotCreated);
+        service.adicionarNota(produto.getId(), nota);
+        verify(mock, times(1)).getAllProdutos();
+        verify(mock, times(1)).setAllProdutos(copyProdutosArray);
+    }
 
 
     @Test
@@ -96,6 +130,7 @@ public class ProdutoServiceTest {
     public void getProdutosByProduto() throws Exception {
         String lojaCnpj = produto.getLojaCnpj();
         ProdutoRepository mock = mock();
+        when(mock.getAllProdutos()).thenReturn(produtoArray);
         ProdutoService service = new ProdutoService(mock);
         service.getProdutosByLoja(lojaCnpj);
         verify(mock, times(1)).getAllProdutos();
