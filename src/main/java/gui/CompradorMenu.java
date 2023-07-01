@@ -13,17 +13,28 @@ public class CompradorMenu {
             System.out.println("2 - Adcionar produto ao carrinho");
             System.out.println("3 - Exibir carrinho");
             System.out.println("4 - Comprar itens no carrinho");
-            System.out.println("5 - Sair");
+            System.out.println("5 - Exibir pontos");
+            System.out.println("6 - Sair");
             switch (getNumero()) {
                 case 1 -> exibirProdutos();
                 case 2 -> adcionarProdutoCarrinho(email);
                 case 3 -> exibirCarrinho(email);
                 case 4 -> comprarItensCarrinho(email);
-                case 5 -> {
+                case 5 -> exibirPontos(email);
+                case 6 -> {
                     return;
                 }
             }
         }
+    }
+
+    private static void exibirPontos(String email) {
+        var comprador = compradorService.getCompradorByEmail(email);
+        System.out.printf("Voce tem %d pontos.\n", comprador.getPontos());
+        System.out.println("Preços dos bônus:");
+        System.out.println("   100 pontos - Frete grátis");
+        System.out.println("   150 pontos - 10% de desconto");
+        System.out.println();
     }
 
     private static void exibirCarrinho(String email) {
@@ -77,9 +88,33 @@ public class CompradorMenu {
         System.out.println("Realizando a compra dos itens no carrinho:");
         for (var id : comprador.getCarrinho()) {
             var produto = produtoService.getProdutoById(id);
+            System.out.printf("%s(R$ %.2f):\n", produto.getNome(), produto.getValor());
+
+            // Perguntar se o usuario quer usar seus pontos para ganhar um bônus
+            if (comprador.getPontos() >= 100) {
+                System.out.printf("Você tem %d pontos. Quer usar 100 pontos para ganhar frete grátis? (s/n) ",
+                        comprador.getPontos());
+                var simOuNao = scanner.nextLine();
+                if (simOuNao.equals("S") || simOuNao.equals("s")) {
+                    System.out.printf("%s foi comprado com frete grátis.\n", produto.getNome());
+                    comprador.setPontos(comprador.getPontos() - 100);
+                    compradorService.updateComprador(comprador.getCpf(), comprador);
+                }
+            }
+            if (comprador.getPontos() >= 150) {
+                System.out.printf("Você tem %d pontos. Quer usar 150 pontos para ganhar 10%% de desconto? (s/n) ",
+                        comprador.getPontos());
+                var simOuNao = scanner.nextLine();
+                if (simOuNao.equals("S") || simOuNao.equals("s")) {
+                    System.out.printf("%s foi comprado com 10%% de desconto, por R$ %.2f.\n",
+                            produto.getNome(), produto.getValor() * 0.9);
+                    comprador.setPontos(comprador.getPontos() - 150);
+                    compradorService.updateComprador(comprador.getCpf(), comprador);
+                }
+            }
             updateProduto(id, 1);
-            comprador.addToHistorico(id);
             comprador.addPontos(produto.getValor());
+            comprador.addToHistorico(id);
             avaliar(produto);
         }
         comprador.clearCarrinho();

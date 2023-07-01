@@ -1,19 +1,17 @@
 package unit.services;
 
 import entities.Comprador;
-import entities.Loja;
-import infrastructure.repositories.LojaRepository;
+import infrastructure.repositories.CompradorRepository;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import infrastructure.repositories.CompradorRepository;
 import org.mockito.InOrder;
 import services.CompradorService;
-import services.LojaService;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -26,6 +24,7 @@ public class CompradorServiceTest {
     List<Comprador> compradorArrayNotCreated;
     List<Comprador> compradorArray;
     JSONObject compradorJSON;
+
     @BeforeEach
     void addToArray() {
         compradorJSON = new JSONObject();
@@ -36,9 +35,10 @@ public class CompradorServiceTest {
         compradorJSON.put("endereco", compradorNotCreated.getEndereco());
         compradorJSON.put("carrinho", new JSONArray());
         compradorJSON.put("produtos", new JSONArray());
-        compradorArrayNotCreated = new ArrayList<Comprador>(Arrays.asList(comprador));
+        compradorArrayNotCreated = new ArrayList<Comprador>(Collections.singletonList(comprador));
         compradorArray = new ArrayList<Comprador>(Arrays.asList(comprador, compradorNotCreated));
     }
+
     @Test
     public void getCompradorByCpf() throws Exception {
         String cpf = comprador.getCpf();

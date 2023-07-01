@@ -17,6 +17,7 @@ public class Produto {
     String descricao;
     String lojaCnpj;
     List<Integer> notas;
+
     public Produto() {
     }
 
@@ -45,7 +46,8 @@ public class Produto {
         this.notas = new ArrayList<>();
         var notasArray = jsonObject.getJSONArray("notas");
         for (int i = 0; i < notasArray.length(); i++) {
-            this.notas.add(notasArray.getInt(i));}
+            this.notas.add(notasArray.getInt(i));
+        }
     }
 
     public Produto clone() {
@@ -123,6 +125,7 @@ public class Produto {
     public void setLojaCnpj(String lojaCnpj) {
         this.lojaCnpj = lojaCnpj;
     }
+
     public List<Integer> getNotas() {
         return notas;
     }
@@ -130,6 +133,7 @@ public class Produto {
     public void setNotas(List<Integer> notas) {
         this.notas = notas;
     }
+
     @Override
     public boolean equals(Object o) {
 
@@ -154,6 +158,7 @@ public class Produto {
     public String toString() {
         return String.format("%d, %s, %s, %s, %d, %s, %s", id, nome, valor, tipo, quantidade, marca, descricao);
     }
+
     public void addNotaProduto(int nota) {
         notas.add(nota);
     }

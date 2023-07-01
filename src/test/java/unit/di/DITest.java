@@ -1,10 +1,10 @@
 package unit.di;
 
+import di.DI;
+import org.junit.jupiter.api.Test;
 import services.CompradorService;
 import services.LojaService;
 import services.ProdutoService;
-import di.DI;
-import org.junit.jupiter.api.Test;
 
 
 public class DITest {

@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProdutoService {
-    private ProdutoRepository produtoRepository = new ProdutoRepository();
     private final Produto produto = new Produto();
+    private ProdutoRepository produtoRepository = new ProdutoRepository();
 
     public ProdutoService() {
     }

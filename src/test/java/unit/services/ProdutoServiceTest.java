@@ -1,27 +1,18 @@
 package unit.services;
 
-import entities.Loja;
 import entities.Produto;
-import entities.Produto;
-import entities.Produto;
-import infrastructure.repositories.LojaRepository;
-import infrastructure.repositories.ProdutoRepository;
 import infrastructure.repositories.ProdutoRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import infrastructure.repositories.ProdutoRepository;
 import org.mockito.InOrder;
-import services.LojaService;
-import services.ProdutoService;
-import services.ProdutoService;
 import services.ProdutoService;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 public class ProdutoServiceTest {
@@ -34,7 +25,7 @@ public class ProdutoServiceTest {
     void createNewStack() {
         produto.setId(1L);
         produtoNotCreated.setId(2L);
-        produtoArrayNotCreated = new ArrayList<Produto>(Arrays.asList(produto));
+        produtoArrayNotCreated = new ArrayList<Produto>(Collections.singletonList(produto));
         produtoArray = new ArrayList<Produto>(Arrays.asList(produto, produtoNotCreated));
     }
 

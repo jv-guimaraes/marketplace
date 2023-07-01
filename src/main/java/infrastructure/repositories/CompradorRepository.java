@@ -11,11 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CompradorRepository {
-    private String compradoresPath = "database/compradores.json";
-
     private final ProdutoRepository produtoRepository = new ProdutoRepository();
-
     private final ProdutoService produtoService = new ProdutoService();
+    private String compradoresPath = "database/compradores.json";
 
     public CompradorRepository() {
     }
