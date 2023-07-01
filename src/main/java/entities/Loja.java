@@ -120,7 +120,7 @@ public class Loja {
 
     @Override
     public String toString() {
-        return String.format("%s, %s, %s, %s, %s", nome, email, senha, cnpj, endereco);
+        return String.format("%s | %s | %s | %s | %s", nome, email, senha, cnpj, endereco);
     }
 
     public void addNota(int nota) {

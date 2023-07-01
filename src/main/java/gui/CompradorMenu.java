@@ -1,5 +1,6 @@
 package gui;
 
+import entities.Loja;
 import entities.Produto;
 import validation.Validation;
 
@@ -27,6 +28,10 @@ public class CompradorMenu {
 
     private static void exibirCarrinho(String email) {
         var comprador = compradorService.getCompradorByEmail(email);
+        if (comprador.getCarrinho().isEmpty()) {
+            System.out.println("O carrinho está vazio!");
+            return;
+        }
         System.out.println("CARRINHO:");
         for (var id : comprador.getCarrinho()) {
             System.out.println(id.toString() + " - " + produtoService.getProdutoById(id).getNome());
@@ -50,7 +55,16 @@ public class CompradorMenu {
     }
 
     private static void exibirProdutos() {
-        produtoService.getAllProdutos().forEach(System.out::println);
+        var lojas = lojaService.getAllLojas();
+        for (Loja loja : lojas) {
+            System.out.printf("Loja: %s (%s)\n", loja.getNome(), loja.getAvaliacao());
+            var produtos = produtoService.getProdutosByLoja(loja.getCnpj());
+            for (Produto produto : produtos) {
+                System.out.printf("   id:%2d | %-20s | %.2f☆ | R$ %.2f\n",
+                        produto.getId(), produto.getNome(), produto.getNota(), produto.getValor());
+            }
+        }
+        System.out.println();
     }
 
     private static void comprarItensCarrinho(String email) {
@@ -63,10 +77,10 @@ public class CompradorMenu {
         System.out.println("Realizando a compra dos itens no carrinho:");
         for (var id : comprador.getCarrinho()) {
             var produto = produtoService.getProdutoById(id);
-            System.out.println("Comprando: " + produto.getNome());
             updateProduto(id, 1);
             comprador.addToHistorico(id);
-            avaliar(id);
+            comprador.addPontos(produto.getValor());
+            avaliar(produto);
         }
         comprador.clearCarrinho();
         compradorService.updateComprador(comprador.getCpf(), comprador);
@@ -87,14 +101,15 @@ public class CompradorMenu {
         }
     }
 
-    private static void avaliar(long id) {
-        System.out.println("Digite a nota para o produto: ");
-        int nota = get\Numero();
-        produtoService.adicionarNota(id, nota);
+    private static void avaliar(Produto produto) {
+        System.out.println("Digite a nota para o produto " + produto.getNome());
+        int nota = getNumero();
+        produtoService.adicionarNota(produto.getId(), nota);
 
-        System.out.println("Digite a nota para a loja: ");
+        var cnpj = produtoService.getProdutoById(produto.getId()).getLojaCnpj();
+        var loja = lojaService.getLojaByCnpj(cnpj);
+        System.out.println("Digite a nota para a loja " + loja.getNome());
         nota = getNumero();
-        var cnpj = produtoService.getProdutoById(id).getLojaCnpj();
         lojaService.adicionarNota(cnpj, nota);
     }
 }

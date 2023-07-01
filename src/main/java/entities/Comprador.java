@@ -18,6 +18,8 @@ public class Comprador {
 
     List<Long> historico;
 
+    int pontos;
+
     public Comprador() {
     }
 
@@ -29,6 +31,7 @@ public class Comprador {
         this.endereco = endereco;
         this.carrinho = new ArrayList<>();
         this.historico = new ArrayList<>();
+        this.pontos = 0;
     }
 
     public Comprador(JSONObject jsonObject) {
@@ -47,6 +50,7 @@ public class Comprador {
         for (int i = 0; i < historicoJson.length(); i++) {
             historico.add(historicoJson.getLong(i));
         }
+        this.pontos = jsonObject.getInt("pontos");
     }
 
     public String getNome() {
@@ -151,5 +155,18 @@ public class Comprador {
 
     public void addToHistorico(Long produtoId) {
         historico.add(produtoId);
+    }
+
+    public int getPontos() {
+        return pontos;
+    }
+
+    public void setPontos(int pontos) {
+        this.pontos = pontos;
+    }
+
+    public void addPontos(Double valorDoProduto) {
+        var fracaoDoValor = valorDoProduto * 0.2;
+        pontos += (int) fracaoDoValor;
     }
 }

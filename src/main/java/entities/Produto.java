@@ -157,4 +157,9 @@ public class Produto {
     public void addNotaProduto(int nota) {
         notas.add(nota);
     }
+
+    public double getNota() {
+        if (notas.isEmpty()) return 0;
+        return (double) notas.stream().reduce(0, Integer::sum) / notas.size();
+    }
 }
