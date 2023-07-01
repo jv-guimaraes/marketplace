@@ -1,14 +1,14 @@
 package services;
 
 import entities.Loja;
-import entities.Produto;
 import infrastructure.repositories.LojaRepository;
 import infrastructure.repositories.ProdutoRepository;
 
 import java.util.List;
 
 public class LojaService {
-    private LojaRepository lojaRepository ;
+    private final LojaRepository lojaRepository;
+    private final ProdutoRepository produtoRepository = new ProdutoRepository();
 
     public LojaService() {
         this.lojaRepository = new LojaRepository();
@@ -17,8 +17,6 @@ public class LojaService {
     public LojaService(LojaRepository repository) {
         this.lojaRepository = repository;
     }
-
-    private ProdutoRepository produtoRepository= new ProdutoRepository();
 
     public void createLoja(Loja loja) {
         var lojas = lojaRepository.getAllLojas();
@@ -65,6 +63,7 @@ public class LojaService {
         for (int i = 0; i < lojas.size(); i++) {
             if (lojas.get(i).getCnpj().equals(cnpj)) {
                 lojas.remove(i);
+                break;
             }
         }
         lojaRepository.setAllLojas(lojas);
@@ -72,8 +71,8 @@ public class LojaService {
 
     public boolean emailCadastrado(String email) {
         var lojas = lojaRepository.getAllLojas();
-        for (int i = 0; i < lojas.size(); i++) {
-            if (lojas.get(i).getEmail().equals(email)) return true;
+        for (Loja loja : lojas) {
+            if (loja.getEmail().equals(email)) return true;
         }
         return false;
     }
@@ -98,28 +97,13 @@ public class LojaService {
         return null;
     }
 
-    public void setAvaliacao(String cnpj, String avaliacao) {
+    public void adicionarNota(String cnpj, int nota) {
         var lojas = lojaRepository.getAllLojas();
-
         for (Loja loja : lojas) {
             if (loja.getCnpj().equals(cnpj)) {
-                loja.setAvaliacao(avaliacao);
-
+                loja.addNota(nota);
             }
         }
         lojaRepository.setAllLojas(lojas);
     }
-
-    public Loja getLojaByProduto(long id) {
-        var produtos = produtoRepository.getAllProdutos();
-        for (Produto produto : produtos) {
-            if (produto.getId() == id) {
-                String lojaCnpj = produto.getLojaCnpj();
-                var lojaByCnpj = getLojaByCnpj(lojaCnpj);
-                return lojaByCnpj;
-            }
-        }
-        return null;
-    }
-    
 }

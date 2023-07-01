@@ -86,10 +86,15 @@ public class CompradorMenu {
             produtoService.updateProduto(id, produto);
         }
     }
+
     private static void avaliar(long id) {
         System.out.println("Digite a nota para o produto: ");
-        int nota = getNumero();
+        int nota = get\Numero();
         produtoService.adicionarNota(id, nota);
 
+        System.out.println("Digite a nota para a loja: ");
+        nota = getNumero();
+        var cnpj = produtoService.getProdutoById(id).getLojaCnpj();
+        lojaService.adicionarNota(cnpj, nota);
     }
 }

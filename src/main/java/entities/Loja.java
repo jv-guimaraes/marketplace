@@ -2,6 +2,8 @@ package entities;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Loja {
@@ -10,7 +12,7 @@ public class Loja {
     private String senha;
     private String cnpj;
     private String endereco;
-    private String avaliacao;
+    private List<Integer> notas;
 
     public Loja() {
     }
@@ -21,7 +23,7 @@ public class Loja {
         this.senha = senha;
         this.cnpj = cnpj;
         this.endereco = endereco;
-        this.avaliacao = " ";
+        this.notas = new ArrayList();
     }
 
     public Loja(JSONObject jsonObject) {
@@ -30,7 +32,11 @@ public class Loja {
         this.senha = jsonObject.getString("senha");
         this.cnpj = jsonObject.getString("cnpj");
         this.endereco = jsonObject.getString("endereco");
-        this.avaliacao = jsonObject.getString("avaliacao");        
+        this.notas = new ArrayList();
+        var notasJsonArray = jsonObject.getJSONArray("notas");
+        for (int i = 0; i < notasJsonArray.length(); i++) {
+            this.notas.add(notasJsonArray.getInt(i));
+        }
     }
 
     public Loja clone() {
@@ -39,7 +45,7 @@ public class Loja {
         newLoja.setEmail(this.email);
         newLoja.setEndereco(this.endereco);
         newLoja.setSenha(this.senha);
-        newLoja.setAvaliacao(this.avaliacao);
+        newLoja.setNotas(this.notas);
         return newLoja;
     }
 
@@ -83,12 +89,12 @@ public class Loja {
         this.endereco = endereco;
     }
 
-    public String getAvaliacao() {
-        return avaliacao;
+    public List<Integer> getNotas() {
+        return notas;
     }
 
-    public void setAvaliacao(String avaliacao) {
-        this.avaliacao = avaliacao;
+    public void setNotas(List<Integer> notas) {
+        this.notas = notas;
     }
 
     @Override
@@ -115,5 +121,18 @@ public class Loja {
     @Override
     public String toString() {
         return String.format("%s, %s, %s, %s, %s", nome, email, senha, cnpj, endereco);
+    }
+
+    public void addNota(int nota) {
+        notas.add(nota);
+    }
+
+    public String getAvaliacao() {
+        if (this.notas.isEmpty()) return "Sem avaliação";
+        var media = (double) notas.stream().reduce(0, Integer::sum) / notas.size();
+        if (media <= 1.25) return "ruim";
+        if (media <= 2.5) return "médio";
+        if (media <= 3.75) return "bom";
+        else return "excelente";
     }
 }

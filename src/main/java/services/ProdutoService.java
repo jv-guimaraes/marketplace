@@ -8,8 +8,8 @@ import java.util.List;
 
 public class ProdutoService {
     private ProdutoRepository produtoRepository = new ProdutoRepository();
-    private LojaService lojaService = new LojaService();
-    private Produto produto = new Produto();
+    private final Produto produto = new Produto();
+
     public ProdutoService() {
     }
 
@@ -86,35 +86,15 @@ public class ProdutoService {
         }
         return false;
     }
+
     public void adicionarNota(long id, int nota) {
         var produtos = produtoRepository.getAllProdutos();
         for (var produto : produtos) {
-            if (produto.getId()== id) {
+            if (produto.getId() == id) {
                 produto.addNotaProduto(nota);
-                AdicionarNotaLoja(id);
             }
         }
 
         produtoRepository.setAllProdutos(produtos);
-    }
-
-    public void AdicionarNotaLoja(long id){
-        var loja = lojaService.getLojaByProduto(id);
-        List<Integer> notas = new ArrayList<Integer>();
-        var produ = getProdutoById(id);
-        notas = produ.getNotas();
-        int soma =0;
-        for(int nota : notas){
-            soma += nota;
-        }
-        double media = soma/notas.size();
-        String avaliacao = " ";
-        String cnpj = loja.getCnpj();
-        if(media>= 0 && media<= 2 ){avaliacao = "Ruim";}
-        if(media> 2 && media<= 3 ){avaliacao = "Médio";}
-        if(media> 3 && media<= 4 ){avaliacao = "Bom";}
-        if(media> 4 && media<= 5 ){avaliacao = "Excelente";}
-        lojaService.setAvaliacao(cnpj, avaliacao);
-
     }
 }
