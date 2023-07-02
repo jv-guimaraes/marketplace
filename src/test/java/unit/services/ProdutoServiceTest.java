@@ -9,6 +9,7 @@ import services.ProdutoService;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -24,7 +25,7 @@ public class ProdutoServiceTest {
     void createNewStack() {
         produto.setId(1L);
         produtoNotCreated.setId(2L);
-        produtoArrayNotCreated = new ArrayList<Produto>(Arrays.asList(produto));
+        produtoArrayNotCreated = new ArrayList<Produto>(Collections.singletonList(produto));
         produtoArray = new ArrayList<Produto>(Arrays.asList(produto, produtoNotCreated));
     }
 

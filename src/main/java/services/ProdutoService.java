@@ -7,7 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProdutoService {
+    private final Produto produto = new Produto();
     private ProdutoRepository produtoRepository = new ProdutoRepository();
+
     public ProdutoService() {
     }
 
@@ -84,11 +86,11 @@ public class ProdutoService {
         }
         return false;
     }
+
     public void adicionarNota(long id, int nota) {
-        if (produtoExiste(id)) return;
         var produtos = produtoRepository.getAllProdutos();
         for (var produto : produtos) {
-            if (produto.getId().equals(id)) {
+            if (produto.getId() == id) {
                 produto.addNotaProduto(nota);
             }
         }

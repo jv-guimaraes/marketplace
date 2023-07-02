@@ -13,8 +13,8 @@ import java.util.Objects;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CompradorEntityTest {
-    private Comprador comprador;
     private final Comprador compradorFilled = new Comprador("josé", "hugo@gmail.com", "mustbe a hash", "701.254.231-72", "myhome");
+    private Comprador comprador;
 
     @BeforeEach
     void createComprador() {

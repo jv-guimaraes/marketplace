@@ -1,14 +1,15 @@
 package unit.services;
 
 import entities.Loja;
+import infrastructure.repositories.LojaRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import infrastructure.repositories.LojaRepository;
 import org.mockito.InOrder;
 import services.LojaService;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -19,6 +20,7 @@ public class LojaServiceTest {
     Loja lojaNotCreated;
     List<Loja> lojasArrayNotCreated;
     List<Loja> lojasArray;
+
     @BeforeEach
     void addToArray() {
         loja = new Loja("josé", "hugo@gmail.com", "mustbe a hash", "701.254.231-72", "myhome");
@@ -26,6 +28,7 @@ public class LojaServiceTest {
         lojasArrayNotCreated = new ArrayList<Loja>(Arrays.asList(loja));
         lojasArray = new ArrayList<Loja>(Arrays.asList(loja, lojaNotCreated));
     }
+
     @Test
     public void getAllLojas() throws Exception {
         LojaRepository mock = mock();
