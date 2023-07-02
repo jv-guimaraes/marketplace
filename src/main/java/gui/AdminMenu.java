@@ -3,6 +3,8 @@ package gui;
 import entities.Comprador;
 import entities.Loja;
 import entities.Produto;
+import services.CompradorService;
+import services.LojaService;
 import validation.Validation;
 
 import java.util.List;
@@ -13,9 +15,13 @@ import static gui.GuiUtil.*;
 public class AdminMenu {
     private static final Scanner scanner = new Scanner(System.in);
     private GuiUtil util;
+    private LojaService lojaService;
+    private CompradorService compradorService;
 
-    public AdminMenu(GuiUtil util) {
+    public AdminMenu(GuiUtil util, LojaService lojaService, CompradorService compradorService) {
         this.util = util;
+        this.lojaService = lojaService;
+        this.compradorService = compradorService;
     }
 
     public void run() {
@@ -105,40 +111,40 @@ public class AdminMenu {
         }
     }
 
-    private static void cadastrarLoja() {
-        String nome = receberString("Nome", Validation::nomeLojaValido);
-        String email = receberString("email", Validation::emailValido);
-        String senha = receberString("senha", Validation::senhaValida);
-        String cnpj = receberString("CNPJ", Validation::cpfCnpjValido);
-        String endereco = receberString("endereço", Validation::enderecoValido);
+    private void cadastrarLoja() {
+        String nome = util.receberString("Nome", Validation::nomeLojaValido);
+        String email = util.receberString("email", Validation::emailValido);
+        String senha = util.receberString("senha", Validation::senhaValida);
+        String cnpj = util.receberString("CNPJ", Validation::cpfCnpjValido);
+        String endereco = util.receberString("endereço", Validation::enderecoValido);
         Loja loja = new Loja(nome, email, senha, cnpj, endereco);
         lojaService.createLoja(loja);
     }
 
 
     private void exibirLoja() {
-        String cnpj = receberString("CNPJ", Validation::cpfCnpjValido);
+        String cnpj = util.receberString("CNPJ", Validation::cpfCnpjValido);
         Loja retrievedLoja = lojaService.getLojaByCnpj(cnpj);
         util.print(retrievedLoja);
     }
 
     private void atualizarLoja() {
-        String cnpj = receberString("CNPJ", Validation::cpfCnpjValido);
+        String cnpj = util.receberString("CNPJ", Validation::cpfCnpjValido);
         Loja retrievedLoja = lojaService.getLojaByCnpj(cnpj);
 
         if (retrievedLoja != null) {
             util.print("Digite os novos dados da loja:");
 
-            String nome = receberString("Nome", Validation::nomeProprioValido);
+            String nome = util.receberString("Nome", Validation::nomeProprioValido);
             retrievedLoja.setNome(nome);
 
-            String email = receberString("E-mail", Validation::emailValido);
+            String email = util.receberString("E-mail", Validation::emailValido);
             retrievedLoja.setEmail(email);
 
-            String senha = receberString("Senha", Validation::senhaValida);
+            String senha = util.receberString("Senha", Validation::senhaValida);
             retrievedLoja.setSenha(senha);
 
-            String endereco = receberString("Endereço", Validation::enderecoValido);
+            String endereco = util.receberString("Endereço", Validation::enderecoValido);
             retrievedLoja.setEndereco(endereco);
 
             lojaService.updateLoja(cnpj, retrievedLoja);
@@ -151,24 +157,24 @@ public class AdminMenu {
         }
     }
 
-    private static void removerLoja() {
-        String cnpj = receberString("CNPJ", Validation::cpfCnpjValido);
+    private void removerLoja() {
+        String cnpj = util.receberString("CNPJ", Validation::cpfCnpjValido);
         lojaService.deleteLoja(cnpj);
     }
 
-    private static void cadastrarComprador() {
-        String nome = receberString("Nome", Validation::nomeProprioValido);
-        String email = receberString("E-mail", Validation::emailValido);
-        String senha = receberString("Senha", Validation::senhaValida);
-        String cpf = receberString("CPF", Validation::cpfCnpjValido);
-        String endereco = receberString("Endereço", Validation::enderecoValido);
+    private void cadastrarComprador() {
+        String nome = util.receberString("Nome", Validation::nomeProprioValido);
+        String email = util.receberString("E-mail", Validation::emailValido);
+        String senha = util.receberString("Senha", Validation::senhaValida);
+        String cpf = util.receberString("CPF", Validation::cpfCnpjValido);
+        String endereco = util.receberString("Endereço", Validation::enderecoValido);
         Comprador comprador = new Comprador(nome, email, senha, cpf, endereco);
         compradorService.createComprador(comprador);
     }
 
     private void exibirComprador() {
         System.out.print("CPF do Comprador: ");
-        String cpf = receberString("CPF", Validation::cpfCnpjValido);
+        String cpf = util.receberString("CPF", Validation::cpfCnpjValido);
         Comprador retrievedComprador = compradorService.getCompradorByCpf(cpf);
         if (retrievedComprador != null) {
             util.print(retrievedComprador);
@@ -178,21 +184,21 @@ public class AdminMenu {
     }
 
     private void atualizarComprador() {
-        String cpf = receberString("CPF", Validation::cpfCnpjValido);
+        String cpf = util.receberString("CPF", Validation::cpfCnpjValido);
         Comprador retrievedComprador = compradorService.getCompradorByCpf(cpf);
         if (retrievedComprador != null) {
             util.print("Digite os novos dados do comprador:");
 
-            String nome = receberString("Nome", Validation::nomeProprioValido);
+            String nome = util.receberString("Nome", Validation::nomeProprioValido);
             retrievedComprador.setNome(nome);
 
-            String email = receberString("E-mail", Validation::emailValido);
+            String email = util.receberString("E-mail", Validation::emailValido);
             retrievedComprador.setEmail(email);
 
-            String endereco = receberString("Endereço", Validation::enderecoValido);
+            String endereco = util.receberString("Endereço", Validation::enderecoValido);
             retrievedComprador.setEndereco(endereco);
 
-            String senha = receberString("Senha", Validation::senhaValida);
+            String senha = util.receberString("Senha", Validation::senhaValida);
             retrievedComprador.setSenha(senha);
 
             compradorService.updateComprador(cpf, retrievedComprador);
@@ -203,7 +209,7 @@ public class AdminMenu {
     }
 
     private void removerComprador() {
-        String cpf = receberString("CPF", Validation::cpfCnpjValido);
+        String cpf = util.receberString("CPF", Validation::cpfCnpjValido);
         Comprador retrievedComprador = compradorService.getCompradorByCpf(cpf);
         if (retrievedComprador != null) {
             compradorService.deleteComprador(cpf);
@@ -214,9 +220,9 @@ public class AdminMenu {
     }
 
     private void cadastrarProduto() {
-        String nome = receberString("Nome", Validation::nomeProprioValido);
-        double valor = Double.parseDouble(receberString("Valor", Validation::valorProdutoValido));
-        String tipo = receberString("Tipo", Validation::tipoProdutoValido);
+        String nome = util.receberString("Nome", Validation::nomeProprioValido);
+        double valor = Double.parseDouble(util.receberString("Valor", Validation::valorProdutoValido));
+        String tipo = util.receberString("Tipo", Validation::tipoProdutoValido);
 
         System.out.print("Quantidade: ");
         int quantidade = 0;
@@ -237,11 +243,11 @@ public class AdminMenu {
             }
         }
 
-        String marca = receberString("Marca", Validation::marcaProdutoValido);
+        String marca = util.receberString("Marca", Validation::marcaProdutoValido);
 
-        String descricao = receberString("Descrição", Validation::descricaoProdutoValido);
+        String descricao = util.receberString("Descrição", Validation::descricaoProdutoValido);
 
-        String lojaCnpj = receberString("CNPJ da Loja", Validation::cpfCnpjValido);
+        String lojaCnpj = util.receberString("CNPJ da Loja", Validation::cpfCnpjValido);
 
         Produto produto = new Produto(nome, valor, tipo, quantidade, marca, descricao, lojaCnpj);
         produtoService.createProduto(produto);
@@ -269,24 +275,24 @@ public class AdminMenu {
         if (retrievedProduto != null) {
             util.print("Digite os novos dados do produto:");
 
-            String nome = receberString("Nome", Validation::nomeProprioValido);
+            String nome = util.receberString("Nome", Validation::nomeProprioValido);
             retrievedProduto.setNome(nome);
 
             System.out.print("Valor: ");
             double valor = Double.parseDouble(scanner.nextLine());
             retrievedProduto.setValor(valor);
 
-            String tipo = receberString("Tipo", Validation::tipoProdutoValido);
+            String tipo = util.receberString("Tipo", Validation::tipoProdutoValido);
             retrievedProduto.setTipo(tipo);
 
             System.out.print("Quantidade: ");
             int quantidade = Integer.parseInt(scanner.nextLine());
             retrievedProduto.setQuantidade(quantidade);
 
-            String marca = receberString("Marca", Validation::marcaProdutoValido);
+            String marca = util.receberString("Marca", Validation::marcaProdutoValido);
             retrievedProduto.setMarca(marca);
 
-            String descricao = receberString("Descrição", Validation::descricaoProdutoValido);
+            String descricao = util.receberString("Descrição", Validation::descricaoProdutoValido);
             retrievedProduto.setDescricao(descricao);
 
             produtoService.updateProduto(id, retrievedProduto);
@@ -312,7 +318,7 @@ public class AdminMenu {
     }
 
     private void exibirProdutosByLoja() {
-        String cnpj = receberString("CNPJ", Validation::cpfCnpjValido);
+        String cnpj = util.receberString("CNPJ", Validation::cpfCnpjValido);
 
         List<Produto> produtos = produtoService.getProdutosByLoja(cnpj);
         if (produtos.isEmpty()) {

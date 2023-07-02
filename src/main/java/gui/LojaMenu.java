@@ -1,15 +1,21 @@
 package gui;
 
 import entities.Produto;
+import services.LojaService;
+import services.ProdutoService;
 import validation.Validation;
 
 import static gui.GuiUtil.*;
 
 public class LojaMenu {
     private GuiUtil util;
+    private LojaService lojaService;
+    private ProdutoService produtoService;
 
-    public LojaMenu(GuiUtil util) {
+    public LojaMenu(GuiUtil util, LojaService lojaService, ProdutoService produtoService) {
         this.util = util;
+        this.lojaService = lojaService;
+        this.produtoService = produtoService;
     }
     
     public void run(String email) {
@@ -43,20 +49,20 @@ public class LojaMenu {
         util.print("ID incorreto!");
     }
 
-    private static void exibirProdutos(String email) {
+    private void exibirProdutos(String email) {
         var cnpj = lojaService.getCnpjFromEmail(email);
         var produtos = produtoService.getProdutosByLoja(cnpj);
         produtos.forEach(System.out::println);
     }
 
-    private static void adcionarProduto(String email) {
-        String nome = receberString("Nome", Validation::nomeProdutoValido);
-        double valor = Double.parseDouble(receberString("Valor", Validation::valorProdutoValido));
-        String tipo = receberString("Tipo", Validation::tipoProdutoValido);
+    private void adcionarProduto(String email) {
+        String nome = util.receberString("Nome", Validation::nomeProdutoValido);
+        double valor = Double.parseDouble(util.receberString("Valor", Validation::valorProdutoValido));
+        String tipo = util.receberString("Tipo", Validation::tipoProdutoValido);
         System.out.print("Quantidade: ");
         int quantidade = Integer.parseInt(scanner.nextLine());
-        String marca = receberString("Marca", Validation::marcaProdutoValido);
-        String descricao = receberString("Descrição", Validation::descricaoProdutoValido);
+        String marca = util.receberString("Marca", Validation::marcaProdutoValido);
+        String descricao = util.receberString("Descrição", Validation::descricaoProdutoValido);
         String lojaCnpj = lojaService.getCnpjFromEmail(email);
         Produto produto = new Produto(nome, valor, tipo, quantidade, marca, descricao, lojaCnpj);
         produtoService.createProduto(produto);

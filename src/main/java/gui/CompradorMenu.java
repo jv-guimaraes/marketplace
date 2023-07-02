@@ -2,15 +2,24 @@ package gui;
 
 import entities.Loja;
 import entities.Produto;
+import services.CompradorService;
+import services.LojaService;
+import services.ProdutoService;
 import validation.Validation;
 
 import static gui.GuiUtil.*;
 
 public class CompradorMenu {
     private GuiUtil util;
+    private LojaService lojaService;
+    private CompradorService compradorService;
+    private ProdutoService produtoService;
 
-    public CompradorMenu(GuiUtil util) {
+    public CompradorMenu(GuiUtil util, LojaService lojaService, CompradorService compradorService, ProdutoService produtoService) {
         this.util = util;
+        this.lojaService = lojaService;
+        this.compradorService = compradorService;
+        this.produtoService = produtoService;
     }
     
     public void run(String email) {
@@ -57,7 +66,7 @@ public class CompradorMenu {
     }
 
     private void adcionarProdutoCarrinho(String email) {
-        long id = Integer.parseInt(receberString("ID do produto", Validation::idValido));
+        long id = Integer.parseInt(util.receberString("ID do produto", Validation::idValido));
         if (!produtoService.produtoExiste(id)) {
             util.print("Produto não encontrado.");
             return;
@@ -129,7 +138,7 @@ public class CompradorMenu {
         util.print("Compra concluída com sucesso!");
     }
 
-    private static void updateProduto(long id, int quantidadeComprada) {
+    private void updateProduto(long id, int quantidadeComprada) {
         Produto produto = produtoService.getProdutoById(id);
         int quantidade = produto.getQuantidade();
         quantidade -= quantidadeComprada;

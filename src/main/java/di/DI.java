@@ -26,10 +26,10 @@ public class DI {
     private static final CompradorService compradorService = new CompradorService(compradorRepository, produtoService);
 
     private static final GuiUtil guiUtil = new GuiUtil();
-    private static final AdminMenu adminMenu = new AdminMenu(guiUtil);
-    private static final CompradorMenu compradorMenu = new CompradorMenu(guiUtil);
-    private static final LojaMenu lojaMenu = new LojaMenu(guiUtil);
-    private static final LoginMenu loginMenu = new LoginMenu(guiUtil, adminMenu, lojaMenu, compradorMenu);
+    private static final AdminMenu adminMenu = new AdminMenu(guiUtil, lojaService, compradorService);
+    private static final CompradorMenu compradorMenu = new CompradorMenu(guiUtil, lojaService, compradorService, produtoService);
+    private static final LojaMenu lojaMenu = new LojaMenu(guiUtil, lojaService, produtoService);
+    private static final LoginMenu loginMenu = new LoginMenu(guiUtil, adminMenu, lojaMenu, compradorMenu, lojaService, compradorService);
 
     public CompradorService getCompradorService() {
         return compradorService;

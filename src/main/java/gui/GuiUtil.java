@@ -13,14 +13,12 @@ import entities.Loja;
 import entities.Produto;
 
 public class GuiUtil {
-    public static final LojaService lojaService = new LojaService();
-    public static final CompradorService compradorService = new CompradorService();
     public static final ProdutoService produtoService = new ProdutoService();
     public static Scanner scanner = new Scanner(System.in);
 
     public int getNumero() {
         try {
-            return Integer.parseInt(scanner.nextLine());
+            return 1; //Integer.parseInt(scanner.nextLine());
         } catch (NumberFormatException e) {
             return -1;
         }
@@ -50,7 +48,7 @@ public class GuiUtil {
         System.out.println();
     }
 
-    public static String receberString(String tipo, Predicate<String> validator) {
+    public String receberString(String tipo, Predicate<String> validator) {
         System.out.print(tipo + ": ");
         String userInput = scanner.nextLine();
         while (!validator.test(userInput)) {
