@@ -12,27 +12,32 @@ import static gui.GuiUtil.*;
 
 public class AdminMenu {
     private static final Scanner scanner = new Scanner(System.in);
+    private GuiUtil util;
 
-    public static void run() {
+    public AdminMenu(GuiUtil util) {
+        this.util = util;
+    }
+
+    public void run() {
         boolean sair = false;
         while (!sair) {
-            System.out.println("1 - Gerenciar Lojas");
-            System.out.println("2 - Gerenciar Compradores");
-            System.out.println("3 - Gerenciar Produtos");
-            System.out.println("4 - Sair");
+            util.print("1 - Gerenciar Lojas");
+            util.print("2 - Gerenciar Compradores");
+            util.print("3 - Gerenciar Produtos");
+            util.print("4 - Sair");
             var escolha = getEscolha();
             switch (escolha) {
                 case 1 -> gerenciarLojas();
                 case 2 -> gerenciarCompradores();
                 case 3 -> gerenciarProdutos();
                 case 4 -> sair = true;
-                default -> System.out.println("Escolha inválida!");
+                default -> util.print("Escolha inválida!");
             }
         }
 
     }
 
-    public static int getEscolha() {
+    public int getEscolha() {
         var escolha = 0;
         boolean entradaValida = false;
         while (!entradaValida) {
@@ -40,20 +45,20 @@ public class AdminMenu {
                 escolha = Integer.parseInt(scanner.nextLine());
                 entradaValida = true;
             } catch (NumberFormatException e) {
-                System.out.println("Entrada inválida! Por favor, insira um número.");
+                util.print("Entrada inválida! Por favor, insira um número.");
                 return -1;
             }
         }
         return escolha;
     }
 
-    public static void gerenciarLojas() {
-        System.out.println("1 - Cadastrar loja");
-        System.out.println("2 - Exibir loja");
-        System.out.println("3 - Atualizar loja");
-        System.out.println("4 - Deletar loja");
-        System.out.println("5 - Exibir todas as lojas");
-        System.out.println("6 - Exibir produtos de uma loja");
+    public void gerenciarLojas() {
+        util.print("1 - Cadastrar loja");
+        util.print("2 - Exibir loja");
+        util.print("3 - Atualizar loja");
+        util.print("4 - Deletar loja");
+        util.print("5 - Exibir todas as lojas");
+        util.print("6 - Exibir produtos de uma loja");
 
         switch (getEscolha()) {
             case 1 -> cadastrarLoja();
@@ -62,33 +67,33 @@ public class AdminMenu {
             case 4 -> removerLoja();
             case 5 -> lojaService.getAllLojas().forEach(System.out::println);
             case 6 -> exibirProdutosByLoja();
-            default -> System.out.println("Escolha inválida!");
+            default -> util.print("Escolha inválida!");
         }
     }
 
-    public static void gerenciarCompradores() {
-        System.out.println("1 - Cadastrar comprador");
-        System.out.println("2 - Exibir comprador");
-        System.out.println("3 - Atualizar comprador");
-        System.out.println("4 - Deletar comprador");
-        System.out.println("5 - Exibir todos os compradores");
+    public void gerenciarCompradores() {
+        util.print("1 - Cadastrar comprador");
+        util.print("2 - Exibir comprador");
+        util.print("3 - Atualizar comprador");
+        util.print("4 - Deletar comprador");
+        util.print("5 - Exibir todos os compradores");
         switch (getEscolha()) {
             case 1 -> cadastrarComprador();
             case 2 -> exibirComprador();
             case 3 -> atualizarComprador();
             case 4 -> removerComprador();
             case 5 -> compradorService.getAllCompradores().forEach(System.out::println);
-            default -> System.out.println("Escolha inválida!");
+            default -> util.print("Escolha inválida!");
         }
     }
 
-    public static void gerenciarProdutos() {
-        System.out.println("1 - Cadastrar produto");
-        System.out.println("2 - Exibir produto");
-        System.out.println("3 - Atualizar produto");
-        System.out.println("4 - Deletar produto");
-        System.out.println("5 - Exibir todos os produtos");
-        System.out.println("6 - Exibir todos os produtos de uma Loja");
+    public void gerenciarProdutos() {
+        util.print("1 - Cadastrar produto");
+        util.print("2 - Exibir produto");
+        util.print("3 - Atualizar produto");
+        util.print("4 - Deletar produto");
+        util.print("5 - Exibir todos os produtos");
+        util.print("6 - Exibir todos os produtos de uma Loja");
         switch (getEscolha()) {
             case 1 -> cadastrarProduto();
             case 2 -> exibirProduto();
@@ -96,7 +101,7 @@ public class AdminMenu {
             case 4 -> removerProduto();
             case 5 -> produtoService.getAllProdutos().forEach(System.out::println);
             case 6 -> exibirProdutosByLoja();
-            default -> System.out.println("Escolha inválida!");
+            default -> util.print("Escolha inválida!");
         }
     }
 
@@ -111,18 +116,18 @@ public class AdminMenu {
     }
 
 
-    private static void exibirLoja() {
+    private void exibirLoja() {
         String cnpj = receberString("CNPJ", Validation::cpfCnpjValido);
         Loja retrievedLoja = lojaService.getLojaByCnpj(cnpj);
-        System.out.println(retrievedLoja);
+        util.print(retrievedLoja);
     }
 
-    private static void atualizarLoja() {
+    private void atualizarLoja() {
         String cnpj = receberString("CNPJ", Validation::cpfCnpjValido);
         Loja retrievedLoja = lojaService.getLojaByCnpj(cnpj);
 
         if (retrievedLoja != null) {
-            System.out.println("Digite os novos dados da loja:");
+            util.print("Digite os novos dados da loja:");
 
             String nome = receberString("Nome", Validation::nomeProprioValido);
             retrievedLoja.setNome(nome);
@@ -137,12 +142,12 @@ public class AdminMenu {
             retrievedLoja.setEndereco(endereco);
 
             lojaService.updateLoja(cnpj, retrievedLoja);
-            System.out.println(retrievedLoja);
+            util.print(retrievedLoja);
 
-            System.out.println("Loja atualizada com sucesso!");
+            util.print("Loja atualizada com sucesso!");
 
         } else {
-            System.out.println("Loja não encontrada.");
+            util.print("Loja não encontrada.");
         }
     }
 
@@ -161,22 +166,22 @@ public class AdminMenu {
         compradorService.createComprador(comprador);
     }
 
-    private static void exibirComprador() {
+    private void exibirComprador() {
         System.out.print("CPF do Comprador: ");
         String cpf = receberString("CPF", Validation::cpfCnpjValido);
         Comprador retrievedComprador = compradorService.getCompradorByCpf(cpf);
         if (retrievedComprador != null) {
-            System.out.println(retrievedComprador);
+            util.print(retrievedComprador);
         } else {
-            System.out.println("Comprador não encontrado.");
+            util.print("Comprador não encontrado.");
         }
     }
 
-    private static void atualizarComprador() {
+    private void atualizarComprador() {
         String cpf = receberString("CPF", Validation::cpfCnpjValido);
         Comprador retrievedComprador = compradorService.getCompradorByCpf(cpf);
         if (retrievedComprador != null) {
-            System.out.println("Digite os novos dados do comprador:");
+            util.print("Digite os novos dados do comprador:");
 
             String nome = receberString("Nome", Validation::nomeProprioValido);
             retrievedComprador.setNome(nome);
@@ -191,24 +196,24 @@ public class AdminMenu {
             retrievedComprador.setSenha(senha);
 
             compradorService.updateComprador(cpf, retrievedComprador);
-            System.out.println("Comprador atualizado com sucesso!");
+            util.print("Comprador atualizado com sucesso!");
         } else {
-            System.out.println("Comprador não encontrado.");
+            util.print("Comprador não encontrado.");
         }
     }
 
-    private static void removerComprador() {
+    private void removerComprador() {
         String cpf = receberString("CPF", Validation::cpfCnpjValido);
         Comprador retrievedComprador = compradorService.getCompradorByCpf(cpf);
         if (retrievedComprador != null) {
             compradorService.deleteComprador(cpf);
-            System.out.println("Comprador removido com sucesso!");
+            util.print("Comprador removido com sucesso!");
         } else {
-            System.out.println("Comprador não encontrado.");
+            util.print("Comprador não encontrado.");
         }
     }
 
-    private static void cadastrarProduto() {
+    private void cadastrarProduto() {
         String nome = receberString("Nome", Validation::nomeProprioValido);
         double valor = Double.parseDouble(receberString("Valor", Validation::valorProdutoValido));
         String tipo = receberString("Tipo", Validation::tipoProdutoValido);
@@ -223,11 +228,11 @@ public class AdminMenu {
                 if (Validation.quantProdutoValido(quantidade)) {
                     quantValida = true;
                 } else {
-                    System.out.println("Quantidade de produto inválida! A quantidade não deve ter letras ou símbolos.");
+                    util.print("Quantidade de produto inválida! A quantidade não deve ter letras ou símbolos.");
                     System.out.print("Quantidade: ");
                 }
             } catch (NumberFormatException e) {
-                System.out.println("Quantidade inválida! Por favor, insira um número inteiro.");
+                util.print("Quantidade inválida! Por favor, insira um número inteiro.");
                 System.out.print("Quantidade: ");
             }
         }
@@ -242,27 +247,27 @@ public class AdminMenu {
         produtoService.createProduto(produto);
     }
 
-    private static void exibirProduto() {
+    private void exibirProduto() {
         System.out.print("ID do Produto: ");
         long id = Long.parseLong(scanner.nextLine());
 
         Produto retrievedProduto = produtoService.getProdutoById(id);
 
         if (retrievedProduto != null) {
-            System.out.println(retrievedProduto);
+            util.print(retrievedProduto);
         } else {
-            System.out.println("Produto não encontrado.");
+            util.print("Produto não encontrado.");
         }
     }
 
-    private static void atualizarProduto() {
+    private void atualizarProduto() {
         System.out.print("ID do Produto: ");
         long id = Long.parseLong(scanner.nextLine());
 
         Produto retrievedProduto = produtoService.getProdutoById(id);
 
         if (retrievedProduto != null) {
-            System.out.println("Digite os novos dados do produto:");
+            util.print("Digite os novos dados do produto:");
 
             String nome = receberString("Nome", Validation::nomeProprioValido);
             retrievedProduto.setNome(nome);
@@ -286,13 +291,13 @@ public class AdminMenu {
 
             produtoService.updateProduto(id, retrievedProduto);
 
-            System.out.println("Produto atualizado com sucesso!");
+            util.print("Produto atualizado com sucesso!");
         } else {
-            System.out.println("Produto não encontrado.");
+            util.print("Produto não encontrado.");
         }
     }
 
-    private static void removerProduto() {
+    private void removerProduto() {
         System.out.print("ID do Produto: ");
         long id = Long.parseLong(scanner.nextLine());
 
@@ -300,20 +305,20 @@ public class AdminMenu {
 
         if (retrievedProduto != null) {
             produtoService.deleteProduto(id);
-            System.out.println("Produto removido com sucesso!");
+            util.print("Produto removido com sucesso!");
         } else {
-            System.out.println("Produto não encontrado.");
+            util.print("Produto não encontrado.");
         }
     }
 
-    private static void exibirProdutosByLoja() {
+    private void exibirProdutosByLoja() {
         String cnpj = receberString("CNPJ", Validation::cpfCnpjValido);
 
         List<Produto> produtos = produtoService.getProdutosByLoja(cnpj);
         if (produtos.isEmpty()) {
-            System.out.println("Nenhum produto encontrado!");
+            util.print("Nenhum produto encontrado!");
         } else {
-            System.out.println(produtos);
+            util.print(produtos);
         }
     }
 }

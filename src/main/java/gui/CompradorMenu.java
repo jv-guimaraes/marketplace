@@ -7,15 +7,21 @@ import validation.Validation;
 import static gui.GuiUtil.*;
 
 public class CompradorMenu {
-    public static void run(String email) {
+    private GuiUtil util;
+
+    public CompradorMenu(GuiUtil util) {
+        this.util = util;
+    }
+    
+    public void run(String email) {
         while (true) {
-            System.out.println("1 - Exibir produtos a venda");
-            System.out.println("2 - Adcionar produto ao carrinho");
-            System.out.println("3 - Exibir carrinho");
-            System.out.println("4 - Comprar itens no carrinho");
-            System.out.println("5 - Exibir pontos");
-            System.out.println("6 - Sair");
-            switch (getNumero()) {
+            util.print("1 - Exibir produtos a venda");
+            util.print("2 - Adcionar produto ao carrinho");
+            util.print("3 - Exibir carrinho");
+            util.print("4 - Comprar itens no carrinho");
+            util.print("5 - Exibir pontos");
+            util.print("6 - Sair");
+            switch (util.getNumero()) {
                 case 1 -> exibirProdutos();
                 case 2 -> adcionarProdutoCarrinho(email);
                 case 3 -> exibirCarrinho(email);
@@ -28,36 +34,36 @@ public class CompradorMenu {
         }
     }
 
-    private static void exibirPontos(String email) {
+    private void exibirPontos(String email) {
         var comprador = compradorService.getCompradorByEmail(email);
         System.out.printf("Voce tem %d pontos.\n", comprador.getPontos());
-        System.out.println("Preços dos bônus:");
-        System.out.println("   100 pontos - Frete grátis");
-        System.out.println("   150 pontos - 10% de desconto");
-        System.out.println();
+        util.print("Preços dos bônus:");
+        util.print("   100 pontos - Frete grátis");
+        util.print("   150 pontos - 10% de desconto");
+        util.print();
     }
 
-    private static void exibirCarrinho(String email) {
+    private void exibirCarrinho(String email) {
         var comprador = compradorService.getCompradorByEmail(email);
         if (comprador.getCarrinho().isEmpty()) {
-            System.out.println("O carrinho está vazio!");
+            util.print("O carrinho está vazio!");
             return;
         }
-        System.out.println("CARRINHO:");
+        util.print("CARRINHO:");
         for (var id : comprador.getCarrinho()) {
-            System.out.println(id.toString() + " - " + produtoService.getProdutoById(id).getNome());
+            util.print(id.toString() + " - " + produtoService.getProdutoById(id).getNome());
         }
-        System.out.println();
+        util.print();
     }
 
-    private static void adcionarProdutoCarrinho(String email) {
+    private void adcionarProdutoCarrinho(String email) {
         long id = Integer.parseInt(receberString("ID do produto", Validation::idValido));
         if (!produtoService.produtoExiste(id)) {
-            System.out.println("Produto não encontrado.");
+            util.print("Produto não encontrado.");
             return;
         }
         if (compradorService.getCompradorByEmail(email).carrinhoContem(id)) {
-            System.out.println("Produto ja está no carrinho.");
+            util.print("Produto ja está no carrinho.");
             return;
         }
 
@@ -65,7 +71,7 @@ public class CompradorMenu {
         compradorService.addProdutoCarrinho(cpf, id);
     }
 
-    private static void exibirProdutos() {
+    private void exibirProdutos() {
         var lojas = lojaService.getAllLojas();
         for (Loja loja : lojas) {
             System.out.printf("Loja: %s (%s)\n", loja.getNome(), loja.getAvaliacao());
@@ -75,17 +81,17 @@ public class CompradorMenu {
                         produto.getId(), produto.getNome(), produto.getNota(), produto.getValor());
             }
         }
-        System.out.println();
+        util.print();
     }
 
-    private static void comprarItensCarrinho(String email) {
+    private void comprarItensCarrinho(String email) {
         var comprador = compradorService.getCompradorByEmail(email);
         if (comprador.getCarrinho().isEmpty()) {
-            System.out.println("O carrinho está vazio.");
+            util.print("O carrinho está vazio.");
             return;
         }
 
-        System.out.println("Realizando a compra dos itens no carrinho:");
+        util.print("Realizando a compra dos itens no carrinho:");
         for (var id : comprador.getCarrinho()) {
             var produto = produtoService.getProdutoById(id);
             System.out.printf("%s(R$ %.2f):\n", produto.getNome(), produto.getValor());
@@ -120,7 +126,7 @@ public class CompradorMenu {
         comprador.clearCarrinho();
         compradorService.updateComprador(comprador.getCpf(), comprador);
 
-        System.out.println("Compra concluída com sucesso!");
+        util.print("Compra concluída com sucesso!");
     }
 
     private static void updateProduto(long id, int quantidadeComprada) {
@@ -136,14 +142,14 @@ public class CompradorMenu {
         }
     }
 
-    private static void avaliar(Produto produto) {
-        System.out.println("Digite a nota para o produto " + produto.getNome());
+    private void avaliar(Produto produto) {
+        util.print("Digite a nota para o produto " + produto.getNome());
         int nota = getNumero();
         produtoService.adicionarNota(produto.getId(), nota);
 
         var cnpj = produtoService.getProdutoById(produto.getId()).getLojaCnpj();
         var loja = lojaService.getLojaByCnpj(cnpj);
-        System.out.println("Digite a nota para a loja " + loja.getNome());
+        util.print("Digite a nota para a loja " + loja.getNome());
         nota = getNumero();
         lojaService.adicionarNota(cnpj, nota);
     }

@@ -1,7 +1,11 @@
 import gui.LoginMenu;
+import di.DI;
 
 public class App {
+
     public static void main(String[] args) {
-        LoginMenu.run();
+        DI di = new DI();
+        LoginMenu loginMenu = di.getLoginMenu();
+        loginMenu.run();
     }
 }

@@ -7,47 +7,59 @@ import validation.Validation;
 import static gui.GuiUtil.*;
 
 public class LoginMenu {
-    public static void run() {
+    private GuiUtil util;
+    private AdminMenu adminMenu;
+    private LojaMenu lojaMenu;
+    private CompradorMenu compradorMenu;
+
+    public LoginMenu(GuiUtil util, AdminMenu adminMenu, LojaMenu lojaMenu, CompradorMenu compradorMenu) {
+        this.util = util;
+        this.adminMenu = adminMenu;
+        this.lojaMenu = lojaMenu;
+        this.compradorMenu = compradorMenu;
+    }
+
+    public void run() {
         while (true) {
-            print("Bem vindo ao Marketplace!");
-            print("Selecione o tipo de usuário:");
-            print("1 - Comprador");
-            print("2 - Loja");
-            print("3 - Admninistrador");
-            switch (getNumero()) {
+            util.print("Bem vindo ao Marketplace!");
+            util.print("Selecione o tipo de usuário:");
+            util.print("1 - Comprador");
+            util.print("2 - Loja");
+            util.print("3 - Admninistrador");
+            switch (util.getNumero()) {
                 case 1 -> compradorMenu();
                 case 2 -> lojaMenu();
-                case 3 -> AdminMenu.run();
-                default -> print("Escolha inválida!");
+                case 3 -> adminMenu.run();
+                default -> util.print("Escolha inválida!");
             }
         }
     }
 
-    public static void compradorMenu() {
-        print("COMPRADOR");
-        print("1 - Fazer login");
-        print("2 - Criar conta");
-        switch (getNumero()) {
+    public void compradorMenu() {
+        util.print("COMPRADOR");
+        util.print("1 - Fazer login");
+        util.print("2 - Criar conta");
+        switch (util.getNumero()) {
             case 1 -> compradorLogin();
             case 2 -> compradorSignup();
-            default -> print("Escolha inválida!");
+            default -> util.print("Escolha inválida!");
         }
     }
 
-    private static void compradorLogin() {
+    private void compradorLogin() {
         String email = receberString("Email", Validation::emailValido);
         while (!compradorService.emailCadastrado(email)) {
-            print("Email não encontrado.");
+            util.print("Email não encontrado.");
             email = receberString("Email", Validation::emailValido);
         }
 
         String senha = receberString("Senha", Validation::senhaValida);
         while (!compradorService.loginValido(email, senha)) {
-            print("Senha incorreta.");
+            util.print("Senha incorreta.");
             senha = receberString("Senha", Validation::senhaValida);
         }
 
-        CompradorMenu.run(email);
+        compradorMenu.run(email);
     }
 
     private static void compradorSignup() {
@@ -61,31 +73,31 @@ public class LoginMenu {
     }
 
 
-    private static void lojaMenu() {
-        print("LOJA");
-        print("1 - Fazer login");
-        print("2 - Criar conta");
-        switch (getNumero()) {
+    private void lojaMenu() {
+        util.print("LOJA");
+        util.print("1 - Fazer login");
+        util.print("2 - Criar conta");
+        switch (util.getNumero()) {
             case 1 -> lojaLogin();
             case 2 -> lojaSignup();
-            default -> print("Escolha inválida!");
+            default -> util.print("Escolha inválida!");
         }
     }
 
-    private static void lojaLogin() {
+    private void lojaLogin() {
         String email = receberString("Email", Validation::emailValido);
         while (!lojaService.emailCadastrado(email)) {
-            print("Email não encontrado.");
+            util.print("Email não encontrado.");
             email = receberString("Email", Validation::emailValido);
         }
 
         String senha = receberString("Senha", Validation::senhaValida);
         while (!lojaService.loginValido(email, senha)) {
-            print("Senha incorreta.");
+            util.print("Senha incorreta.");
             senha = receberString("Senha", Validation::senhaValida);
         }
 
-        LojaMenu.run(email);
+        this.lojaMenu.run(email);
     }
 
     private static void lojaSignup() {

@@ -1,5 +1,10 @@
 package di;
 
+import gui.AdminMenu;
+import gui.CompradorMenu;
+import gui.GuiUtil;
+import gui.LoginMenu;
+import gui.LojaMenu;
 import infrastructure.repositories.CompradorRepository;
 import infrastructure.repositories.LojaRepository;
 import infrastructure.repositories.ProdutoRepository;
@@ -20,6 +25,11 @@ public class DI {
     private static final ProdutoService produtoService = new ProdutoService(produtoRepository);
     private static final CompradorService compradorService = new CompradorService(compradorRepository, produtoService);
 
+    private static final GuiUtil guiUtil = new GuiUtil();
+    private static final AdminMenu adminMenu = new AdminMenu(guiUtil);
+    private static final CompradorMenu compradorMenu = new CompradorMenu(guiUtil);
+    private static final LojaMenu lojaMenu = new LojaMenu(guiUtil);
+    private static final LoginMenu loginMenu = new LoginMenu(guiUtil, adminMenu, lojaMenu, compradorMenu);
 
     public CompradorService getCompradorService() {
         return compradorService;
@@ -31,5 +41,9 @@ public class DI {
 
     public ProdutoService getProdutoService() {
         return produtoService;
+    }
+
+    public LoginMenu getLoginMenu(){
+        return loginMenu;
     }
 }

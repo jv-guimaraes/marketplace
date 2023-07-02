@@ -6,14 +6,20 @@ import validation.Validation;
 import static gui.GuiUtil.*;
 
 public class LojaMenu {
-    public static void run(String email) {
+    private GuiUtil util;
+
+    public LojaMenu(GuiUtil util) {
+        this.util = util;
+    }
+    
+    public void run(String email) {
         while (true) {
-            System.out.println("Logado como: " + email);
-            System.out.println("1 - Adcionar produto");
-            System.out.println("2 - Exibir produtos");
-            System.out.println("3 - Remover produto");
-            System.out.println("4 - Sair");
-            switch (getNumero()) {
+            util.print("Logado como: " + email);
+            util.print("1 - Adcionar produto");
+            util.print("2 - Exibir produtos");
+            util.print("3 - Remover produto");
+            util.print("4 - Sair");
+            switch (util.getNumero()) {
                 case 1 -> adcionarProduto(email);
                 case 2 -> exibirProdutos(email);
                 case 3 -> removerProduto(email);
@@ -24,8 +30,8 @@ public class LojaMenu {
         }
     }
 
-    private static void removerProduto(String email) {
-        System.out.println("ID: ");
+    private void removerProduto(String email) {
+        util.print("ID: ");
         int id = Integer.parseInt(scanner.nextLine());
         var produtos = produtoService.getProdutosByLoja(lojaService.getCnpjFromEmail(email));
         for (var produto : produtos) {
@@ -34,7 +40,7 @@ public class LojaMenu {
                 return;
             }
         }
-        System.out.println("ID incorreto!");
+        util.print("ID incorreto!");
     }
 
     private static void exibirProdutos(String email) {
