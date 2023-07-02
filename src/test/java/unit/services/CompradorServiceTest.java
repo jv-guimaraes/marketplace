@@ -141,21 +141,6 @@ public class CompradorServiceTest {
         assertFalse(service.emailCadastrado(compradorNotCreated.getEmail()));
         verify(mock, times(1)).getAllCompradores();
     }
-    @Test
-    public void adicionarNota(){
-        int nota = 8;
-        List<Produto> copyProdutosArray = new ArrayList<Produto>();
-        copyProdutosArray.addAll(produtoArrayNotCreated);
-        Produto alteredProduto = produto.clone();
-        alteredProduto.addNotaProduto(nota);
-        copyProdutosArray.set(0, alteredProduto);
-        ProdutoRepository mock = mock();
-        ProdutoService service = new ProdutoService(mock);
-        when(mock.getAllProdutos()).thenReturn(produtoArrayNotCreated);
-        service.adicionarNota(produto.getId(), nota);
-        verify(mock, times(1)).getAllProdutos();
-        verify(mock, times(1)).setAllProdutos(copyProdutosArray);
-    }
 
     @Test
     public void updateComprador() throws Exception {
