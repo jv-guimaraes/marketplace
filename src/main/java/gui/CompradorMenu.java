@@ -144,13 +144,13 @@ public class CompradorMenu {
 
     private void avaliar(Produto produto) {
         util.print("Digite a nota para o produto " + produto.getNome());
-        int nota = getNumero();
+        int nota = util.getNumero();
         produtoService.adicionarNota(produto.getId(), nota);
 
         var cnpj = produtoService.getProdutoById(produto.getId()).getLojaCnpj();
         var loja = lojaService.getLojaByCnpj(cnpj);
         util.print("Digite a nota para a loja " + loja.getNome());
-        nota = getNumero();
+        nota = util.getNumero();
         lojaService.adicionarNota(cnpj, nota);
     }
 }
