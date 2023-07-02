@@ -15,6 +15,7 @@ public class Loja {
     private List<Integer> notas;
 
     public Loja() {
+        this.notas = new ArrayList();
     }
 
     public Loja(String nome, String email, String senha, String cnpj, String endereco) {

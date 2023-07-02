@@ -102,6 +102,7 @@ public class ProdutoServiceTest {
         List<Produto> copyProdutosArray = new ArrayList<Produto>();
         copyProdutosArray.addAll(produtoArrayNotCreated);
         Produto alteredProduto = produto.clone();
+        alteredProduto.setId(1L);
         alteredProduto.addNotaProduto(nota);
         copyProdutosArray.set(0, alteredProduto);
         ProdutoRepository mock = mock();

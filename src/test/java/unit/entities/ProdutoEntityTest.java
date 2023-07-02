@@ -38,6 +38,18 @@ public class ProdutoEntityTest {
     }
 
     @Test
+    public void produtoClone() {
+        Produto pdClone = produto.clone();
+        assertEquals(pdClone.getDescricao(), produto.getDescricao());
+        assertEquals(pdClone.getNome(), produto.getNome());
+        assertEquals(pdClone.getTipo(), produto.getTipo());
+        assertEquals(pdClone.getMarca(), produto.getMarca());
+        assertEquals(pdClone.getQuantidade(), produto.getQuantidade());
+        assertEquals(pdClone.getValor(), produto.getValor());
+        assertEquals(pdClone.getNotas(), produto.getNotas());
+    }
+
+    @Test
     public void getNome() {
         String nome = "IPHONE XR";
         assertNull(produto.getNome());
@@ -112,6 +124,18 @@ public class ProdutoEntityTest {
         produto.addNotaProduto(nota);
         assertEquals(produto.getNotas(), notas);
 
+    }
+    @Test
+    public void getNotaMedia1(){
+        List<Integer> notas = new ArrayList<Integer>(Arrays.asList(1,2,3));
+        produto.setNotas(notas);
+        assertEquals(produto.getNota(), 2);
+    }
+    @Test
+    public void getNotaMedia2(){
+        List<Integer> notas = new ArrayList<Integer>(Arrays.asList(2,1,3));
+        produto.setNotas(notas);
+        assertEquals(produto.getNota(), 2);
     }
     @Test
     public void testHashCode() {

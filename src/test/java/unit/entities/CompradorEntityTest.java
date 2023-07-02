@@ -35,6 +35,7 @@ public class CompradorEntityTest {
         json.put("endereco", compradorFilled.getEndereco());
         json.put("carrinho", compradorFilled.getCarrinho());
         json.put("historico", compradorFilled.getHistorico());
+        json.put("pontos", compradorFilled.getPontos());
         Comprador compradorFjson = new Comprador(json);
         assertTrue(compradorFjson.equals(compradorFilled));
     }
@@ -79,6 +80,13 @@ public class CompradorEntityTest {
         assertEquals(comprador.getSenha(), senha);
     }
     @Test
+    public void setPontos(){
+        Integer pontos = 12;
+        assertEquals(comprador.getPontos(), 0);
+        comprador.setPontos(pontos);
+        assertEquals(comprador.getPontos(), pontos);
+    }
+    @Test
     public void addProdutoCarrinho() {
         Long produtoId = 1L;
         List<Long> carrinho = new ArrayList<Long>(Arrays.asList(produtoId));
@@ -112,6 +120,13 @@ public class CompradorEntityTest {
         comprador.addToHistorico(produtoId);
         assertFalse(comprador.getHistorico().isEmpty());
         assertEquals(comprador.getHistorico(), historico);
+    }
+    @Test
+    public void addPontos(){
+        double ponto = 21.1;
+        comprador.addPontos(ponto);
+        assertEquals(comprador.getPontos(), 4);
+
     }
     @Test
     public void testHashCode() {

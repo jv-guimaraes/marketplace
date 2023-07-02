@@ -31,8 +31,6 @@ public class Produto {
         this.descricao = descricao;
         this.lojaCnpj = lojaCnpj;
         this.notas = new ArrayList<>();
-
-
     }
 
     public Produto(JSONObject jsonObject) {

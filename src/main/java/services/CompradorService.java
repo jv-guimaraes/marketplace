@@ -6,15 +6,17 @@ import infrastructure.repositories.CompradorRepository;
 import java.util.List;
 
 public class CompradorService {
-    private CompradorRepository compradorRepository = new CompradorRepository();
-    private ProdutoService produtoService = new ProdutoService();
+    private CompradorRepository compradorRepository;
+    private ProdutoService produtoService;
 
     public CompradorService() {
-
+        this.compradorRepository = new CompradorRepository();
+        this.produtoService = new ProdutoService();
     }
 
-    public CompradorService(CompradorRepository repository) {
+    public CompradorService(CompradorRepository repository, ProdutoService produtoService) {
         this.compradorRepository = repository;
+        this.produtoService = produtoService;
     }
 
     public CompradorService(String compradoresPath, String produtosPath) {

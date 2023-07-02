@@ -17,8 +17,8 @@ public class DI {
     private static final LojaRepository lojaRepository = new LojaRepository();
     private static final ProdutoRepository produtoRepository = new ProdutoRepository();
     private static final LojaService lojaService = new LojaService(lojaRepository);
-    private static final CompradorService compradorService = new CompradorService(compradorRepository);
     private static final ProdutoService produtoService = new ProdutoService(produtoRepository);
+    private static final CompradorService compradorService = new CompradorService(compradorRepository, produtoService);
 
 
     public CompradorService getCompradorService() {

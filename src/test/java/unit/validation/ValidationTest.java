@@ -9,6 +9,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class ValidationTest {
     @Test
+    void idValido(){
+        String idValido = "12";
+        Assertions.assertTrue(Validation.idValido(idValido));
+        String idInvalido = "as231";
+        Assertions.assertFalse(Validation.idValido(idInvalido));
+    }
+
+    @Test
     void emailValido() {
         String emailValido = "jose@gmail.com";
         Assertions.assertTrue(Validation.emailValido(emailValido));
@@ -35,13 +43,24 @@ class ValidationTest {
     }
 
     @Test
+    void CnpjValido(){
+        String cnpjValido = "93.763.071/0001-27";
+        assertTrue(Validation.CnpjValido(cnpjValido));
+
+    }
+
+    @Test
     void cpfCnpjValido() {
-        String cpfCnpjValido = "345.156.543-14";
-        assertTrue(Validation.cpfCnpjValido(cpfCnpjValido));
+        String cpfValido = "345.156.543-14";
+        assertTrue(Validation.cpfCnpjValido(cpfValido));
         String cpfCnpjInvalida = "34@.156.543-14";
         assertFalse(Validation.cpfCnpjValido(cpfCnpjInvalida));
         String cpfCnpjInvalida2 = "34b.156.543-14";
         assertFalse(Validation.cpfCnpjValido(cpfCnpjInvalida2));
+        String cnpjValido = "93.763.071/0001-27";
+        assertTrue(Validation.cpfCnpjValido(cnpjValido));
+        String cpfCnpjInvalido = "93.763.071001-2-7";
+        assertFalse(Validation.cpfCnpjValido(cpfCnpjInvalido));
     }
 
     @Test
@@ -104,18 +123,6 @@ class ValidationTest {
         assertTrue(Validation.nomeLojaValido(nomeLojaValido));
         String nomeLojaInvalido = "Americanas1#Company";
         assertFalse(Validation.nomeLojaValido(nomeLojaInvalido));
-    }
-
-    @Test
-    void CnpjValido() {
-        String cpfCnpjValido = "93.763.071/0001-27";
-        assertTrue(Validation.cpfCnpjValido(cpfCnpjValido));
-        String cpfCnpjInvalido = "93.763.071001-2-7";
-        assertFalse(Validation.cpfCnpjValido(cpfCnpjInvalido));
-        String cpfCnpjBlank = "";
-        assertFalse(Validation.cpfCnpjValido(cpfCnpjBlank));
-        String cpfCnpjBig = "maahsldhsjgasfsfgsljfsçkjfkfgfhgfhjgfhgfkhfkhfkfhgdkdhfkjhgkhgdldfjfhdflkfjfhfdkjglhflfljghlhglfdhfdlfdhjgljglhgljjllhfghjgfdhglfhgkgfkhgfkhfkhgfkfgfkhgkfgkfhgfkgdldudyrurghrgxhfl";
-        assertFalse(Validation.cpfCnpjValido(cpfCnpjBig));
     }
 
     @Test

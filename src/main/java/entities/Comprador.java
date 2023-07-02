@@ -8,21 +8,22 @@ import java.util.Objects;
 
 public class Comprador {
 
-    String nome;
-    String email;
-    String senha;
-    String cpf;
-    String endereco;
+    private String nome;
+    private String email;
+    private String senha;
+    private String cpf;
+    private String endereco;
 
-    List<Long> carrinho;
+    private List<Long> carrinho;
 
-    List<Long> historico;
+    private List<Long> historico;
 
-    int pontos;
+    private int pontos;
 
     public Comprador() {
         this.carrinho = new ArrayList<>();
         this.historico = new ArrayList<>();
+        this.pontos = 0;
     }
 
     public Comprador(String nome, String email, String senha, String cpf, String endereco) {

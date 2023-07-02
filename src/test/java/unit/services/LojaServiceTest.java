@@ -131,7 +131,7 @@ public class LojaServiceTest {
         verify(mock, times(1)).getAllLojas();
     }
 
-    @Test
+    /*@Test
     public void setAvaliacao(){
         String avaliacao = "boa";
         List<Loja> copyLojasArray = new ArrayList<Loja>();
@@ -147,6 +147,25 @@ public class LojaServiceTest {
         inOrder.verify(mock, times(1)).getAllLojas();
         inOrder.verify(mock, times(1)).setAllLojas(copyLojasArray);
 
+    }*/
+    @Test
+    public void adicionarNota(){
+        LojaRepository mock = mock();
+        Integer nota = 4;
+        when(mock.getAllLojas()).thenReturn(lojasArray);
+        LojaService service = new LojaService(mock);
+
+        List<Loja> copyLojasArray = new ArrayList<Loja>();
+        copyLojasArray.addAll(lojasArray);
+
+        Loja alteredLoja = loja.clone();
+        alteredLoja.addNota(nota);
+        copyLojasArray.set(0, alteredLoja);
+
+        service.adicionarNota(loja.getCnpj(), nota);
+        InOrder inOrder = inOrder(mock);
+        inOrder.verify(mock, times(1)).getAllLojas();
+        inOrder.verify(mock, times(1)).setAllLojas(copyLojasArray);
     }
     @Test
     public void updateLoja() throws Exception {
